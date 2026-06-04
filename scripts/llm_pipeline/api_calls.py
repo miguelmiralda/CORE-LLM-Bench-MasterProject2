@@ -593,12 +593,21 @@ def extract_final_answer(response_content, question_type):
     """Extract just the final answer"""
     if not response_content or "[ERROR]" in response_content:
         return "ERROR"
+    
+    question_type_lower = question_type.lower() 
 
     # Try structured ANSWER: format
     answer_match = re.search(r"ANSWER:\s*([^\n\r]+)", response_content, re.IGNORECASE)
     if answer_match:
         answer = answer_match.group(1).strip()
     else:
+        if question_type_lower in {"bin", "binary"}:
+            standalone_match = re.search(
+                r"(?im)^\s*(TRUE|FALSE|UNKNOWN)\s*$", response_content
+            )
+            if standalone_match:
+                return standalone_match.group(1).upper()
+
         # Fallback to first line
         lines = response_content.strip().split("\n")
         answer = lines[0].strip() if lines else response_content.strip()
@@ -752,6 +761,7 @@ def create_enhanced_metrics_entry(
     end_time,
     attempt,
     model_params,
+    binary_answer_mode="three_way",
     ontology_context="",
     error=None,
 ):
@@ -787,6 +797,14 @@ def create_enhanced_metrics_entry(
     if response and not error and content:
         # Extract our new metrics
         final_answer = extract_final_answer(content, answer_type)
+
+        if (
+            binary_answer_mode == "true_false"
+            and str(answer_type).strip().lower() in {"bin", "binary"}
+            and final_answer == "UNKNOWN"
+        ):
+            final_answer = "FALSE"
+
         confidence_score = extract_confidence_score(content)
         reasoning_steps = extract_reasoning_steps(content)
 
@@ -854,18 +872,55 @@ def load_ontology_context(ontology_base_path, ontology_name, context_mode):
         return f"[ERROR: Failed to load ontology {ontology_name}: {str(e)}]"
 
 
-def create_context_specific_prompt(query, ontology_context, context_mode, answer_type):
+def create_context_specific_prompt(
+    query, ontology_context, context_mode, answer_type, binary_answer_mode="three_way"
+):
     """Enhanced prompting for confidence and reasoning steps with memory optimization"""
 
     if answer_type == "BIN" or answer_type.lower() == "binary":
-        format_instruction = (
+        if binary_answer_mode == "true_false":
+            format_instruction = (
+            #     "ANSWER: [TRUE or FALSE]\n"
+            #     "CONFIDENCE: [score ranging from 0.0 to 1.0 indicating how certain you are]\n"
+            #     "REASONING_STEPS: [distinct number of reasoning steps you used to get to the answer, indicating complexity of reasoning needed]\n\n"
+            #     "ANSWER section: ONLY write TRUE or FALSE.\n"
+            #     "Interpret the binary task using OWL entailment semantics, not simple string matching.\n"
+            #     "Write TRUE if the statement is entailed by the ontology, including through inferred facts.\n"
+            #     "Write FALSE if the statement is not entailed by the ontology.\n"
+            #     "Do not write UNKNOWN.\n"
+            #     "Follow the format exactly: the first line must start with 'ANSWER:'.\n"
+            #     "CONFIDENCE section: 1.0 = completely certain, 0.0 = pure guess.\n"
+            #     "REASONING_STEPS section: 1 = trivial/direct lookup, 10+ = complex multi-step reasoning.\n"
+            # 
             "ANSWER: [TRUE or FALSE]\n"
             "CONFIDENCE: [score ranging from 0.0 to 1.0 indicating how certain you are]\n"
             "REASONING_STEPS: [distinct number of reasoning steps you used to get to the answer, indicating complexity of reasoning needed]\n\n"
             "ANSWER section: ONLY write TRUE or FALSE.\n"
             "CONFIDENCE section: 1.0 = completely certain, 0.0 = pure guess.\n"
             "REASONING_STEPS section: 1 = trivial/direct lookup, 10+ = complex multi-step reasoning.\n"
-        )
+            )
+        else:
+            format_instruction = (
+                # "ANSWER: [TRUE, FALSE, or UNKNOWN]\n"
+                # "CONFIDENCE: [score ranging from 0.0 to 1.0 indicating how certain you are]\n"
+                # "REASONING_STEPS: [distinct number of reasoning steps you used to get to the answer, indicating complexity of reasoning needed]\n\n"
+                # "ANSWER section: ONLY write TRUE, FALSE, or UNKNOWN.\n"
+                # "Interpret the binary task using OWL entailment semantics, not simple string matching.\n"
+                # "Write TRUE if the statement is entailed by the ontology, including through inferred facts.\n"
+                # "Write FALSE only if asserting the statement would contradict the ontology.\n"
+                # "Write UNKNOWN when the statement is not entailed by the ontology but also not contradicted by it.\n"
+                # "Do not answer FALSE merely because the triple is not explicitly written in the context.\n"
+                # "Follow the format exactly: the first line must start with 'ANSWER:'.\n"
+                # "CONFIDENCE section: 1.0 = completely certain, 0.0 = pure guess.\n"
+                # "REASONING_STEPS section: 1 = trivial/direct lookup, 10+ = complex multi-step reasoning.\n"
+                "ANSWER: [TRUE or FALSE or UNKNOWN]\n"
+                "CONFIDENCE: [score ranging from 0.0 to 1.0 indicating how certain you are]\n"
+                "REASONING_STEPS: [distinct number of reasoning steps you used to get to the answer, indicating complexity of reasoning needed]\n\n"
+                "ANSWER section: ONLY write TRUE or FALSE or UNKNOWN.\n"
+                "CONFIDENCE section: 1.0 = completely certain, 0.0 = pure guess.\n"
+                "REASONING_STEPS section: 1 = trivial/direct lookup, 10+ = complex multi-step reasoning.\n"           
+            
+            )
     elif answer_type == "MC" or answer_type.lower() == "multi choice":
         format_instruction = (
             "ANSWER: [Use LOCAL NAMES only, comma-separated]\n"
@@ -1340,6 +1395,7 @@ def run_llm_reasoning(
     save_detailed_metrics=True,
     output_dir=None,
     silent_mode=False,
+    binary_answer_mode="three_way",
 ):
     """Optimized for heavy ontologies and thousands of questions"""
     global completed_tasks, total_tasks, display_results, questions_completed

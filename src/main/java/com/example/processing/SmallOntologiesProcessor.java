@@ -4,6 +4,7 @@ package com.example.processing;
 import com.example.config.ProcessingConfiguration;
 import com.example.ontology.OntologyService;
 import com.example.reasoning.ReasoningService;
+import com.example.reasoning.PelletReasoningService;
 import com.example.explanation.ComprehensiveExplanationService;
 import com.example.explanation.ExplanationPath;
 import com.example.explanation.ExplanationFormatter;
@@ -13,11 +14,19 @@ import com.example.output.OutputService;
 import com.example.util.OntologyUtils;
 import com.example.util.URIUtils;
 
+import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.formats.TurtleDocumentFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
@@ -48,6 +57,72 @@ public class SmallOntologiesProcessor implements AutoCloseable {
 
     // For tracking MC queries across current ontology only
     private Set<String> currentOntologyMCQueries;
+
+    private enum EntailmentLabel {
+        ENTAILED,
+        NON_ENTAILED
+    }
+
+    private static class InferenceCandidate {
+        private final String tripleKey;
+        private final Set<ExplanationPath> paths;
+        private final EntailmentLabel label;
+        private final OWLOntology variantOntology;
+        private final OWLAxiom removedAxiom;
+        private final String removalStrategy;
+
+        private InferenceCandidate(String tripleKey, Set<ExplanationPath> paths, EntailmentLabel label,
+                                   OWLOntology variantOntology) {
+            this(tripleKey, paths, label, variantOntology, null, null);
+        }
+
+        private InferenceCandidate(String tripleKey, Set<ExplanationPath> paths, EntailmentLabel label,
+                                   OWLOntology variantOntology, OWLAxiom removedAxiom, String removalStrategy) {
+            this.tripleKey = tripleKey;
+            this.paths = paths;
+            this.label = label;
+            this.variantOntology = variantOntology;
+            this.removedAxiom = removedAxiom;
+            this.removalStrategy = removalStrategy;
+        }
+    }
+
+    private static class InferenceBuildResult {
+        private final List<InferenceCandidate> candidates;
+
+        private InferenceBuildResult(List<InferenceCandidate> candidates) {
+            this.candidates = candidates;
+        }
+    }
+
+    private static class RemovalVariant {
+        private final OWLOntology ontology;
+        private final OWLAxiom removedAxiom;
+        private final String strategy;
+
+        private RemovalVariant(OWLOntology ontology, OWLAxiom removedAxiom, String strategy) {
+            this.ontology = ontology;
+            this.removedAxiom = removedAxiom;
+            this.strategy = strategy;
+        }
+    }
+
+    private static class RankedRemovalAxiom {
+        private final OWLAxiom axiom;
+        private final int frequency;
+        private final int targetSignatureOverlap;
+        private final int axiomTypePriority;
+        private final boolean presentInAllPaths;
+
+        private RankedRemovalAxiom(OWLAxiom axiom, int frequency, int targetSignatureOverlap,
+                                   int axiomTypePriority, boolean presentInAllPaths) {
+            this.axiom = axiom;
+            this.frequency = frequency;
+            this.targetSignatureOverlap = targetSignatureOverlap;
+            this.axiomTypePriority = axiomTypePriority;
+            this.presentInAllPaths = presentInAllPaths;
+        }
+    }
 
     public SmallOntologiesProcessor(OntologyService ontologyService,
                                     ReasoningService reasoningService,
@@ -202,10 +277,26 @@ public class SmallOntologiesProcessor implements AutoCloseable {
             Map<String, Set<ExplanationPath>> ontologyInferences =
                     extractInferencesWithExplanations(ontology, explanationService);
 
-            // Process and write inferences using the instance fields
-            processAndWriteInferences(ontologyInferences, ontology, tboxSize, aboxSize, rootEntity, result);
+                // Generate entailed baselines and verified non-entailed variants.
+                InferenceBuildResult inferenceBuildResult =
+                    buildInferenceCandidates(ontology, ontologyInferences, result);
+                String entailedOntologyPath = storeEntailedOntology(ontology, ontologyFile, rootEntity, result);
+                Map<InferenceCandidate, String> nonEntailedOntologyPaths =
+                        storeNonEntailedOntologyVariants(inferenceBuildResult.candidates, rootEntity, result);
 
-            totalInferencesProcessed.addAndGet(ontologyInferences.size());
+            // Process and write inferences using the instance fields
+                processAndWriteInferences(
+                        inferenceBuildResult.candidates,
+                        ontology,
+                        tboxSize,
+                        aboxSize,
+                        rootEntity,
+                        entailedOntologyPath,
+                        nonEntailedOntologyPaths,
+                        result);
+                storeRemovedAxioms(inferenceBuildResult.candidates, nonEntailedOntologyPaths, rootEntity, result);
+
+                totalInferencesProcessed.addAndGet(inferenceBuildResult.candidates.size());
             return true;
 
         } catch (Exception e) {
@@ -362,20 +453,43 @@ public class SmallOntologiesProcessor implements AutoCloseable {
     private void processAndWriteInferences(Map<String, Set<ExplanationPath>> inferences,
                                            OWLOntology ontology, int tboxSize, int aboxSize,
                                            String rootEntity, ProcessingResult result) {
+        List<InferenceCandidate> entailedOnly = inferences.entrySet().stream()
+            .map(entry -> new InferenceCandidate(
+                    entry.getKey(),
+                    entry.getValue(),
+                    EntailmentLabel.ENTAILED,
+                    ontology))
+            .collect(Collectors.toList());
+        processAndWriteInferences(entailedOnly, ontology, tboxSize, aboxSize, rootEntity, "",
+                Collections.emptyMap(), result);
+    }
+
+    private void processAndWriteInferences(List<InferenceCandidate> inferences,
+                           OWLOntology ontology, int tboxSize, int aboxSize,
+                           String rootEntity, String entailedOntologyPath,
+                           Map<InferenceCandidate, String> nonEntailedOntologyPaths,
+                           ProcessingResult result) {
 
         LOGGER.debug("Processing and writing {} inferences immediately", inferences.size());
 
         String ontologyName = extractOntologyName(ontology);
 
         // Group inferences by subject-predicate for MC queries
-        Map<String, Map<String, Set<String>>> subjectPredicateObjects = groupInferencesForMCQueries(inferences);
+        Map<String, Set<ExplanationPath>> entailedInferenceMap = inferences.stream()
+            .filter(candidate -> candidate.label == EntailmentLabel.ENTAILED)
+            .collect(Collectors.toMap(
+                candidate -> candidate.tripleKey,
+                candidate -> candidate.paths,
+                (left, right) -> left
+            ));
+        Map<String, Map<String, Set<String>>> subjectPredicateObjects = groupInferencesForMCQueries(entailedInferenceMap);
 
         long binaryQueries = 0;
         long multiChoiceQueries = 0;
-
-        for (Map.Entry<String, Set<ExplanationPath>> entry : inferences.entrySet()) {
-            String tripleKey = entry.getKey();
-            Set<ExplanationPath> paths = entry.getValue();
+        for (InferenceCandidate candidate : inferences) {
+            String tripleKey = candidate.tripleKey;
+            Set<ExplanationPath> paths = candidate.paths;
+            EntailmentLabel label = candidate.label;
 
             try {
                 String[] parts = OntologyUtils.parseTripleKey(tripleKey);
@@ -384,50 +498,68 @@ public class SmallOntologiesProcessor implements AutoCloseable {
                 String subject = parts[0];
                 String predicate = parts[1];
                 String object = parts[2];
+                String trackingKey = tripleKey + "::" + label.name();
 
                 // CRITICAL: Check if this query was already processed globally
-                if (!GlobalQueryTracker.markQueryProcessed(tripleKey, ontologyName)) {
+                if (!GlobalQueryTracker.markQueryProcessed(trackingKey, ontologyName)) {
                     LOGGER.debug("Skipping duplicate query: {} (first seen in {})",
-                            tripleKey, GlobalQueryTracker.getFirstOntology(tripleKey));
+                        trackingKey, GlobalQueryTracker.getFirstOntology(trackingKey));
                     continue;
                 }
 
-                String taskType = "rdf:type".equals(predicate) ? "Membership" : "Property Assertion";
+                String baseTaskType = "rdf:type".equals(predicate) ? "Membership" : "Property Assertion";
+                String taskType = baseTaskType + " [" + label.name() + "]";
 
                 // Calculate tag statistics instead of explanation statistics
                 int[] tagStats = calculateTagStats(paths);
 
+                String expectedBinaryAnswer;
+                if (label == EntailmentLabel.ENTAILED) {
+                    expectedBinaryAnswer = "TRUE";
+                } else {
+                    expectedBinaryAnswer = "UNKNOWN";
+                }
+
                 // 2. Write binary query (BIN) - ASK query
-                String binaryTaskId = URIUtils.generateTaskId(rootEntity, subject, predicate, "BIN");
-                GlobalQueryTracker.addTaskId(tripleKey, binaryTaskId);
+                String binaryTaskId = URIUtils.generateTaskId(rootEntity, subject, predicate,
+                    "BIN_" + label.name());
+                GlobalQueryTracker.addTaskId(trackingKey, binaryTaskId);
+
+                String ontologyPath;
+                if (label == EntailmentLabel.ENTAILED) {
+                    ontologyPath = entailedOntologyPath;
+                } else {
+                    ontologyPath = nonEntailedOntologyPaths.getOrDefault(candidate, "");
+                }
 
                 String binaryQuery = String.format("ASK WHERE { <%s> <%s> <%s> }",
                         URIUtils.getFullURI(subject), URIUtils.getFullURI(predicate), URIUtils.getFullURI(object));
 
                 outputService.writeComprehensiveQuery(
-                        binaryTaskId, rootEntity, tboxSize, aboxSize, taskType, "BIN",
-                        binaryQuery, predicate,
-                        "TRUE", null, tagStats[0], tagStats[1]  // Updated to use tag stats
+                        binaryTaskId, rootEntity, ontologyPath, tboxSize, aboxSize, taskType, "BIN",
+                        binaryQuery, label.name(), predicate,
+                        expectedBinaryAnswer, null, tagStats[0], tagStats[1]
                 );
                 binaryQueries++;
 
-                // 3. Write multi-choice query (MC) if applicable - SELECT query
-                if (shouldGenerateMultiChoiceQuery(subject, predicate, subjectPredicateObjects)) {
+                // Generate MC only for entailed candidates.
+                if (label == EntailmentLabel.ENTAILED &&
+                    shouldGenerateMultiChoiceQuery(subject, predicate, subjectPredicateObjects)) {
                     Set<String> allObjectsSet = subjectPredicateObjects.get(subject).get(predicate);
                     List<String> allAnswers = allObjectsSet.stream()
                             .sorted()
                             .collect(Collectors.toList());
 
                     String multiTaskId = URIUtils.generateTaskId(rootEntity, subject, predicate, "MC");
-                    GlobalQueryTracker.addTaskId(tripleKey, multiTaskId);
+                    GlobalQueryTracker.addTaskId(trackingKey, multiTaskId);
 
                     // MC query is SELECT - doesn't specify the object
                     String multiQuery = String.format("SELECT ?x WHERE { <%s> <%s> ?x }",
                             URIUtils.getFullURI(subject), URIUtils.getFullURI(predicate));
 
                     outputService.writeComprehensiveQuery(
-                            multiTaskId, rootEntity, tboxSize, aboxSize, taskType, "MC",
-                            multiQuery, predicate,
+                            multiTaskId, rootEntity, ontologyPath, tboxSize, aboxSize, taskType, "MC",
+                            multiQuery, label.name(), predicate,
                             object, allAnswers,
                             tagStats[0], tagStats[1]  // Updated to use tag stats
                     );
@@ -435,9 +567,11 @@ public class SmallOntologiesProcessor implements AutoCloseable {
                 }
 
                 // 1. Write comprehensive explanation to JSON AFTER generating task IDs
-                String comprehensiveExplanation = ExplanationFormatter.generateExactJSONFormat(
+                if (label == EntailmentLabel.ENTAILED) {
+                    String comprehensiveExplanation = ExplanationFormatter.generateExactJSONFormat(
                         tripleKey, paths, tagger);
-                outputService.writeExplanationWithComprehensiveFormat(tripleKey, comprehensiveExplanation);
+                    outputService.writeExplanationWithComprehensiveFormat(tripleKey, comprehensiveExplanation);
+                }
 
             } catch (Exception e) {
                 LOGGER.warn("Error processing inference {}: {}", tripleKey, e.getMessage());
@@ -456,6 +590,379 @@ public class SmallOntologiesProcessor implements AutoCloseable {
         outputService.flush();
     }
 
+    // Build each NON_ENTAILED example from the justification set for its own target
+    private InferenceBuildResult buildInferenceCandidates(OWLOntology ontology,
+                                                          Map<String, Set<ExplanationPath>> entailedInferences,
+                                                          ProcessingResult result) {
+        List<InferenceCandidate> candidates = new ArrayList<>();
+
+        // Keep all original entailed candidates.
+        for (Map.Entry<String, Set<ExplanationPath>> entry : entailedInferences.entrySet()) {
+            candidates.add(new InferenceCandidate(
+                    entry.getKey(),
+                    entry.getValue(),
+                    EntailmentLabel.ENTAILED,
+                    ontology));
+        }
+
+        if (entailedInferences.isEmpty()) {
+            return new InferenceBuildResult(candidates);
+        }
+
+        for (Map.Entry<String, Set<ExplanationPath>> entry : entailedInferences.entrySet()) {
+            String tripleKey = entry.getKey();
+            Set<ExplanationPath> paths = entry.getValue();
+
+            try {
+                OWLAxiom targetAxiom = buildAxiomFromTriple(
+                        tripleKey,
+                        ontology.getOWLOntologyManager().getOWLDataFactory());
+                if (targetAxiom == null) {
+                    continue;
+                }
+
+                Optional<RemovalVariant> removalVariant =
+                        buildNonEntailedVariant(ontology, paths, targetAxiom);
+                if (removalVariant.isPresent()) {
+                    RemovalVariant variant = removalVariant.get();
+                    candidates.add(new InferenceCandidate(
+                            tripleKey,
+                            paths,
+                            EntailmentLabel.NON_ENTAILED,
+                            variant.ontology,
+                            variant.removedAxiom,
+                            variant.strategy));
+                }
+            } catch (Exception e) {
+                result.addWarning("Could not build non-entailed variant for " + tripleKey + ": " + e.getMessage());
+            }
+        }
+
+        return new InferenceBuildResult(candidates);
+    }
+
+    private Optional<RemovalVariant> buildNonEntailedVariant(OWLOntology ontology,
+                                                             Set<ExplanationPath> paths,
+                                                             OWLAxiom targetAxiom) {
+        if (paths == null || paths.isEmpty()) {
+            return Optional.empty();
+        }
+
+        List<RankedRemovalAxiom> rankedAxioms = selectRankedRemovalAxioms(paths, targetAxiom);
+        if (rankedAxioms.isEmpty()) {
+            return Optional.empty();
+        }
+
+        int totalCandidateCount = rankedAxioms.size();
+        rankedAxioms = limitRankedAxioms(rankedAxioms);
+        int testedCandidates = 0;
+
+        for (RankedRemovalAxiom rankedAxiom : rankedAxioms) {
+            OWLAxiom axiom = rankedAxiom.axiom;
+            if (!ontology.containsAxiom(axiom)) {
+                continue;
+            }
+
+            testedCandidates++;
+            OWLOntology trialOntology = cloneOntologyWithoutAxiom(ontology, axiom);
+            if (doesNotEntail(trialOntology, targetAxiom)) {
+                String strategy = buildRemovalStrategy(paths.size(), rankedAxiom, testedCandidates, totalCandidateCount);
+                return Optional.of(new RemovalVariant(trialOntology, axiom, strategy));
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    private List<RankedRemovalAxiom> selectRankedRemovalAxioms(Set<ExplanationPath> paths, OWLAxiom targetAxiom) {
+        String mode = getRemovalSearchMode();
+        if ("exhaustive".equals(mode)) {
+            return deterministicSortRemovableAxioms(getDistinctPathAxioms(paths)).stream()
+                    .map(axiom -> new RankedRemovalAxiom(
+                            axiom,
+                            countPathFrequency(paths, axiom),
+                            calculateTargetSignatureOverlap(axiom, targetAxiom),
+                            calculateAxiomTypePriority(axiom),
+                            isPresentInAllPaths(paths, axiom)))
+                    .collect(Collectors.toList());
+        }
+
+        return rankRemovableAxioms(paths, targetAxiom);
+    }
+
+    private List<RankedRemovalAxiom> rankRemovableAxioms(Set<ExplanationPath> paths, OWLAxiom targetAxiom) {
+        if (paths == null || paths.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        Map<OWLAxiom, Integer> frequency = new HashMap<>();
+        int pathCount = 0;
+        for (ExplanationPath path : paths) {
+            Set<OWLAxiom> uniquePathAxioms = getPathAxioms(path).stream()
+                    .filter(Objects::nonNull)
+                    .filter(axiom -> !axiom.isOfType(AxiomType.DECLARATION))
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+            if (uniquePathAxioms.isEmpty()) {
+                continue;
+            }
+
+            pathCount++;
+            for (OWLAxiom axiom : uniquePathAxioms) {
+                frequency.merge(axiom, 1, Integer::sum);
+            }
+        }
+
+        final int totalPaths = pathCount;
+        return frequency.entrySet().stream()
+                .map(entry -> new RankedRemovalAxiom(
+                        entry.getKey(),
+                        entry.getValue(),
+                        calculateTargetSignatureOverlap(entry.getKey(), targetAxiom),
+                        calculateAxiomTypePriority(entry.getKey()),
+                        totalPaths > 0 && entry.getValue() == totalPaths))
+                .sorted(Comparator
+                        .comparingInt((RankedRemovalAxiom ranked) -> ranked.frequency).reversed()
+                        .thenComparing((RankedRemovalAxiom ranked) -> ranked.presentInAllPaths, Comparator.reverseOrder())
+                        .thenComparingInt((RankedRemovalAxiom ranked) -> ranked.targetSignatureOverlap).reversed()
+                        .thenComparingInt((RankedRemovalAxiom ranked) -> ranked.axiomTypePriority).reversed()
+                        .thenComparing(ranked -> sha256Hex(ranked.axiom.toString()))
+                        .thenComparing(ranked -> ranked.axiom.toString()))
+                .collect(Collectors.toList());
+    }
+
+    private List<RankedRemovalAxiom> limitRankedAxioms(List<RankedRemovalAxiom> rankedAxioms) {
+        if ("exhaustive".equals(getRemovalSearchMode())) {
+            return rankedAxioms;
+        }
+
+        int maxCandidates = config.getMaxRemovalCandidates();
+        if (maxCandidates <= 0 || rankedAxioms.size() <= maxCandidates) {
+            return rankedAxioms;
+        }
+
+        return new ArrayList<>(rankedAxioms.subList(0, maxCandidates));
+    }
+
+    private String buildRemovalStrategy(int pathCount, RankedRemovalAxiom rankedAxiom,
+                                        int testedCandidates, int totalCandidateCount) {
+        return String.format(
+                "%s(paths=%d,frequency=%d,in_all_paths=%s,overlap=%d,tested=%d/%d)",
+                getRemovalSearchMode(),
+                pathCount,
+                rankedAxiom.frequency,
+                rankedAxiom.presentInAllPaths,
+                rankedAxiom.targetSignatureOverlap,
+                testedCandidates,
+                totalCandidateCount);
+    }
+
+    private String getRemovalSearchMode() {
+        String mode = config.getRemovalSearchMode();
+        if (mode == null || mode.isBlank()) {
+            return "frequency";
+        }
+
+        String normalizedMode = mode.trim().toLowerCase(Locale.ROOT);
+        if ("exhaustive".equals(normalizedMode) || "frequency".equals(normalizedMode)
+                || "ranked".equals(normalizedMode)) {
+            return normalizedMode;
+        }
+
+        LOGGER.warn("Unknown removal search mode '{}'; falling back to frequency", mode);
+        return "frequency";
+    }
+
+    private Set<OWLAxiom> getDistinctPathAxioms(Set<ExplanationPath> paths) {
+        if (paths == null || paths.isEmpty()) {
+            return Collections.emptySet();
+        }
+
+        Set<OWLAxiom> axioms = new LinkedHashSet<>();
+        for (ExplanationPath path : paths) {
+            for (OWLAxiom axiom : getPathAxioms(path)) {
+                if (axiom != null && !axiom.isOfType(AxiomType.DECLARATION)) {
+                    axioms.add(axiom);
+                }
+            }
+        }
+        return axioms;
+    }
+
+    private int countPathFrequency(Set<ExplanationPath> paths, OWLAxiom targetAxiom) {
+        if (paths == null || targetAxiom == null) {
+            return 0;
+        }
+
+        int frequency = 0;
+        for (ExplanationPath path : paths) {
+            if (getPathAxioms(path).contains(targetAxiom)) {
+                frequency++;
+            }
+        }
+        return frequency;
+    }
+
+    private boolean isPresentInAllPaths(Set<ExplanationPath> paths, OWLAxiom axiom) {
+        if (paths == null || paths.isEmpty() || axiom == null) {
+            return false;
+        }
+
+        for (ExplanationPath path : paths) {
+            if (!getPathAxioms(path).contains(axiom)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private int calculateTargetSignatureOverlap(OWLAxiom candidateAxiom, OWLAxiom targetAxiom) {
+        if (candidateAxiom == null || targetAxiom == null) {
+            return 0;
+        }
+
+        int overlap = 0;
+        overlap += countOverlap(candidateAxiom.getClassesInSignature(), targetAxiom.getClassesInSignature());
+        overlap += countOverlap(candidateAxiom.getObjectPropertiesInSignature(), targetAxiom.getObjectPropertiesInSignature());
+        overlap += countOverlap(candidateAxiom.getDataPropertiesInSignature(), targetAxiom.getDataPropertiesInSignature());
+        overlap += countOverlap(candidateAxiom.getIndividualsInSignature(), targetAxiom.getIndividualsInSignature());
+        return overlap;
+    }
+
+    private <T> int countOverlap(Set<T> left, Set<T> right) {
+        if (left == null || right == null || left.isEmpty() || right.isEmpty()) {
+            return 0;
+        }
+
+        int overlap = 0;
+        for (T value : left) {
+            if (right.contains(value)) {
+                overlap++;
+            }
+        }
+        return overlap;
+    }
+
+    private int calculateAxiomTypePriority(OWLAxiom axiom) {
+        if (axiom instanceof OWLClassAssertionAxiom || axiom instanceof OWLObjectPropertyAssertionAxiom) {
+            return 3;
+        }
+        if (OntologyUtils.isTBoxAxiom(axiom)) {
+            return 2;
+        }
+        return 1;
+    }
+
+    private Set<OWLAxiom> getJustificationIntersection(Set<ExplanationPath> paths) {
+        Iterator<ExplanationPath> iterator = paths.iterator();
+        if (!iterator.hasNext()) {
+            return Collections.emptySet();
+        }
+
+        Set<OWLAxiom> intersection = new LinkedHashSet<>(getPathAxioms(iterator.next()));
+        while (iterator.hasNext()) {
+            intersection.retainAll(getPathAxioms(iterator.next()));
+            if (intersection.isEmpty()) {
+                return Collections.emptySet();
+            }
+        }
+
+        return intersection;
+    }
+
+    private Collection<OWLAxiom> getPathAxioms(ExplanationPath path) {
+        if (path == null || path.getAxioms() == null) {
+            return Collections.emptySet();
+        }
+        return path.getAxioms();
+    }
+
+    private List<OWLAxiom> deterministicSortRemovableAxioms(Collection<OWLAxiom> axioms) {
+        if (axioms == null || axioms.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return axioms.stream()
+                .filter(Objects::nonNull)
+                .filter(axiom -> !axiom.isOfType(AxiomType.DECLARATION))
+                .distinct()
+                .sorted(Comparator
+                        .comparing((OWLAxiom axiom) -> sha256Hex(axiom.toString()))
+                        .thenComparing(OWLAxiom::toString))
+                .collect(Collectors.toList());
+    }
+
+    private OWLOntology cloneOntology(OWLOntology sourceOntology) {
+        try {
+            OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+            return manager.createOntology(sourceOntology.getAxioms());
+        } catch (OWLOntologyCreationException e) {
+            throw new RuntimeException("Failed to clone ontology", e);
+        }
+    }
+
+    // Clone the ontology and remove the specified axiom to create a trial version for testing.
+    private OWLOntology cloneOntologyWithoutAxiom(OWLOntology sourceOntology, OWLAxiom axiomToRemove) {
+        OWLOntology clone = cloneOntology(sourceOntology);
+        clone.getOWLOntologyManager().removeAxiom(clone, axiomToRemove);
+        return clone;
+    }
+
+    // Build an axiom from tripple takes subject-predicate-object and turns it into corresponding OWL axiom that the reasoner can test
+    private OWLAxiom buildAxiomFromTriple(String tripleKey, OWLDataFactory dataFactory) {
+        String[] parts = OntologyUtils.parseTripleKey(tripleKey);
+        if (parts.length != 3) {
+            return null;
+        }
+
+        String subject = parts[0];
+        String predicate = parts[1];
+        String object = parts[2];
+
+        OWLNamedIndividual subjectInd = dataFactory.getOWLNamedIndividual(IRI.create(URIUtils.getFullURI(subject)));
+
+        if ("rdf:type".equals(predicate)) {
+            OWLClass objectClass = dataFactory.getOWLClass(IRI.create(URIUtils.getFullURI(object)));
+            return dataFactory.getOWLClassAssertionAxiom(objectClass, subjectInd);
+        }
+
+        OWLObjectProperty property = dataFactory.getOWLObjectProperty(IRI.create(URIUtils.getFullURI(predicate)));
+        OWLNamedIndividual objectInd = dataFactory.getOWLNamedIndividual(IRI.create(URIUtils.getFullURI(object)));
+        return dataFactory.getOWLObjectPropertyAssertionAxiom(property, subjectInd, objectInd);
+    }
+
+    // Check if the target axiom is still entailed in the mutated ontology.
+    private boolean isEntailed(OWLOntology ontology, OWLAxiom targetAxiom) {
+        PelletReasoningService tempReasoner = new PelletReasoningService();
+        try {
+            tempReasoner.initializeReasoner(ontology);
+            if (!tempReasoner.isConsistent()) {
+                return false;
+            }
+            return tempReasoner.isEntailed(targetAxiom);
+        } finally {
+            tempReasoner.close();
+        }
+    }
+
+    private boolean doesNotEntail(OWLOntology ontology, OWLAxiom targetAxiom) {
+        PelletReasoningService tempReasoner = new PelletReasoningService(getRemovalCandidateTimeoutMillis());
+        try {
+            tempReasoner.initializeReasoner(ontology);
+            return !tempReasoner.isEntailed(targetAxiom);
+        } catch (RuntimeException e) {
+            LOGGER.debug("Skipping removal candidate because entailment verification failed or timed out: {}",
+                    e.getMessage());
+            return false;
+        } finally {
+            tempReasoner.close();
+        }
+    }
+
+    private long getRemovalCandidateTimeoutMillis() {
+        int timeoutSeconds = config.getRemovalCandidateTimeoutSeconds();
+        return timeoutSeconds <= 0 ? 0 : timeoutSeconds * 1000L;
+    }
+
     // Helper method to extract ontology name
     private String extractOntologyName(OWLOntology ontology) {
         try {
@@ -467,6 +974,159 @@ public class SmallOntologiesProcessor implements AutoCloseable {
             LOGGER.debug("Could not extract ontology name: {}", e.getMessage());
         }
         return "unknown";
+    }
+
+    private Map<InferenceCandidate, String> storeNonEntailedOntologyVariants(
+            List<InferenceCandidate> candidates,
+            String rootEntity,
+            ProcessingResult result) {
+        Map<InferenceCandidate, String> ontologyPaths = new IdentityHashMap<>();
+
+        for (InferenceCandidate candidate : candidates) {
+            if (candidate.label != EntailmentLabel.NON_ENTAILED || candidate.variantOntology == null) {
+                continue;
+            }
+
+            String fileName = buildNonEntailedOntologyFileName(rootEntity, candidate);
+            saveOntologyVariant(candidate.variantOntology, EntailmentLabel.NON_ENTAILED, fileName, result);
+            ontologyPaths.put(candidate, buildOntologyRelativePath(EntailmentLabel.NON_ENTAILED, fileName));
+        }
+
+        return ontologyPaths;
+    }
+
+    private void storeRemovedAxioms(List<InferenceCandidate> candidates,
+                                    Map<InferenceCandidate, String> nonEntailedOntologyPaths,
+                                    String rootEntity,
+                                    ProcessingResult result) {
+        File outputDirectory = new File(
+                config.getOutputDirectory(),
+                "removed_axioms" + File.separator + EntailmentLabel.NON_ENTAILED.name());
+
+        for (InferenceCandidate candidate : candidates) {
+            if (candidate.label != EntailmentLabel.NON_ENTAILED || candidate.removedAxiom == null) {
+                continue;
+            }
+
+            if (!outputDirectory.exists() && !outputDirectory.mkdirs()) {
+                result.addWarning("Could not create removed axioms directory: " + outputDirectory.getAbsolutePath());
+                return;
+            }
+
+            File outputFile = new File(
+                    outputDirectory,
+                    buildRemovedAxiomFileName(rootEntity, candidate));
+
+            try (FileWriter writer = new FileWriter(outputFile, false)) {
+                writer.write("# Removed axiom for NON_ENTAILED ontology\n");
+                writer.write("# Root entity: " + rootEntity + "\n");
+                writer.write("# Target entailment: " + candidate.tripleKey + "\n");
+                writer.write("# Strategy: " + candidate.removalStrategy + "\n");
+                writer.write("# Ontology path: " + nonEntailedOntologyPaths.getOrDefault(candidate, "") + "\n\n");
+                writer.write("# Removed axiom SHA-256: " + sha256Hex(candidate.removedAxiom.toString()) + "\n");
+                writer.write("# Variant decision SHA-256: " + sha256Hex(buildVariantHashInput(candidate)) + "\n\n");
+                writer.write("1. " + candidate.removedAxiom + System.lineSeparator());
+            } catch (IOException e) {
+                result.addWarning("Could not save removed axiom for " + candidate.tripleKey + ": " + e.getMessage());
+            }
+        }
+    }
+
+    private void saveOntologyVariant(OWLOntology ontology, EntailmentLabel label, String fileName,
+                                     ProcessingResult result) {
+        File labelDirectory = new File(config.getOutputDirectory(), "ontologies" + File.separator + label.name());
+        if (!labelDirectory.exists() && !labelDirectory.mkdirs()) {
+            result.addWarning("Could not create ontology output directory: " + labelDirectory.getAbsolutePath());
+            return;
+        }
+
+        File outputFile = new File(labelDirectory, fileName);
+        if (outputFile.exists()) {
+            return;
+        }
+
+        try (FileOutputStream outputStream = new FileOutputStream(outputFile)) {
+            ontology.getOWLOntologyManager().saveOntology(ontology, new TurtleDocumentFormat(), outputStream);
+        } catch (OWLOntologyStorageException | IOException e) {
+            result.addWarning("Could not save " + label.name() + " ontology '" + fileName + "': " + e.getMessage());
+        }
+    }
+
+    private String sanitizeFileName(String value) {
+        if (value == null || value.isBlank()) {
+            return "ontology";
+        }
+        return value.replaceAll("[^a-zA-Z0-9._-]", "_");
+    }
+
+    private String buildOntologyRelativePath(EntailmentLabel label, String fileName) {
+        return "ontologies/" + label.name() + "/" + fileName;
+    }
+
+    private String buildOntologyFileName(String taskId) {
+        return sanitizeFileName(taskId) + ".ttl";
+    }
+
+    private String buildNonEntailedOntologyFileName(String rootEntity, InferenceCandidate candidate) {
+        return buildVariantFileStem(rootEntity, candidate) + ".ttl";
+    }
+
+    private String buildRemovedAxiomFileName(String rootEntity, InferenceCandidate candidate) {
+        return buildVariantFileStem(rootEntity, candidate) + "_removed_axiom.txt";
+    }
+
+    private String buildVariantFileStem(String rootEntity, InferenceCandidate candidate) {
+        String[] parts = OntologyUtils.parseTripleKey(candidate.tripleKey);
+        String readableTriple = parts.length == 3
+                ? parts[0] + "_" + parts[1] + "_" + parts[2]
+                : candidate.tripleKey;
+        String stem = sanitizeFileName(rootEntity + "__non_entailed__" + readableTriple);
+        int maxReadableLength = 140;
+        if (stem.length() > maxReadableLength) {
+            stem = stem.substring(0, maxReadableLength);
+        }
+        return sanitizeFileName(stem);
+    }
+
+    private String buildVariantHashInput(InferenceCandidate candidate) {
+        return String.join("|",
+                "NON_ENTAILED",
+                nullToEmpty(candidate.tripleKey),
+                nullToEmpty(candidate.removalStrategy),
+                candidate.removedAxiom == null ? "" : candidate.removedAxiom.toString());
+    }
+
+    private String sha256Hex(String value) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(nullToEmpty(value).getBytes(StandardCharsets.UTF_8));
+            StringBuilder hex = new StringBuilder(hash.length * 2);
+            for (byte b : hash) {
+                hex.append(String.format("%02x", b));
+            }
+            return hex.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("SHA-256 is not available", e);
+        }
+    }
+
+    private String nullToEmpty(String value) {
+        return value == null ? "" : value;
+    }
+
+    private String storeEntailedOntology(OWLOntology ontology, File ontologyFile, String rootEntity,
+                                         ProcessingResult result) {
+        String fileName = sanitizeFileName(rootEntity + "__original_1hop") + getOntologyExtension(ontologyFile.getName());
+        saveOntologyVariant(ontology, EntailmentLabel.ENTAILED, fileName, result);
+        return buildOntologyRelativePath(EntailmentLabel.ENTAILED, fileName);
+    }
+
+    private String getOntologyExtension(String fileName) {
+        int lastDot = fileName.lastIndexOf('.');
+        if (lastDot >= 0 && lastDot < fileName.length() - 1) {
+            return fileName.substring(lastDot);
+        }
+        return ".ttl";
     }
 
     // Updated to check against subject-predicate combinations

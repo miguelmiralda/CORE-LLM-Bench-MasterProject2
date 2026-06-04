@@ -201,11 +201,46 @@ def validate_setup(config):
         return None
 
     available_json_files = {p.stem for p in verbalized_dir.glob("*.json")}
+    all_json_files = list(verbalized_dir.rglob("*.json"))
     original_count = len(df)
-    df = df[df["Root Entity"].isin(available_json_files)].copy()
+    
+    if "Ontology Path" in df.columns:
+        def json_exists(path_value):
+            if pd.isna(path_value) or str(path_value).strip() == "":
+                return False
 
-    print(f"🔍 Found {len(available_json_files)} JSON ontology files")
-    print(f"📢 Filtered dataset to {len(df)} questions (from {original_count})")
+            reference_path = Path(str(path_value).strip())
+            if reference_path.suffix:
+                reference_path = reference_path.with_suffix(".json")
+            candidates = [
+                verbalized_dir / reference_path,
+                verbalized_dir / reference_path.name,
+                project_root / reference_path,
+            ]
+
+            reference_parts = list(reference_path.parts)
+            if len(reference_parts) >= 3 and reference_parts[0].lower() == "ontologies":
+                label_dir = reference_parts[1]
+                remaining_parts = reference_parts[2:]
+                label_relative = Path(label_dir, *remaining_parts)
+                candidates.extend(
+                    [
+                        verbalized_dir / label_relative,
+                        verbalized_dir / label_relative.name,
+                    ]
+                )
+
+            return any(candidate.exists() for candidate in candidates)
+
+        df = df[df["Ontology Path"].apply(json_exists)].copy()
+        print(f"🔍 Found {len(all_json_files)} JSON ontology files")
+        print(f"📢 Filtered dataset to {len(df)} questions (from {original_count}) using 'Ontology Path'")
+    
+
+    else:
+        df = df[df["Root Entity"].isin(available_json_files)].copy()
+        print(f"🔍 Found {len(all_json_files)} JSON ontology files")
+        print(f"📢 Filtered dataset to {len(df)} questions (from {original_count}) using 'Root Entity'")
 
     if df.empty:
         print(

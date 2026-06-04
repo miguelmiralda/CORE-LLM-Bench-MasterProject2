@@ -22,7 +22,11 @@ def stratified_sample(input_file, output_file, test_size=0.95, random_state=42):
     print(f"Initial rows: {len(df)}")
 
     df = df.drop_duplicates()
-    df = df[df["Task Type"].isin(["Membership", "Property Assertion"])].copy()
+    df = df[
+        df["Task Type"]
+        .astype(str)
+        .str.startswith(("Membership", "Property Assertion"))
+    ].copy()
     df["Task ID temp"] = df["Task ID"].str.replace(r"-(BIN|MC)$", "", regex=True)
 
     # Bin variables

@@ -29,6 +29,11 @@ public class StreamingOutputService implements OutputService {
     private FileWriter explanationWriter;
     private long totalQueries = 0;
     private boolean isFirstExplanation = true;
+    private static final String QUERY_HEADER =
+            "\"Task ID\",\"Root Entity\",\"Ontology Path\",\"Size of ontology TBox\",\"Size of ontology ABox\"," +
+            "\"Task Type\",\"Entailment Label\",\"Answer Type\",\"SPARQL Query\",\"Predicate\",\"Answer\"," +
+            "\"Min Tag Length\",\"Max Tag Length\"\n";
+
 
     public StreamingOutputService(String outputDirectory) {
         this.outputDirectory = outputDirectory;
@@ -50,9 +55,7 @@ public class StreamingOutputService implements OutputService {
 
         if (!csvExists) {
             // Add header only for new file
-            queryWriter.write("\"Task ID\",\"Root Entity\",\"Size of ontology TBox\",\"Size of ontology ABox\"," +
-                    "\"Task Type\",\"Answer Type\",\"SPARQL Query\",\"Predicate\",\"Answer\"," +
-                    "\"Min Tag Length\",\"Max Tag Length\"\n");
+            queryWriter.write(QUERY_HEADER);
         }
 
         // FIXED: Append mode for JSON
@@ -93,7 +96,8 @@ public class StreamingOutputService implements OutputService {
     public void writeQueryWithTags(String taskId, String query, String taskType, String answer, String explanation, String tags) {
         // Legacy method - redirect to comprehensive format with default tag lengths
         try {
-            writeComprehensiveQuery(taskId, "Thing", 100, 50, taskType, "BIN", query, "predicate", answer, null, 1, 1);
+            writeComprehensiveQuery(taskId, "Thing", "", 100, 50, taskType, "BIN",
+                    query, "", "predicate", answer, null, 1, 1);
         } catch (Exception e) {
             LOGGER.error("Error in legacy writeQueryWithTags: {}", e.getMessage());
         }
@@ -130,9 +134,10 @@ public class StreamingOutputService implements OutputService {
     }
 
     @Override
-    public void writeComprehensiveQuery(String taskId, String rootEntity, int tboxSize, int aboxSize,
+    public void writeComprehensiveQuery(String taskId, String rootEntity, String ontologyPath,
+                                        int tboxSize, int aboxSize,
                                         String taskType, String answerType, String sparqlQuery,
-                                        String predicate, String answer, List<String> allAnswers,
+                                        String entailmentLabel, String predicate, String answer, List<String> allAnswers,
                                         int minTagLength, int maxTagLength) {  // Updated parameters
         try {
             long currentCount = queryCounter.incrementAndGet();
@@ -144,12 +149,14 @@ public class StreamingOutputService implements OutputService {
             }
 
             // Updated format string - removed avg explanation count, changed to integers for tag lengths
-            String csvLine = String.format("\"%s\",\"%s\",%d,%d,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%d,%d\n",
+            String csvLine = String.format("\"%s\",\"%s\",\"%s\",%d,%d,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%d,%d\n",
                     escapeCSV(taskId),
                     escapeCSV(rootEntity),
+                    escapeCSV(ontologyPath),
                     tboxSize,
                     aboxSize,
                     escapeCSV(taskType),
+                    escapeCSV(entailmentLabel),
                     escapeCSV(answerType),
                     escapeCSV(sparqlQuery),
                     escapeCSV(predicate),
@@ -214,7 +221,7 @@ public class StreamingOutputService implements OutputService {
     public void logProgress(String operation, long completed, long total) {
         if (total > 0) {
             double percentage = (completed * 100.0) / total;
-            LOGGER.info("Progress {}: {}/{} ({:.1f}%)", operation, completed, total, percentage);
+            LOGGER.info("Progress {}: {}/{} ({}%)", operation, completed, total, String.format("%.1f", percentage));
         } else {
             LOGGER.info("Progress {}: {} completed", operation, completed);
         }

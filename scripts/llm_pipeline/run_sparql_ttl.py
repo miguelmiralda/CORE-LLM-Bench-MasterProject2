@@ -193,12 +193,31 @@ def validate_setup(config):
         return None
 
     available_ttl_files = {p.stem for p in ttl_dir.glob("*.ttl")}
+    all_ttl_files = list(ttl_dir.rglob("*.ttl"))
     original_count = len(df)
-    df = df[df["Root Entity"].isin(available_ttl_files)].copy()
 
-    print(f"🔍 Found {len(available_ttl_files)} TTL files")
-    print(f"📢 Filtered dataset to {len(df)} questions (from {original_count})")
+    if "Ontology Path" in df.columns:
+        def ontology_exists(path_value):
+            if pd.isna(path_value) or str(path_value).strip() == "":
+                return False
 
+            relative_path = Path(str(path_value).strip())
+            candidates = [
+                ttl_dir / relative_path,
+                ttl_dir / relative_path.name,
+                project_root / relative_path,
+            ]
+            return any(candidate.exists() for candidate in candidates)
+
+        df = df[df["Ontology Path"].apply(ontology_exists)].copy()
+        print(f"🔍 Found {len(all_ttl_files)} TTL files")
+        print(f"📢 Filtered dataset to {len(df)} questions (from {original_count}) using 'Ontology Path'")
+    else:
+        df = df[df["Root Entity"].isin(available_ttl_files)].copy()
+        print(f"🔍 Found {len(all_ttl_files)} TTL files")
+        print(f"📢 Filtered dataset to {len(df)} questions (from {original_count}) using 'Root Entity'")
+
+   
     if df.empty:
         print(
             "❌ Error: No questions remain after filtering. Check TTL file names and 'Root Entity' column."

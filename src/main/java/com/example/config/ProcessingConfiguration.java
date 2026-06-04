@@ -20,6 +20,9 @@ public class ProcessingConfiguration {
     private int threadPoolSize = 4;
     private int batchSize = 50;
     private boolean enableDetailedLogging = false;
+    private String removalSearchMode = "frequency";
+    private int maxRemovalCandidates = 25;
+    private int removalCandidateTimeoutSeconds = 30;
 
     // Getters and setters
     public String getOntologiesDirectory() { return ontologiesDirectory; }
@@ -47,6 +50,21 @@ public class ProcessingConfiguration {
         this.enableDetailedLogging = enableDetailedLogging;
     }
 
+    public String getRemovalSearchMode() { return removalSearchMode; }
+    public void setRemovalSearchMode(String removalSearchMode) {
+        this.removalSearchMode = removalSearchMode;
+    }
+
+    public int getMaxRemovalCandidates() { return maxRemovalCandidates; }
+    public void setMaxRemovalCandidates(int maxRemovalCandidates) {
+        this.maxRemovalCandidates = maxRemovalCandidates;
+    }
+
+    public int getRemovalCandidateTimeoutSeconds() { return removalCandidateTimeoutSeconds; }
+    public void setRemovalCandidateTimeoutSeconds(int removalCandidateTimeoutSeconds) {
+        this.removalCandidateTimeoutSeconds = removalCandidateTimeoutSeconds;
+    }
+
     @Override
     public String toString() {
         return "ProcessingConfiguration{" +
@@ -56,6 +74,9 @@ public class ProcessingConfiguration {
                 ", maxExplanationsPerInference=" + maxExplanationsPerInference +
                 ", threadPoolSize=" + threadPoolSize +
                 ", batchSize=" + batchSize +
+                ", removalSearchMode='" + removalSearchMode + '\'' +
+                ", maxRemovalCandidates=" + maxRemovalCandidates +
+                ", removalCandidateTimeoutSeconds=" + removalCandidateTimeoutSeconds +
                 '}';
     }
 }

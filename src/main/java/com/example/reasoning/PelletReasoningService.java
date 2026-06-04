@@ -24,6 +24,15 @@ public class PelletReasoningService implements ReasoningService {
 
     private OpenlletReasoner reasoner;
     private OWLOntology ontology;
+    private final long timeoutMillis;
+
+    public PelletReasoningService() {
+        this(0);
+    }
+
+    public PelletReasoningService(long timeoutMillis) {
+        this.timeoutMillis = Math.max(0, timeoutMillis);
+    }
 
     @Override
     public void initializeReasoner(OWLOntology ontology) {
@@ -31,7 +40,9 @@ public class PelletReasoningService implements ReasoningService {
         OpenlletReasonerFactory factory = new OpenlletReasonerFactory();
 
         // Create configuration for better explanation support
-        OWLReasonerConfiguration config = new SimpleConfiguration();
+        OWLReasonerConfiguration config = timeoutMillis > 0
+                ? new SimpleConfiguration(timeoutMillis)
+                : new SimpleConfiguration();
         this.reasoner = factory.createReasoner(ontology, config);
 
         // Enable explanation tracking
