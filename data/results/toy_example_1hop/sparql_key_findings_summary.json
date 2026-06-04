@@ -1,0 +1,58 @@
+{
+  "dataset_composition": {
+    "total_questions": 27,
+    "binary_questions": "23 (85.2%)",
+    "mc_questions": "4 (14.8%)"
+  },
+  "configuration": {
+    "csv_file": "data\\output\\llm_results\\toy_example_1hop\\sparql_ttl_results_FINAL.csv",
+    "explanations_file": "data\\output\\toy_example\\1hop\\Explanations.json",
+    "output_dir": "data\\results\\toy_example_1hop",
+    "jaccard_threshold": 1.0,
+    "calibration_threshold": 0.7,
+    "hallucination_threshold": 0.7,
+    "bootstrap_samples": 1000,
+    "min_samples_statistics": 30
+  },
+  "statistical_analysis": {},
+  "key_findings_summary": {
+    "openai_gpt_4.1_mini": {
+      "overall_metrics": {
+        "average_accuracy": "7.4%",
+        "perfect_answers": "7.4%",
+        "partial_answers": "0.0%",
+        "wrong_answers": "92.6%",
+        "confidence_calibration": "7.4%",
+        "hallucination_score": "81.8%",
+        "average_response_time_ms": "1.30",
+        "average_token_count": "2350.85"
+      },
+      "tag_group_analysis": {
+        "Property_Characteristics": {
+          "accuracy": "10.0%",
+          "percentage_of_total": "74.1%"
+        },
+        "Basic_Hierarchy": {
+          "accuracy": "0.0%",
+          "percentage_of_total": "37.0%"
+        }
+      },
+      "performance_by_answer_type": {
+        "binary": {
+          "dataset_questions": "23 (85.2%)",
+          "successfully_evaluated": "23 (100.0%)",
+          "average_accuracy": "8.7%",
+          "average_response_time_ms": "1.35",
+          "average_token_count": "2350.91"
+        },
+        "mc": {
+          "dataset_questions": "4 (14.8%)",
+          "successfully_evaluated": "4 (100.0%)",
+          "average_accuracy": "0.0%",
+          "average_response_time_ms": "1.02",
+          "average_token_count": "2350.50"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,395 @@
+@prefix : <http://www.co-ode.org/roberts/family-tree.owl#> .
+@prefix ns1: <http://www.example.com/genealogy.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.co-ode.org/roberts/family-tree.owl> .
+
+<http://www.co-ode.org/roberts/family-tree.owl> rdf:type owl:Ontology ;
+                                                 rdfs:comment "A simple family relationships ontology and associated instances. the description is of the family of Robert Stevens and the intention is to use the minimal of asserted relationships and the maximum of inference. To do this  I've used role chains, nominals and properties hierarchies." .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://www.example.com/genealogy.owl#alsoKnownAs
+ns1:alsoKnownAs rdf:type owl:AnnotationProperty .
+
+
+###  http://www.example.com/genealogy.owl#formerlyKnownAs
+ns1:formerlyKnownAs rdf:type owl:AnnotationProperty .
+
+
+###  http://www.example.com/genealogy.owl#hasBirthYear
+ns1:hasBirthYear rdf:type owl:AnnotationProperty .
+
+
+###  http://www.example.com/genealogy.owl#hasDeathYear
+ns1:hasDeathYear rdf:type owl:AnnotationProperty .
+
+
+###  http://www.example.com/genealogy.owl#hasMarriageYear
+ns1:hasMarriageYear rdf:type owl:AnnotationProperty .
+
+
+###  http://www.example.com/genealogy.owl#knownAs
+ns1:knownAs rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.co-ode.org/roberts/family-tree.owl#hasBirthYear
+:hasBirthYear rdf:type rdfs:Datatype .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.example.com/genealogy.owl#hasAncestor
+ns1:hasAncestor rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf ns1:hasRelation ;
+                owl:inverseOf ns1:isAncestorOf ;
+                rdf:type owl:TransitiveProperty .
+
+
+###  http://www.example.com/genealogy.owl#hasBrother
+ns1:hasBrother rdf:type owl:ObjectProperty ;
+               owl:inverseOf ns1:isBrotherOf .
+
+
+###  http://www.example.com/genealogy.owl#hasChild
+ns1:hasChild rdf:type owl:ObjectProperty ;
+             owl:inverseOf ns1:isChildOf .
+
+
+###  http://www.example.com/genealogy.owl#hasDaughter
+ns1:hasDaughter rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf ns1:hasChild ;
+                owl:inverseOf ns1:isDaughterOf .
+
+
+###  http://www.example.com/genealogy.owl#hasFather
+ns1:hasFather rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf ns1:hasParent ;
+              owl:inverseOf ns1:isFatherOf ;
+              rdf:type owl:FunctionalProperty ;
+              rdfs:domain ns1:Person ;
+              rdfs:range ns1:Man .
+
+
+###  http://www.example.com/genealogy.owl#hasFemalePartner
+ns1:hasFemalePartner rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf ns1:hasPartner ;
+                     owl:inverseOf ns1:isFemalePartnerIn ;
+                     rdfs:domain ns1:Marriage ;
+                     rdfs:range ns1:Woman .
+
+
+###  http://www.example.com/genealogy.owl#hasHusband
+ns1:hasHusband rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf ns1:hasSpouse ;
+               owl:inverseOf ns1:isHusbandOf ;
+               rdfs:range ns1:Man ;
+               owl:propertyChainAxiom ( ns1:isFemalePartnerIn
+                                        ns1:hasMalePartner
+                                      ) .
+
+
+###  http://www.example.com/genealogy.owl#hasMalePartner
+ns1:hasMalePartner rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf ns1:hasPartner ;
+                   owl:inverseOf ns1:isMalePartnerIn ;
+                   rdfs:domain ns1:Marriage ;
+                   rdfs:range ns1:Man .
+
+
+###  http://www.example.com/genealogy.owl#hasMother
+ns1:hasMother rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf ns1:hasParent ;
+              owl:inverseOf ns1:isMotherOf ;
+              rdf:type owl:FunctionalProperty ;
+              rdfs:domain ns1:Person ;
+              rdfs:range ns1:Woman .
+
+
+###  http://www.example.com/genealogy.owl#hasParent
+ns1:hasParent rdf:type owl:ObjectProperty ;
+              owl:equivalentProperty ns1:isChildOf ;
+              rdfs:subPropertyOf ns1:hasAncestor ;
+              owl:inverseOf ns1:isParentOf ;
+              rdfs:domain ns1:Person ;
+              rdfs:range ns1:Person .
+
+
+###  http://www.example.com/genealogy.owl#hasPartner
+ns1:hasPartner rdf:type owl:ObjectProperty ;
+               owl:inverseOf ns1:isPartnerIn ;
+               rdfs:domain ns1:Marriage ;
+               rdfs:range ns1:Person .
+
+
+###  http://www.example.com/genealogy.owl#hasRelation
+ns1:hasRelation rdf:type owl:ObjectProperty ,
+                         owl:SymmetricProperty ;
+                rdfs:domain ns1:Person ;
+                rdfs:range ns1:Person .
+
+
+###  http://www.example.com/genealogy.owl#hasSex
+ns1:hasSex rdf:type owl:ObjectProperty ,
+                    owl:FunctionalProperty ;
+           rdfs:domain ns1:Person ;
+           rdfs:range ns1:Sex .
+
+
+###  http://www.example.com/genealogy.owl#hasSister
+ns1:hasSister rdf:type owl:ObjectProperty ;
+              owl:inverseOf ns1:isSisterOf .
+
+
+###  http://www.example.com/genealogy.owl#hasSon
+ns1:hasSon rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf ns1:hasChild ;
+           owl:inverseOf ns1:isSonOf .
+
+
+###  http://www.example.com/genealogy.owl#hasSpouse
+ns1:hasSpouse rdf:type owl:ObjectProperty ;
+              owl:inverseOf ns1:isSpouseOf .
+
+
+###  http://www.example.com/genealogy.owl#hasWife
+ns1:hasWife rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf ns1:hasSpouse ;
+            owl:inverseOf ns1:isWifeOf ;
+            rdfs:range ns1:Woman ;
+            owl:propertyChainAxiom ( ns1:isMalePartnerIn
+                                     ns1:hasFemalePartner
+                                   ) .
+
+
+###  http://www.example.com/genealogy.owl#isAncestorOf
+ns1:isAncestorOf rdf:type owl:ObjectProperty .
+
+
+###  http://www.example.com/genealogy.owl#isBloodrelationOf
+ns1:isBloodrelationOf rdf:type owl:ObjectProperty ;
+                      rdfs:subPropertyOf ns1:hasRelation .
+
+
+###  http://www.example.com/genealogy.owl#isBrotherOf
+ns1:isBrotherOf rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf ns1:isSiblingOf ;
+                rdfs:domain ns1:Man ;
+                rdfs:range ns1:Person .
+
+
+###  http://www.example.com/genealogy.owl#isChildOf
+ns1:isChildOf rdf:type owl:ObjectProperty .
+
+
+###  http://www.example.com/genealogy.owl#isDaughterOf
+ns1:isDaughterOf rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf ns1:isChildOf .
+
+
+###  http://www.example.com/genealogy.owl#isFatherOf
+ns1:isFatherOf rdf:type owl:ObjectProperty .
+
+
+###  http://www.example.com/genealogy.owl#isFemalePartnerIn
+ns1:isFemalePartnerIn rdf:type owl:ObjectProperty .
+
+
+###  http://www.example.com/genealogy.owl#isHusbandOf
+ns1:isHusbandOf rdf:type owl:ObjectProperty .
+
+
+###  http://www.example.com/genealogy.owl#isMalePartnerIn
+ns1:isMalePartnerIn rdf:type owl:ObjectProperty .
+
+
+###  http://www.example.com/genealogy.owl#isMotherOf
+ns1:isMotherOf rdf:type owl:ObjectProperty .
+
+
+###  http://www.example.com/genealogy.owl#isParentOf
+ns1:isParentOf rdf:type owl:ObjectProperty .
+
+
+###  http://www.example.com/genealogy.owl#isPartnerIn
+ns1:isPartnerIn rdf:type owl:ObjectProperty .
+
+
+###  http://www.example.com/genealogy.owl#isSiblingOf
+ns1:isSiblingOf rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf ns1:isBloodrelationOf ;
+                rdf:type owl:SymmetricProperty ,
+                         owl:TransitiveProperty ;
+                owl:propertyChainAxiom ( ns1:hasParent
+                                         ns1:isParentOf
+                                       ) .
+
+
+###  http://www.example.com/genealogy.owl#isSisterOf
+ns1:isSisterOf rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf ns1:isSiblingOf ;
+               rdfs:domain ns1:Woman ;
+               rdfs:range ns1:Person .
+
+
+###  http://www.example.com/genealogy.owl#isSonOf
+ns1:isSonOf rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf ns1:isChildOf .
+
+
+###  http://www.example.com/genealogy.owl#isSpouseOf
+ns1:isSpouseOf rdf:type owl:ObjectProperty .
+
+
+###  http://www.example.com/genealogy.owl#isUncleOf
+ns1:isUncleOf rdf:type owl:ObjectProperty ;
+              rdfs:domain ns1:Man ;
+              rdfs:range ns1:Person ;
+              owl:propertyChainAxiom ( ns1:isBrotherOf
+                                       ns1:isParentOf
+                                     ) .
+
+
+###  http://www.example.com/genealogy.owl#isWifeOf
+ns1:isWifeOf rdf:type owl:ObjectProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.example.com/genealogy.owl#Ancestor
+ns1:Ancestor rdf:type owl:Class ;
+             owl:equivalentClass [ owl:intersectionOf ( ns1:Person
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty ns1:isAncestorOf ;
+                                                          owl:someValuesFrom ns1:Person
+                                                        ]
+                                                      ) ;
+                                   rdf:type owl:Class
+                                 ] .
+
+
+###  http://www.example.com/genealogy.owl#DomainEntity
+ns1:DomainEntity rdf:type owl:Class .
+
+
+###  http://www.example.com/genealogy.owl#Female
+ns1:Female rdf:type owl:Class ;
+           rdfs:subClassOf ns1:Sex ;
+           owl:disjointWith ns1:Male .
+
+
+###  http://www.example.com/genealogy.owl#Male
+ns1:Male rdf:type owl:Class ;
+         rdfs:subClassOf ns1:Sex .
+
+
+###  http://www.example.com/genealogy.owl#Man
+ns1:Man rdf:type owl:Class ;
+        owl:equivalentClass [ owl:intersectionOf ( ns1:Person
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty ns1:hasSex ;
+                                                     owl:someValuesFrom ns1:Male
+                                                   ]
+                                                 ) ;
+                              rdf:type owl:Class
+                            ] .
+
+
+###  http://www.example.com/genealogy.owl#Marriage
+ns1:Marriage rdf:type owl:Class ;
+             rdfs:subClassOf ns1:DomainEntity .
+
+
+###  http://www.example.com/genealogy.owl#Person
+ns1:Person rdf:type owl:Class ;
+           owl:equivalentClass [ rdf:type owl:Class ;
+                                 owl:unionOf ( ns1:Man
+                                               ns1:Woman
+                                             )
+                               ] ;
+           rdfs:subClassOf ns1:DomainEntity ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty ns1:hasFather ;
+                             owl:someValuesFrom ns1:Man
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty ns1:hasMother ;
+                             owl:someValuesFrom ns1:Woman
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty ns1:hasSex ;
+                             owl:someValuesFrom ns1:Sex
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty ns1:hasParent ;
+                             owl:maxQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                             owl:onClass ns1:Person
+                           ] ;
+           owl:disjointWith ns1:Sex .
+
+
+###  http://www.example.com/genealogy.owl#Sex
+ns1:Sex rdf:type owl:Class ;
+        owl:equivalentClass [ rdf:type owl:Class ;
+                              owl:unionOf ( ns1:Female
+                                            ns1:Male
+                                          )
+                            ] ;
+        rdfs:subClassOf ns1:DomainEntity .
+
+
+###  http://www.example.com/genealogy.owl#Woman
+ns1:Woman rdf:type owl:Class ;
+          owl:equivalentClass [ owl:intersectionOf ( ns1:Person
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty ns1:hasSex ;
+                                                       owl:someValuesFrom ns1:Female
+                                                     ]
+                                                   ) ;
+                                rdf:type owl:Class
+                              ] .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.example.com/genealogy.owl#ada_rachel_heath_1868
+ns1:ada_rachel_heath_1868 rdf:type owl:NamedIndividual ;
+                          ns1:isSisterOf ns1:gwendoline_heath_1878 ;
+                          ns1:hasBirthYear 1868 .
+
+
+###  http://www.example.com/genealogy.owl#gwendoline_heath_1878
+ns1:gwendoline_heath_1878 rdf:type owl:NamedIndividual .
+
+
+###  http://www.example.com/genealogy.owl#john_heath
+ns1:john_heath rdf:type owl:NamedIndividual ;
+               ns1:isFatherOf ns1:ada_rachel_heath_1868 .
+
+
+###  http://www.example.com/genealogy.owl#m135
+ns1:m135 rdf:type owl:NamedIndividual ;
+         ns1:hasFemalePartner ns1:ada_rachel_heath_1868 .
+
+
+###  http://www.example.com/genealogy.owl#sarah_jacobs_1834
+ns1:sarah_jacobs_1834 rdf:type owl:NamedIndividual ;
+                      ns1:isMotherOf ns1:ada_rachel_heath_1868 .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi

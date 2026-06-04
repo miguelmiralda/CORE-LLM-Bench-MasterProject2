@@ -1,0 +1,192 @@
+{
+  "dataset_composition": {
+    "total_questions": 1424,
+    "binary_questions": "1159 (81.4%)",
+    "mc_questions": "265 (18.6%)"
+  },
+  "statistical_analysis": {
+    "confidence_intervals": {
+      "gpt-5-mini": {
+        "mean_accuracy": "27.8%",
+        "confidence_interval_lower": "25.4%",
+        "confidence_interval_upper": "30.2%",
+        "margin_of_error": "2.4%",
+        "sample_size": 1282
+      },
+      "deepseek-chat": {
+        "mean_accuracy": "13.6%",
+        "confidence_interval_lower": "11.9%",
+        "confidence_interval_upper": "15.3%",
+        "margin_of_error": "1.7%",
+        "sample_size": 1238
+      },
+      "llama-4-maverick": {
+        "mean_accuracy": "37.6%",
+        "confidence_interval_lower": "35.1%",
+        "confidence_interval_upper": "39.9%",
+        "margin_of_error": "2.4%",
+        "sample_size": 1411
+      }
+    },
+    "pairwise_comparisons": [
+      {
+        "comparison": "gpt-5-mini vs deepseek-chat",
+        "mean_difference": "+14.3%",
+        "p_value": "0.000000",
+        "significance_level": "***",
+        "statistically_significant": true
+      },
+      {
+        "comparison": "gpt-5-mini vs llama-4-maverick",
+        "mean_difference": "-9.8%",
+        "p_value": "0.000000",
+        "significance_level": "***",
+        "statistically_significant": true
+      },
+      {
+        "comparison": "deepseek-chat vs llama-4-maverick",
+        "mean_difference": "-24.0%",
+        "p_value": "0.000000",
+        "significance_level": "***",
+        "statistically_significant": true
+      }
+    ],
+    "interpretation": {
+      "confidence_interval_meaning": "95% confidence interval - we are 95% confident the true performance lies within this range",
+      "significance_levels": {
+        "***": "p < 0.001 (highly significant)",
+        "**": "p < 0.01 (very significant)",
+        "*": "p < 0.05 (significant)",
+        "ns": "not significant"
+      }
+    }
+  },
+  "key_findings_summary": {
+    "gpt-5-mini": {
+      "overall_metrics": {
+        "average_accuracy": "27.8%",
+        "perfect_answers": "25.2%",
+        "partial_answers": "7.3%",
+        "wrong_answers": "67.6%",
+        "confidence_calibration": "59.7%",
+        "hallucination_score": "8.8%",
+        "average_response_time_ms": "5.79",
+        "average_token_count": "2733.68"
+      },
+      "tag_group_analysis": {
+        "Basic_Hierarchy": {
+          "accuracy": "34.2%",
+          "percentage_of_total": "65.4%"
+        },
+        "Domain_Range": {
+          "accuracy": "65.5%",
+          "percentage_of_total": "4.8%"
+        },
+        "Property_Characteristics": {
+          "accuracy": "14.2%",
+          "percentage_of_total": "35.3%"
+        }
+      },
+      "performance_by_answer_type": {
+        "binary": {
+          "dataset_questions": "1159 (81.4%)",
+          "successfully_evaluated": "1151 (99.3%)",
+          "average_accuracy": "25.6%",
+          "average_response_time_ms": "5.60",
+          "average_token_count": "2717.32"
+        },
+        "mc": {
+          "dataset_questions": "265 (18.6%)",
+          "successfully_evaluated": "131 (49.4%)",
+          "average_accuracy": "47.2%",
+          "average_response_time_ms": "7.48",
+          "average_token_count": "2877.40"
+        }
+      }
+    },
+    "deepseek-chat": {
+      "overall_metrics": {
+        "average_accuracy": "13.6%",
+        "perfect_answers": "11.9%",
+        "partial_answers": "4.7%",
+        "wrong_answers": "83.4%",
+        "confidence_calibration": "30.0%",
+        "hallucination_score": "18.8%",
+        "average_response_time_ms": "4.45",
+        "average_token_count": "2499.70"
+      },
+      "tag_group_analysis": {
+        "Basic_Hierarchy": {
+          "accuracy": "16.4%",
+          "percentage_of_total": "65.4%"
+        },
+        "Domain_Range": {
+          "accuracy": "28.2%",
+          "percentage_of_total": "4.8%"
+        },
+        "Property_Characteristics": {
+          "accuracy": "8.9%",
+          "percentage_of_total": "35.3%"
+        }
+      },
+      "performance_by_answer_type": {
+        "binary": {
+          "dataset_questions": "1159 (81.4%)",
+          "successfully_evaluated": "1159 (100.0%)",
+          "average_accuracy": "11.8%",
+          "average_response_time_ms": "4.44",
+          "average_token_count": "2497.19"
+        },
+        "mc": {
+          "dataset_questions": "265 (18.6%)",
+          "successfully_evaluated": "79 (29.8%)",
+          "average_accuracy": "39.1%",
+          "average_response_time_ms": "4.57",
+          "average_token_count": "2536.52"
+        }
+      }
+    },
+    "llama-4-maverick": {
+      "overall_metrics": {
+        "average_accuracy": "37.6%",
+        "perfect_answers": "33.7%",
+        "partial_answers": "12.3%",
+        "wrong_answers": "54.0%",
+        "confidence_calibration": "81.1%",
+        "hallucination_score": "30.5%",
+        "average_response_time_ms": "3.56",
+        "average_token_count": "2764.18"
+      },
+      "tag_group_analysis": {
+        "Basic_Hierarchy": {
+          "accuracy": "40.5%",
+          "percentage_of_total": "65.4%"
+        },
+        "Domain_Range": {
+          "accuracy": "81.6%",
+          "percentage_of_total": "4.8%"
+        },
+        "Property_Characteristics": {
+          "accuracy": "26.1%",
+          "percentage_of_total": "35.3%"
+        }
+      },
+      "performance_by_answer_type": {
+        "binary": {
+          "dataset_questions": "1159 (81.4%)",
+          "successfully_evaluated": "1159 (100.0%)",
+          "average_accuracy": "39.4%",
+          "average_response_time_ms": "3.26",
+          "average_token_count": "2721.24"
+        },
+        "mc": {
+          "dataset_questions": "265 (18.6%)",
+          "successfully_evaluated": "252 (95.1%)",
+          "average_accuracy": "29.1%",
+          "average_response_time_ms": "4.93",
+          "average_token_count": "2961.64"
+        }
+      }
+    }
+  }
+}

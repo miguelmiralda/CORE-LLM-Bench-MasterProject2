@@ -1,0 +1,638 @@
+2026-03-09 08:57:13,755 - INFO - Loaded DataFrame with 27 rows
+2026-03-09 08:57:13,774 - ERROR - Error processing row 0: Unknown Answer Type: BIN
+2026-03-09 08:57:13,774 - ERROR - Error processing row 1: Unknown Answer Type: MC
+2026-03-09 08:57:13,774 - ERROR - Error processing row 2: Unknown Answer Type: BIN
+2026-03-09 08:57:13,774 - ERROR - Error processing row 3: Unknown Answer Type: BIN
+2026-03-09 08:57:13,774 - ERROR - Error processing row 4: Unknown Answer Type: BIN
+2026-03-09 08:57:13,783 - ERROR - Error processing row 5: Unknown Answer Type: BIN
+2026-03-09 08:57:13,784 - ERROR - Error processing row 6: Unknown Answer Type: MC
+2026-03-09 08:57:13,785 - ERROR - Error processing row 7: Unknown Answer Type: BIN
+2026-03-09 08:57:13,785 - ERROR - Error processing row 8: Unknown Answer Type: BIN
+2026-03-09 08:57:13,785 - ERROR - Error processing row 9: Unknown Answer Type: BIN
+2026-03-09 08:57:13,786 - ERROR - Error processing row 10: Unknown Answer Type: BIN
+2026-03-09 08:57:13,786 - ERROR - Error processing row 11: Unknown Answer Type: BIN
+2026-03-09 08:57:13,786 - ERROR - Error processing row 12: Unknown Answer Type: BIN
+2026-03-09 08:57:13,786 - ERROR - Error processing row 13: Unknown Answer Type: BIN
+2026-03-09 08:57:13,786 - ERROR - Error processing row 14: Unknown Answer Type: BIN
+2026-03-09 08:57:13,786 - ERROR - Error processing row 15: Unknown Answer Type: BIN
+2026-03-09 08:57:13,787 - ERROR - Error processing row 16: Unknown Answer Type: MC
+2026-03-09 08:57:13,787 - ERROR - Error processing row 17: Unknown Answer Type: BIN
+2026-03-09 08:57:13,787 - ERROR - Error processing row 18: Unknown Answer Type: MC
+2026-03-09 08:57:13,787 - ERROR - Error processing row 19: Unknown Answer Type: BIN
+2026-03-09 08:57:13,787 - ERROR - Error processing row 20: Unknown Answer Type: BIN
+2026-03-09 08:57:13,787 - ERROR - Error processing row 21: Unknown Answer Type: BIN
+2026-03-09 08:57:13,788 - ERROR - Error processing row 22: Unknown Answer Type: BIN
+2026-03-09 08:57:13,788 - ERROR - Error processing row 23: Unknown Answer Type: BIN
+2026-03-09 08:57:13,788 - ERROR - Error processing row 24: Unknown Answer Type: BIN
+2026-03-09 08:57:13,789 - ERROR - Error processing row 25: Unknown Answer Type: BIN
+2026-03-09 08:57:13,789 - ERROR - Error processing row 26: Unknown Answer Type: BIN
+2026-03-09 08:57:13,793 - INFO - Processing completed. Success rate: 0/27
+2026-03-09 09:01:40,526 - INFO - Loaded DataFrame with 27 rows
+2026-03-09 09:01:40,527 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-09 09:01:42,393 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:01:42,393 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:01:44,652 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:01:44,652 - WARNING - API call attempt 2 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:01:49,544 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:01:49,546 - WARNING - API call attempt 3 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:01:49,547 - ERROR - All 3 API call attempts failed
+2026-03-09 09:01:50,691 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:01:50,691 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:01:52,828 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:01:52,845 - WARNING - API call attempt 2 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:01:57,076 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:01:57,077 - WARNING - API call attempt 3 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:01:57,077 - ERROR - All 3 API call attempts failed
+2026-03-09 09:01:58,028 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:01:58,029 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:01,309 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:01,311 - WARNING - API call attempt 2 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:06,344 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:06,344 - WARNING - API call attempt 3 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:06,344 - ERROR - All 3 API call attempts failed
+2026-03-09 09:02:06,703 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:06,704 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:09,664 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:09,666 - WARNING - API call attempt 2 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:13,851 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:13,851 - WARNING - API call attempt 3 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:13,851 - ERROR - All 3 API call attempts failed
+2026-03-09 09:02:14,133 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:14,133 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:16,365 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:16,366 - WARNING - API call attempt 2 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:21,035 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:21,037 - WARNING - API call attempt 3 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:21,038 - ERROR - All 3 API call attempts failed
+2026-03-09 09:02:21,365 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:21,367 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:23,554 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:23,555 - WARNING - API call attempt 2 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:27,733 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:27,736 - WARNING - API call attempt 3 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:27,737 - ERROR - All 3 API call attempts failed
+2026-03-09 09:02:28,013 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:28,015 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:30,191 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:30,192 - WARNING - API call attempt 2 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:35,058 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:35,059 - WARNING - API call attempt 3 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:35,059 - ERROR - All 3 API call attempts failed
+2026-03-09 09:02:35,307 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:35,308 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:37,458 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:37,459 - WARNING - API call attempt 2 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:41,605 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:41,605 - WARNING - API call attempt 3 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:41,605 - ERROR - All 3 API call attempts failed
+2026-03-09 09:02:41,868 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:41,869 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:44,047 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:44,048 - WARNING - API call attempt 2 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:48,345 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:48,345 - WARNING - API call attempt 3 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:48,345 - ERROR - All 3 API call attempts failed
+2026-03-09 09:02:48,591 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:48,593 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:50,855 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:50,856 - WARNING - API call attempt 2 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:55,018 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:55,018 - WARNING - API call attempt 3 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:55,018 - ERROR - All 3 API call attempts failed
+2026-03-09 09:02:55,285 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:55,285 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:02:57,432 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:02:57,432 - WARNING - API call attempt 2 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:03:01,617 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:03:01,618 - WARNING - API call attempt 3 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:03:01,618 - ERROR - All 3 API call attempts failed
+2026-03-09 09:03:01,886 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:03:01,886 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:03:04,030 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:03:04,031 - WARNING - API call attempt 2 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:03:08,171 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:03:08,171 - WARNING - API call attempt 3 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:03:08,171 - ERROR - All 3 API call attempts failed
+2026-03-09 09:03:08,447 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:03:08,449 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:03:10,605 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:03:10,605 - WARNING - API call attempt 2 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:03:14,816 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:03:14,816 - WARNING - API call attempt 3 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:03:14,816 - ERROR - All 3 API call attempts failed
+2026-03-09 09:03:15,137 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:03:15,139 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:03:17,406 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:03:17,406 - WARNING - API call attempt 2 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:03:21,594 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:03:21,596 - WARNING - API call attempt 3 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:03:21,596 - ERROR - All 3 API call attempts failed
+2026-03-09 09:03:21,907 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:03:21,908 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:03:24,070 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:03:24,072 - WARNING - API call attempt 2 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:03:28,254 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:03:28,255 - WARNING - API call attempt 3 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:03:28,255 - ERROR - All 3 API call attempts failed
+2026-03-09 09:03:28,650 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:03:28,651 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:29,068 - INFO - Loaded DataFrame with 27 rows
+2026-03-09 09:05:29,068 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-09 09:05:29,743 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:29,743 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:29,743 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:30,090 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:30,091 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:30,092 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:30,487 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:30,489 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:30,489 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:30,909 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:30,911 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:30,911 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:31,266 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:31,268 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:31,269 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:31,556 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:31,557 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:31,557 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:31,841 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:31,841 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:31,841 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:32,138 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:32,140 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:32,141 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:32,617 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:32,618 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:32,618 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:32,957 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:32,959 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:32,959 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:33,208 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:33,210 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:33,211 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:33,503 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:33,503 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:33,503 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:33,747 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:33,747 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:33,748 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:34,014 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:34,016 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:34,017 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:34,268 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:34,269 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:34,269 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:34,543 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:34,544 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:34,545 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:34,834 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:34,834 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:34,835 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:35,170 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:35,173 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:35,173 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:35,455 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:35,457 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:35,458 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:35,730 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:35,731 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:35,731 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:35,976 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:35,976 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:35,977 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:36,224 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:36,224 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:36,225 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:36,478 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:36,479 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:36,481 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:36,728 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:36,732 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:36,732 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:36,986 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:36,989 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:36,990 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:37,304 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:37,306 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:37,307 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:37,604 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 403 Forbidden"
+2026-03-09 09:05:37,604 - WARNING - API call attempt 1 failed: Error code: 403 - {'error': {'message': 'Project `proj_n9LbVHESkgbTZLsMwQsScdh7` does not have access to model `gpt-4o-mini`', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2026-03-09 09:05:37,604 - ERROR - Permanent API error detected; not retrying
+2026-03-09 09:05:37,713 - INFO - Processing completed. Success rate: 0/27
+2026-03-09 09:06:14,679 - INFO - Loaded DataFrame with 27 rows
+2026-03-09 09:06:14,680 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-09 09:06:16,148 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:17,251 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:17,876 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:18,452 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:19,210 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:19,923 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:21,077 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:21,984 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:22,648 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:23,291 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:23,912 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:24,663 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:25,732 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:26,296 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:27,066 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:27,836 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:28,980 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:29,962 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:31,046 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:31,796 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:32,552 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:33,320 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:33,975 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:34,801 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:35,569 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:36,648 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:37,232 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:06:37,345 - INFO - Processing completed. Success rate: 27/27
+2026-03-09 09:15:08,893 - INFO - Loaded DataFrame with 27 rows
+2026-03-09 09:15:08,893 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-09 09:15:09,866 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:10,849 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:11,585 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:12,322 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:13,364 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:13,959 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:14,982 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:16,357 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:17,040 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:17,726 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:18,435 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:19,174 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:19,880 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:20,555 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:21,463 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:22,479 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:23,256 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:23,955 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:25,272 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:26,267 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:27,223 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:27,892 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:28,610 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:29,446 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:30,547 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:31,374 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:32,318 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:15:32,443 - INFO - Processing completed. Success rate: 27/27
+2026-03-09 09:16:13,869 - INFO - Loaded DataFrame with 12 rows
+2026-03-09 09:16:13,869 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-09 09:16:14,860 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:16:15,726 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:16:16,859 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:16:18,390 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:16:19,056 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:16:20,173 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:16:21,226 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:16:21,993 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:16:22,795 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:16:23,744 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:16:24,661 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:16:25,410 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 09:16:25,526 - INFO - Processing completed. Success rate: 12/12
+2026-03-09 11:10:50,898 - INFO - Loaded DataFrame with 27 rows
+2026-03-09 11:10:50,898 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-09 11:11:19,787 - INFO - Loaded DataFrame with 27 rows
+2026-03-09 11:11:19,787 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-09 11:11:21,523 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:23,131 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:25,995 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:26,792 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:28,444 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:30,408 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:31,724 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:32,667 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:33,492 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:35,282 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:36,087 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:38,160 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:39,049 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:39,852 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:41,474 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:42,340 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:44,044 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:44,824 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:45,883 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:46,722 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:48,249 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:49,052 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:49,821 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:51,330 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:52,864 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:53,781 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:11:54,582 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:12:51,308 - INFO - Loaded DataFrame with 27 rows
+2026-03-09 11:12:51,308 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-09 11:12:52,607 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:12:54,024 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:12:54,850 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:12:56,171 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:12:56,914 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:12:57,683 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:12:58,874 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:12:59,706 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:00,360 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:01,222 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:02,036 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:02,777 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:03,661 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:04,488 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:05,276 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:06,115 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:07,474 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:08,362 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:09,766 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:10,567 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:11,442 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:12,269 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:13,247 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:14,066 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:15,070 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:15,855 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:16,712 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:13:16,815 - INFO - Processing completed. Success rate: 27/27
+2026-03-09 11:13:50,178 - ERROR - Input CSV file not found: data/output/toy_example/2hop/SPARQL_questions_sampling_abs_temp.csv
+2026-03-09 11:14:37,651 - INFO - Loaded DataFrame with 12 rows
+2026-03-09 11:14:37,652 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-09 11:15:05,107 - INFO - Loaded DataFrame with 12 rows
+2026-03-09 11:15:05,107 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-09 11:15:06,340 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:15:07,464 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:15:08,268 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:15:09,497 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:15:10,194 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:15:10,939 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:15:11,809 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:15:12,538 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:15:13,257 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:15:14,057 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:15:14,815 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:15:15,585 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-09 11:15:15,714 - INFO - Processing completed. Success rate: 12/12
+2026-03-23 10:53:42,266 - INFO - Loaded DataFrame with 27 rows
+2026-03-23 10:53:42,269 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 10:53:43,598 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:44,924 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:45,687 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:46,363 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:47,107 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:47,943 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:50,443 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:51,329 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:51,946 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:52,693 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:53,503 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:54,492 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:55,373 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:56,133 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:56,743 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:57,503 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:58,313 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:53:59,055 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:00,496 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:01,280 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:02,097 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:02,823 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:03,581 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:04,397 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:05,215 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:05,965 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:06,715 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:06,837 - INFO - Processing completed. Success rate: 27/27
+2026-03-23 10:54:11,963 - INFO - Loaded DataFrame with 12 rows
+2026-03-23 10:54:11,963 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 10:54:12,993 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:14,153 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:14,943 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:15,965 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:16,753 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:17,513 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:18,299 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:19,012 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:19,783 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:20,595 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:21,353 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:22,153 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:22,265 - INFO - Processing completed. Success rate: 12/12
+2026-03-23 10:54:30,378 - INFO - Loaded DataFrame with 27 rows
+2026-03-23 10:54:30,379 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 10:54:31,633 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:33,077 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:33,825 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:34,533 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:35,293 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:36,092 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:37,629 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:38,413 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:39,075 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:40,233 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:41,394 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:42,333 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:43,263 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:44,073 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:44,953 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:45,933 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:47,135 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:48,023 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:49,784 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:50,713 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:51,563 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:52,243 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:53,084 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:53,743 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:54,519 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:55,165 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:56,215 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:54:56,339 - INFO - Processing completed. Success rate: 27/27
+2026-03-23 10:55:00,323 - INFO - Loaded DataFrame with 12 rows
+2026-03-23 10:55:00,323 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 10:55:01,614 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:55:02,973 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:55:03,873 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:55:04,932 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:55:05,557 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:55:06,293 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:55:07,373 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:55:08,277 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:55:09,704 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:55:10,592 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:55:11,472 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:55:12,157 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 10:55:12,270 - INFO - Processing completed. Success rate: 12/12
+2026-03-23 14:20:21,279 - INFO - Loaded DataFrame with 28 rows
+2026-03-23 14:20:21,279 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:20:22,949 - INFO - Loaded DataFrame with 12 rows
+2026-03-23 14:20:22,949 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:20:24,589 - INFO - Loaded DataFrame with 28 rows
+2026-03-23 14:20:24,589 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:20:26,268 - INFO - Loaded DataFrame with 12 rows
+2026-03-23 14:20:26,268 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:20:52,398 - INFO - Loaded DataFrame with 28 rows
+2026-03-23 14:20:52,398 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:20:54,049 - INFO - Loaded DataFrame with 12 rows
+2026-03-23 14:20:54,049 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:20:55,649 - INFO - Loaded DataFrame with 28 rows
+2026-03-23 14:20:55,649 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:20:57,269 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:20:59,237 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:00,579 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:02,191 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:03,359 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:04,209 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:06,211 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:07,543 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:08,601 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:10,230 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:10,856 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:11,469 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:12,129 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:13,319 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:14,780 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:15,580 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:17,030 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:17,711 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:18,931 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:19,499 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:21,179 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:21,936 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:22,759 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:23,670 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:24,241 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:25,274 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:26,120 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:27,352 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:29,182 - INFO - Loaded DataFrame with 12 rows
+2026-03-23 14:21:29,182 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:21:30,279 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:31,602 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:32,512 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:34,179 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:34,909 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:35,532 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:36,240 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:37,019 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:37,680 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:38,719 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:39,529 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:21:40,223 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:23:54,443 - INFO - Loaded DataFrame with 28 rows
+2026-03-23 14:23:54,443 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:23:56,116 - INFO - Loaded DataFrame with 12 rows
+2026-03-23 14:23:56,116 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:23:57,732 - INFO - Loaded DataFrame with 28 rows
+2026-03-23 14:23:57,732 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:23:59,338 - INFO - Loaded DataFrame with 12 rows
+2026-03-23 14:23:59,338 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:25:15,836 - INFO - Loaded DataFrame with 28 rows
+2026-03-23 14:25:15,837 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:25:17,513 - INFO - Loaded DataFrame with 12 rows
+2026-03-23 14:25:17,513 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:25:19,162 - INFO - Loaded DataFrame with 28 rows
+2026-03-23 14:25:19,162 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:25:20,878 - INFO - Loaded DataFrame with 12 rows
+2026-03-23 14:25:20,878 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:25:40,547 - INFO - Loaded DataFrame with 28 rows
+2026-03-23 14:25:40,547 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:25:42,286 - INFO - Loaded DataFrame with 12 rows
+2026-03-23 14:25:42,289 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:25:44,109 - INFO - Loaded DataFrame with 28 rows
+2026-03-23 14:25:44,109 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:25:45,850 - INFO - Loaded DataFrame with 12 rows
+2026-03-23 14:25:45,850 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:25:49,198 - INFO - Loaded DataFrame with 28 rows
+2026-03-23 14:25:49,198 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:25:50,347 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:25:51,371 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:25:52,959 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:25:53,908 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:25:54,703 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:25:55,449 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:25:56,638 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:25:57,463 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:25:58,305 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:25:59,159 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:00,032 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:00,869 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:01,509 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:02,369 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:03,197 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:04,579 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:05,459 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:06,129 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:07,319 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:08,119 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:08,899 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:09,669 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:10,909 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:11,679 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:12,434 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:13,329 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:14,039 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:15,116 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:15,224 - INFO - Processing completed. Success rate: 28/28
+2026-03-23 14:26:16,899 - INFO - Loaded DataFrame with 12 rows
+2026-03-23 14:26:16,899 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:26:18,129 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:18,988 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:20,006 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:21,189 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:21,819 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:22,727 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:23,354 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:24,218 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:25,021 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:25,898 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:26,620 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:28,715 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:28,835 - INFO - Processing completed. Success rate: 12/12
+2026-03-23 14:26:30,483 - INFO - Loaded DataFrame with 28 rows
+2026-03-23 14:26:30,483 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:26:31,493 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:32,769 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:33,599 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:34,450 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:35,283 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:36,129 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:37,679 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:38,569 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:39,789 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:40,809 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:41,609 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:42,338 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:43,098 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:43,954 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:44,959 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:45,628 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:47,040 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:47,919 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:49,519 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:50,299 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:51,905 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:52,710 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:53,473 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:54,221 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:54,917 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:55,978 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:56,859 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:58,099 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:26:58,214 - INFO - Processing completed. Success rate: 28/28
+2026-03-23 14:26:59,877 - INFO - Loaded DataFrame with 12 rows
+2026-03-23 14:26:59,879 - INFO - Unique Answer Types: ['BIN', 'MC']
+2026-03-23 14:27:00,843 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:27:02,109 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:27:03,152 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:27:04,530 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:27:05,349 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:27:06,202 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:27:07,073 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:27:08,330 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:27:09,183 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:27:10,129 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:27:11,029 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:27:11,941 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-23 14:27:12,050 - INFO - Processing completed. Success rate: 12/12

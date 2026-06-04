@@ -1,0 +1,163 @@
+[
+    {
+        "Task Type": "Property Assertion",
+        "Answer Type": "BIN",
+        "Root Entity": "Thing_ada_rachel_heath_1868",
+        "NL Context": "Ada Rachel Heath is sister of Gwendoline Heath. John Heath is father of Ada Rachel Heath. M135 has female partner Ada Rachel Heath. Sarah Jacobs is mother of Ada Rachel Heath.\nGwendoline Heath is sister of Lemuel Frederick Heath. John Heath is father of Gwendoline Heath. Lemuel Frederick Heath is brother of Gwendoline Heath. M136 has female partner Gwendoline Heath. Sarah Jacobs is mother of Gwendoline Heath.\nHenry Jacobs is brother of Sarah Jacobs.\nJames Jacobs is father of Sarah Jacobs.\nJohn Heath is father of Ada Rachel Heath, Gwendoline Heath and Lemuel Frederick Heath. M100 has male partner John Heath.\nM135 has male partner John William Folland.\nLemuel Frederick Heath is brother of Gwendoline Heath. Gwendoline Heath is sister of Lemuel Frederick Heath. John Heath is father of Lemuel Frederick Heath. Sarah Jacobs is mother of Lemuel Frederick Heath.\nM100 has female partner Sarah Jacobs. M100 has male partner John Heath.\nM135 has female partner Ada Rachel Heath. M135 has male partner John William Folland.\nM136 has female partner Gwendoline Heath.\nPriscilla Saunders is mother of Sarah Jacobs.\nSarah Jacobs is mother of Ada Rachel Heath, Gwendoline Heath, Lemuel Frederick Heath and William Lock Jacobs. Henry Jacobs is brother of Sarah Jacobs. James Jacobs is father of Sarah Jacobs. M100 has female partner Sarah Jacobs.\nSarah Jacobs is mother of William Lock Jacobs.\n",
+        "ABS Context": "Individual1 property31 Individual2. Individual5 property23 Individual1. Individual9 property6 Individual1. Individual12 property27 Individual1.\nIndividual10 property6 Individual2.\nIndividual11 property27 Individual12.\nIndividual12 property27 Individual1, Individual2, Individual7 and Individual13. Individual3 property20 Individual12. Individual4 property23 Individual12. Individual8 property6 Individual12.\nIndividual12 property27 Individual13.\nIndividual2 property31 Individual7. Individual5 property23 Individual2. Individual7 property20 Individual2. Individual10 property6 Individual2. Individual12 property27 Individual2.\nIndividual3 property20 Individual12.\nIndividual4 property23 Individual12.\nIndividual5 property23 Individual1, Individual2 and Individual7. Individual8 property8 Individual5.\nIndividual9 property8 Individual6.\nIndividual7 property20 Individual2. Individual2 property31 Individual7. Individual5 property23 Individual7. Individual12 property27 Individual7.\nIndividual8 property6 Individual12. Individual8 property8 Individual5.\nIndividual9 property6 Individual1. Individual9 property8 Individual6.\n",
+        "QAs": [
+            {
+                "Task ID": "1hop-Thing_ada_rachel_heath_1868_lemuel_frederick_heath_1871-lemuel_frederick_heath_1871-isChildOf-BIN",
+                "SPARQL Query": "ASK WHERE { <http://www.example.com/genealogy.owl#lemuel_frederick_heath_1871> <http://www.example.com/genealogy.owl#isChildOf> <http://www.example.com/genealogy.owl#sarah_jacobs_1834> }",
+                "NL Question": "Is Lemuel Frederick Heath the child of Sarah Jacobs?",
+                "ABS Question": "Is Individual7 related to Individual12 in the way described by Property21?",
+                "Answer": "TRUE",
+                "Minimum Explanation": [
+                    "john_heath hasChild lemuel_frederick_heath_1871",
+                    "isChildOf owl:inverseOf hasChild",
+                    "TAG:DII"
+                ]
+            },
+            {
+                "Task ID": "1hop-Thing_ada_rachel_heath_1868_gwendoline_heath_1878-gwendoline_heath_1878-isSiblingOf-BIN",
+                "SPARQL Query": "ASK WHERE { <http://www.example.com/genealogy.owl#gwendoline_heath_1878> <http://www.example.com/genealogy.owl#isSiblingOf> <http://www.example.com/genealogy.owl#william_lock_jacobs_1861> }",
+                "NL Question": "Is Gwendoline Heath a sibling of William Lock Jacobs?",
+                "ABS Question": "Is Individual2 related to Individual13 in the way described by Property30?",
+                "Answer": "TRUE",
+                "Minimum Explanation": [
+                    "gwendoline_heath_1878 isSiblingOf gwendoline_heath_1878",
+                    "SymmetricObjectProperty(isSiblingOf)",
+                    "TAG:DSS"
+                ]
+            },
+            {
+                "Task ID": "1hop-Thing_ada_rachel_heath_1868_john_heath-john_heath-isSiblingOf-BIN",
+                "SPARQL Query": "ASK WHERE { <http://www.example.com/genealogy.owl#john_heath> <http://www.example.com/genealogy.owl#isSiblingOf> <http://www.example.com/genealogy.owl#john_heath> }",
+                "NL Question": "Is John Heath listed as his own sibling?",
+                "ABS Question": "Is Individual5 related to themselves through Property30?",
+                "Answer": "TRUE",
+                "Minimum Explanation": [
+                    "john_heath isSiblingOf john_heath",
+                    "SymmetricObjectProperty(isSiblingOf)",
+                    "TAG:DSS"
+                ]
+            },
+            {
+                "Task ID": "1hop-Thing_ada_rachel_heath_1868_john_william_folland-john_william_folland-isPartnerIn-BIN",
+                "SPARQL Query": "ASK WHERE { <http://www.example.com/genealogy.owl#john_william_folland> <http://www.example.com/genealogy.owl#isPartnerIn> <http://www.example.com/genealogy.owl#m135> }",
+                "NL Question": "Is John William Folland a partner in the relationship identified as m135?",
+                "ABS Question": "Is Individual6 related to Individual9 in the way described by Property29?",
+                "Answer": "TRUE",
+                "Minimum Explanation": [
+                    "m135 hasPartner john_william_folland",
+                    "isPartnerIn owl:inverseOf hasPartner",
+                    "TAG:DII"
+                ]
+            },
+            {
+                "Task ID": "1hop-Thing_ada_rachel_heath_1868_lemuel_frederick_heath_1871-lemuel_frederick_heath_1871-isChildOf-BIN",
+                "SPARQL Query": "ASK WHERE { <http://www.example.com/genealogy.owl#lemuel_frederick_heath_1871> <http://www.example.com/genealogy.owl#isChildOf> <http://www.example.com/genealogy.owl#john_heath> }",
+                "NL Question": "Is Lemuel Frederick Heath a child of John Heath?",
+                "ABS Question": "Is Individual7 related to Individual5 in the way described by Property21?",
+                "Answer": "TRUE",
+                "Minimum Explanation": [
+                    "john_heath hasChild lemuel_frederick_heath_1871",
+                    "isChildOf owl:inverseOf hasChild",
+                    "TAG:DII"
+                ]
+            },
+            {
+                "Task ID": "1hop-Thing_ada_rachel_heath_1868_gwendoline_heath_1878-gwendoline_heath_1878-isSiblingOf-BIN",
+                "SPARQL Query": "ASK WHERE { <http://www.example.com/genealogy.owl#gwendoline_heath_1878> <http://www.example.com/genealogy.owl#isSiblingOf> <http://www.example.com/genealogy.owl#lemuel_frederick_heath_1871> }",
+                "NL Question": "Is Gwendoline Heath a sibling of Lemuel Frederick Heath?",
+                "ABS Question": "Is Individual2 related to Individual7 in the way described by Property30?",
+                "Answer": "TRUE",
+                "Minimum Explanation": [
+                    "gwendoline_heath_1878 isSiblingOf gwendoline_heath_1878",
+                    "SymmetricObjectProperty(isSiblingOf)",
+                    "TAG:DSS"
+                ]
+            },
+            {
+                "Task ID": "1hop-Thing_ada_rachel_heath_1868_james_jacobs_1806-james_jacobs_1806-isBloodrelationOf-BIN",
+                "SPARQL Query": "ASK WHERE { <http://www.example.com/genealogy.owl#james_jacobs_1806> <http://www.example.com/genealogy.owl#isBloodrelationOf> <http://www.example.com/genealogy.owl#james_jacobs_1806> }",
+                "NL Question": "Is James Jacobs related to himself by blood?",
+                "ABS Question": "Is Individual4 related to themselves in the way described by Property19?",
+                "Answer": "TRUE",
+                "Minimum Explanation": [
+                    "james_jacobs_1806 isSiblingOf james_jacobs_1806",
+                    "isSiblingOf rdfs:subPropertyOf isBloodrelationOf",
+                    "TAG:DHH"
+                ]
+            },
+            {
+                "Task ID": "1hop-Thing_ada_rachel_heath_1868_m100-m100-hasFemalePartner-BIN",
+                "SPARQL Query": "ASK WHERE { <http://www.example.com/genealogy.owl#m100> <http://www.example.com/genealogy.owl#hasFemalePartner> <http://www.example.com/genealogy.owl#sarah_jacobs_1834> }",
+                "NL Question": "Is the person identified as m100 in a relationship with a woman named Sarah Jacobs?",
+                "ABS Question": "Is Individual8 related to Individual12 in the way described by Property6?",
+                "Answer": "TRUE",
+                "Minimum Explanation": [
+                    "m100 hasFemalePartner sarah_jacobs_1834",
+                    "TAG:D"
+                ]
+            },
+            {
+                "Task ID": "1hop-Thing_ada_rachel_heath_1868_gwendoline_heath_1878-gwendoline_heath_1878-isSiblingOf-BIN",
+                "SPARQL Query": "ASK WHERE { <http://www.example.com/genealogy.owl#gwendoline_heath_1878> <http://www.example.com/genealogy.owl#isSiblingOf> <http://www.example.com/genealogy.owl#ada_rachel_heath_1868> }",
+                "NL Question": "Is Gwendoline Heath a sibling of Ada Rachel Heath?",
+                "ABS Question": "Is Individual2 related to Individual1 in a specific way defined by Property30?",
+                "Answer": "TRUE",
+                "Minimum Explanation": [
+                    "gwendoline_heath_1878 isSiblingOf gwendoline_heath_1878",
+                    "SymmetricObjectProperty(isSiblingOf)",
+                    "TAG:DSS"
+                ]
+            },
+            {
+                "Task ID": "1hop-Thing_ada_rachel_heath_1868_gwendoline_heath_1878-gwendoline_heath_1878-isSiblingOf-BIN",
+                "SPARQL Query": "ASK WHERE { <http://www.example.com/genealogy.owl#gwendoline_heath_1878> <http://www.example.com/genealogy.owl#isSiblingOf> <http://www.example.com/genealogy.owl#gwendoline_heath_1878> }",
+                "NL Question": "Is Gwendoline Heath considered her own sibling?",
+                "ABS Question": "Is Individual2 related to themselves through the specific connection called Property30?",
+                "Answer": "TRUE",
+                "Minimum Explanation": [
+                    "gwendoline_heath_1878 isSiblingOf gwendoline_heath_1878",
+                    "SymmetricObjectProperty(isSiblingOf)",
+                    "TAG:DSS"
+                ]
+            }
+        ]
+    },
+    {
+        "Task Type": "Property Assertion",
+        "Answer Type": "MC",
+        "Root Entity": "Thing_ada_rachel_heath_1868",
+        "NL Context": "Ada Rachel Heath is sister of Gwendoline Heath. John Heath is father of Ada Rachel Heath. M135 has female partner Ada Rachel Heath. Sarah Jacobs is mother of Ada Rachel Heath.\nGwendoline Heath is sister of Lemuel Frederick Heath. John Heath is father of Gwendoline Heath. Lemuel Frederick Heath is brother of Gwendoline Heath. M136 has female partner Gwendoline Heath. Sarah Jacobs is mother of Gwendoline Heath.\nHenry Jacobs is brother of Sarah Jacobs.\nJames Jacobs is father of Sarah Jacobs.\nJohn Heath is father of Ada Rachel Heath, Gwendoline Heath and Lemuel Frederick Heath. M100 has male partner John Heath.\nM135 has male partner John William Folland.\nLemuel Frederick Heath is brother of Gwendoline Heath. Gwendoline Heath is sister of Lemuel Frederick Heath. John Heath is father of Lemuel Frederick Heath. Sarah Jacobs is mother of Lemuel Frederick Heath.\nM100 has female partner Sarah Jacobs. M100 has male partner John Heath.\nM135 has female partner Ada Rachel Heath. M135 has male partner John William Folland.\nM136 has female partner Gwendoline Heath.\nPriscilla Saunders is mother of Sarah Jacobs.\nSarah Jacobs is mother of Ada Rachel Heath, Gwendoline Heath, Lemuel Frederick Heath and William Lock Jacobs. Henry Jacobs is brother of Sarah Jacobs. James Jacobs is father of Sarah Jacobs. M100 has female partner Sarah Jacobs.\nSarah Jacobs is mother of William Lock Jacobs.\n",
+        "ABS Context": "Individual1 property31 Individual2. Individual5 property23 Individual1. Individual9 property6 Individual1. Individual12 property27 Individual1.\nIndividual10 property6 Individual2.\nIndividual11 property27 Individual12.\nIndividual12 property27 Individual1, Individual2, Individual7 and Individual13. Individual3 property20 Individual12. Individual4 property23 Individual12. Individual8 property6 Individual12.\nIndividual12 property27 Individual13.\nIndividual2 property31 Individual7. Individual5 property23 Individual2. Individual7 property20 Individual2. Individual10 property6 Individual2. Individual12 property27 Individual2.\nIndividual3 property20 Individual12.\nIndividual4 property23 Individual12.\nIndividual5 property23 Individual1, Individual2 and Individual7. Individual8 property8 Individual5.\nIndividual9 property8 Individual6.\nIndividual7 property20 Individual2. Individual2 property31 Individual7. Individual5 property23 Individual7. Individual12 property27 Individual7.\nIndividual8 property6 Individual12. Individual8 property8 Individual5.\nIndividual9 property6 Individual1. Individual9 property8 Individual6.\n",
+        "QAs": [
+            {
+                "Task ID": "1hop-Thing_ada_rachel_heath_1868_lemuel_frederick_heath_1871-lemuel_frederick_heath_1871-isChildOf-MC",
+                "SPARQL Query": "SELECT ?x WHERE { <http://www.example.com/genealogy.owl#lemuel_frederick_heath_1871> <http://www.example.com/genealogy.owl#isChildOf> ?x }",
+                "NL Question": "This query is asking: Who is the parent of Lemuel Frederick Heath?",
+                "ABS Question": "This query is asking to find the person or thing that is connected to Individual7 through a specific relationship or characteristic labeled as Property21. In simple terms, it wants to know who or what is linked to Individual7 by that particular connection.",
+                "Answer": "john_heath; sarah_jacobs_1834",
+                "Minimum Explanation": [
+                    "john_heath hasChild lemuel_frederick_heath_1871",
+                    "isChildOf owl:inverseOf hasChild",
+                    "TAG:DII"
+                ]
+            },
+            {
+                "Task ID": "1hop-Thing_ada_rachel_heath_1868_gwendoline_heath_1878-gwendoline_heath_1878-isSiblingOf-MC",
+                "SPARQL Query": "SELECT ?x WHERE { <http://www.example.com/genealogy.owl#gwendoline_heath_1878> <http://www.example.com/genealogy.owl#isSiblingOf> ?x }",
+                "NL Question": "This query is asking to find all the siblings of Gwendoline Heath. In other words, it looks for people who share at least one parent with Gwendoline Heath.",
+                "ABS Question": "This query is asking to find the person or thing that is connected to Individual2 through a specific relationship called Property30. In simple terms, it is looking for someone or something related to Individual2 in a particular way defined by Property30.",
+                "Answer": "ada_rachel_heath_1868; gwendoline_heath_1878; lemuel_frederick_heath_1871; william_lock_jacobs_1861",
+                "Minimum Explanation": [
+                    "gwendoline_heath_1878 isSiblingOf gwendoline_heath_1878",
+                    "SymmetricObjectProperty(isSiblingOf)",
+                    "TAG:DSS"
+                ]
+            }
+        ]
+    }
+]
