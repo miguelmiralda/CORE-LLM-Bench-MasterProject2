@@ -94,7 +94,7 @@ public void init() {
         if ("BIN".equalsIgnoreCase(answerType)) {
             return question + "\n\nReply with exactly one word: TRUE or FALSE.";
         } else if ("MC".equalsIgnoreCase(answerType)) {
-            return question + "\n\nReply with exactly one capital letter only, such as A, B, C, or D.";
+            return question + "\n\nReply with a comma-separated list of all correct values, using the exact names as they appear in the question. Do not add any explanation.";
         }
         return question + "\n\nReply with only the final answer.";
     }
@@ -111,12 +111,8 @@ public void init() {
         }
 
         if ("MC".equalsIgnoreCase(answerType)) {
-            for (char c : cleaned.toCharArray()) {
-                if (c >= 'A' && c <= 'Z') {
-                    return String.valueOf(c);
-                }
-            }
-            return "UNKNOWN";
+            if (cleaned.isBlank()) return "UNKNOWN";
+            return cleaned;
         }
 
         return cleaned;

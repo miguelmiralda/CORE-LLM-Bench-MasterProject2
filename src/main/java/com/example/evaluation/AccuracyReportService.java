@@ -28,11 +28,15 @@ public class AccuracyReportService {
     // Key = "STRATEGY|SUBSET" e.g. "DIRECT|ENTAILED"
     private final Map<String, StrategyStats> stats = new ConcurrentHashMap<>();
 
+    // Key = "STRATEGY" — MC questions are entailed-only by design
+    private final Map<String, StrategyStats> mcStats = new ConcurrentHashMap<>();
+
     public AccuracyReportService() {
         for (String s : new String[]{"DIRECT", "CONTEXTUAL", "RELATIONAL", "FORMAL"}) {
             for (Subset sub : Subset.values()) {
                 stats.put(key(s, sub), new StrategyStats(s, sub));
             }
+            mcStats.put(s, new StrategyStats(s, Subset.ENTAILED));
         }
     }
 
@@ -54,6 +58,22 @@ public class AccuracyReportService {
      */
     public void record(String strategy, Subset subset, String groundTruth,
                        String llmAnswer, String answerType, int questionLength) {
+
+        if ("MC".equalsIgnoreCase(answerType)) {
+            // MC questions are entailed-only — tracked in separate mcStats
+            StrategyStats s = mcStats.get(strategy);
+            if (s == null) { LOGGER.warn("Unknown strategy for MC: {}", strategy); return; }
+            s.total.incrementAndGet();
+            s.totalComplexity.addAndGet(questionLength);
+            String normalizedLlm   = normalize(llmAnswer);
+            String normalizedTruth = normalize(groundTruth);
+            if ("UNKNOWN".equals(normalizedLlm) || "ERROR".equals(normalizedLlm)) {
+                s.abstentions.incrementAndGet();
+            } else if (isCorrect(normalizedLlm, normalizedTruth, answerType)) {
+                s.correct.incrementAndGet();
+            }
+            return;
+        }
 
         StrategyStats s = stats.get(key(strategy, subset));
         if (s == null) {
@@ -168,6 +188,22 @@ public class AccuracyReportService {
             }
         }
 
+        // MC report (separate file)
+        File mcReportFile = new File(dir, "Accuracy_Report_MC.csv");
+        try (FileWriter w = new FileWriter(mcReportFile, StandardCharsets.UTF_8)) {
+            w.write("\"Translation Strategy\"," +
+                    "\"Total Questions\"," +
+                    "\"Correct\"," +
+                    "\"Abstentions (UNKNOWN)\"," +
+                    "\"Wrong\"," +
+                    "\"Accuracy (%)\"," +
+                    "\"Abstention Rate (%)\"," +
+                    "\"Avg Question Complexity (words)\"\n");
+            for (String strat : new String[]{"DIRECT", "CONTEXTUAL", "RELATIONAL", "FORMAL"}) {
+                writeRow(w, null, strat, mcStats.get(strat));
+            }
+        }
+
         LOGGER.info("Accuracy report written successfully.");
         printSummaryToLog();
     }
@@ -182,8 +218,14 @@ public class AccuracyReportService {
         double absRate = total == 0 ? 0.0 : (double) abstain / total * 100.0;
         double complex = total == 0 ? 0.0 : (double) s.totalComplexity.get() / total;
 
-        w.write(String.format("\"%s\",\"%s\",%d,%d,%d,%d,\"%.2f\",\"%.2f\",\"%.2f\"\n",
-                subset, strategy, total, correct, abstain, wrong, acc, absRate, complex));
+        if (subset == null) {
+            // MC report — no subset column
+            w.write(String.format("\"%s\",%d,%d,%d,%d,\"%.2f\",\"%.2f\",\"%.2f\"\n",
+                    strategy, total, correct, abstain, wrong, acc, absRate, complex));
+        } else {
+            w.write(String.format("\"%s\",\"%s\",%d,%d,%d,%d,\"%.2f\",\"%.2f\",\"%.2f\"\n",
+                    subset, strategy, total, correct, abstain, wrong, acc, absRate, complex));
+        }
     }
 
     private void printSummaryToLog() {
@@ -205,6 +247,19 @@ public class AccuracyReportService {
                     String.format("%.1f", combinedAccuracy(name) * 100),
                     String.format("%.1f", combinedAbstentionRate(name) * 100),
                     String.format("%.1f", combinedAvgComplexity(name)));
+        }
+        LOGGER.info("-- MC (Multiple-Choice, Entailed only) --");
+        for (String name : new String[]{"DIRECT", "CONTEXTUAL", "RELATIONAL", "FORMAL"}) {
+            StrategyStats s = mcStats.get(name);
+            int attempted = s.total.get() - s.abstentions.get();
+            double acc = attempted == 0 ? 0.0 : (double) s.correct.get() / attempted * 100.0;
+            double abst = s.total.get() == 0 ? 0.0 : (double) s.abstentions.get() / s.total.get() * 100.0;
+            double cplx = s.total.get() == 0 ? 0.0 : (double) s.totalComplexity.get() / s.total.get();
+            LOGGER.info("[{}] Accuracy={}%  Abstention={}%  AvgComplexity={} words",
+                    name,
+                    String.format("%.1f", acc),
+                    String.format("%.1f", abst),
+                    String.format("%.1f", cplx));
         }
     }
 
