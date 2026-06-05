@@ -23,131 +23,149 @@ public class LlmEvaluationService {
     @Value("${llm.api.key:}")
     private String apiKey;
 
-    @Value("${llm.model:gpt-4o-mini}")
+    @Value("${llm.model:gpt-4.1-mini-2025-04-14}")
     private String model;
 
     @Value("${llm.mock.mode:true}")
-    private boolean mockModeConfig;
+    private boolean configuredMockMode;
 
     private boolean mockMode;
-    private final HttpClient httpClient;
+    private final HttpClient client = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(20))
+            .build();
 
-    public LlmEvaluationService() {
-        this.httpClient = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(30))
-                .build();
+   @PostConstruct
+public void init() {
+    this.mockMode = configuredMockMode
+            || apiUrl == null || apiUrl.isBlank()
+            || apiKey == null || apiKey.isBlank();
+
+    if (mockMode) {
+        LOGGER.warn("LlmEvaluationService running in MOCK mode — apiUrl={}", apiUrl);
+    } else {
+        LOGGER.info("LlmEvaluationService REAL mode, model={}", model);
     }
-
-    @PostConstruct
-    public void init() {
-        this.mockMode = mockModeConfig
-                || apiUrl == null || apiUrl.isBlank()
-                || apiKey == null || apiKey.isBlank();
-
-        if (mockMode) {
-            LOGGER.info("LlmEvaluationService running in MOCK mode.");
-        } else {
-            LOGGER.info("LlmEvaluationService ready. Model={}, URL={}", model, apiUrl);
-        }
-    }
-
-    /**
-     * For pipeline-only mode:
-     * - BIN returns TRUE
-     * - MC returns the question itself tagged as MOCK_UNKNOWN unless real API is enabled
-     *
-     * This keeps the pipeline stable and avoids repeated API-key errors.
-     */
+}
     public String askLlm(String question, String answerType) {
-        if (mockMode) {
-            return mockAnswer(question, answerType);
-        }
-
-        if (apiKey == null || apiKey.isBlank()) {
-            LOGGER.warn("llm.api.key is not set; falling back to MOCK mode for this call.");
+        if (mockMode || apiUrl == null || apiUrl.isBlank()) {
             return mockAnswer(question, answerType);
         }
 
         try {
-            String systemPrompt = buildSystemPrompt(answerType);
-            String requestBody = buildRequestBody(systemPrompt, question);
+            String prompt = buildPrompt(question, answerType);
+
+            String requestBody = "{"
+                    + "\"model\":\"" + escapeJson(model) + "\","
+                    + "\"messages\":["
+                    + "{\"role\":\"system\",\"content\":\"You are a precise evaluator. Answer only in the required format.\"},"
+                    + "{\"role\":\"user\",\"content\":\"" + escapeJson(prompt) + "\"}"
+                    + "],"
+                    + "\"temperature\":0"
+                    + "}";
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(apiUrl))
+                    .timeout(Duration.ofSeconds(60))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                    .timeout(Duration.ofSeconds(60))
                     .build();
 
             HttpResponse<String> response =
-                    httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+                    client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            if (response.statusCode() != 200) {
-                LOGGER.error("LLM API error {}: {}", response.statusCode(), response.body());
-                return "ERROR";
+            if (response.statusCode() < 200 || response.statusCode() >= 300) {
+                LOGGER.error("OpenAI API error: status={}, body={}", response.statusCode(), response.body());
+                return "UNKNOWN";
             }
 
-            return extractContent(response.body());
+            LOGGER.debug("OpenAI raw response: {}", response.body());
+            String rawText = extractContentFromChatCompletions(response.body());
+            LOGGER.debug("Extracted content: '{}', normalized for {}: '{}'", rawText, answerType, normalizeAnswer(rawText, answerType));
+            return normalizeAnswer(rawText, answerType);
 
         } catch (Exception e) {
-            LOGGER.error("LLM call failed — question='{}', answerType='{}'", question, answerType, e);
-            return "ERROR";
+            LOGGER.error("Error calling LLM API", e);
+            return "UNKNOWN";
         }
     }
 
-    private String buildSystemPrompt(String answerType) {
-        if ("BIN".equals(answerType)) {
-            return "You are an ontology reasoning assistant. " +
-                    "Answer the following question with exactly one word: " +
-                    "TRUE, FALSE, or UNKNOWN. " +
-                    "UNKNOWN means the ontology does not provide enough information. " +
-                    "Do not explain. Only output one word.";
-        } else {
-            return "You are an ontology reasoning assistant. " +
-                    "Answer the following question by listing all correct values, " +
-                    "separated by semicolons. " +
-                    "If the answer cannot be determined, output UNKNOWN. " +
-                    "Do not explain.";
+    private String buildPrompt(String question, String answerType) {
+        if ("BIN".equalsIgnoreCase(answerType)) {
+            return question + "\n\nReply with exactly one word: TRUE or FALSE.";
+        } else if ("MC".equalsIgnoreCase(answerType)) {
+            return question + "\n\nReply with exactly one capital letter only, such as A, B, C, or D.";
         }
+        return question + "\n\nReply with only the final answer.";
     }
 
-    private String buildRequestBody(String systemPrompt, String question) {
-        return String.format(
-                "{\"model\":\"%s\",\"messages\":[" +
-                        "{\"role\":\"system\",\"content\":\"%s\"}," +
-                        "{\"role\":\"user\",\"content\":\"%s\"}" +
-                        "],\"temperature\":0,\"max_tokens\":100}",
-                escapeJson(model),
-                escapeJson(systemPrompt),
-                escapeJson(question)
-        );
-    }
+    private String normalizeAnswer(String rawText, String answerType) {
+        if (rawText == null) return "UNKNOWN";
 
-    private String extractContent(String responseBody) {
-        String marker = "\"content\":\"";
-        int start = responseBody.indexOf(marker);
-        if (start < 0) {
-            LOGGER.warn("Could not find content in response: {}", responseBody);
-            return "ERROR";
+        String cleaned = rawText.trim().toUpperCase();
+
+        if ("BIN".equalsIgnoreCase(answerType)) {
+            if (cleaned.contains("TRUE")) return "TRUE";
+            if (cleaned.contains("FALSE")) return "FALSE";
+            return "UNKNOWN";
         }
-        start += marker.length();
-        int end = responseBody.indexOf("\"", start);
-        if (end < 0) end = responseBody.length();
-        return responseBody.substring(start, end)
-                .replace("\\n", " ")
-                .trim()
-                .toUpperCase();
+
+        if ("MC".equalsIgnoreCase(answerType)) {
+            for (char c : cleaned.toCharArray()) {
+                if (c >= 'A' && c <= 'Z') {
+                    return String.valueOf(c);
+                }
+            }
+            return "UNKNOWN";
+        }
+
+        return cleaned;
     }
 
-    /**
-     * Stable mock behavior for current non-API workflow.
-     * Since all BIN rows written by your current processor use groundTruth="TRUE",
-     * returning TRUE preserves a sensible accuracy report during pipeline testing.
-     */
+    private String extractContentFromChatCompletions(String responseBody) {
+        // Match "content": "..." with optional whitespace around the colon
+        int idx = responseBody.indexOf("\"content\"");
+        if (idx < 0) return "";
+        int colon = responseBody.indexOf(':', idx + 9);
+        if (colon < 0) return "";
+        int quote = responseBody.indexOf('"', colon + 1);
+        if (quote < 0) return "";
+        int start = quote + 1;
+
+        StringBuilder sb = new StringBuilder();
+        boolean escape = false;
+
+        for (int i = start; i < responseBody.length(); i++) {
+            char ch = responseBody.charAt(i);
+
+            if (escape) {
+                switch (ch) {
+                    case 'n' -> sb.append('\n');
+                    case 'r' -> sb.append('\r');
+                    case 't' -> sb.append('\t');
+                    case '"' -> sb.append('"');
+                    case '\\' -> sb.append('\\');
+                    default -> sb.append(ch);
+                }
+                escape = false;
+            } else if (ch == '\\') {
+                escape = true;
+            } else if (ch == '"') {
+                break;
+            } else {
+                sb.append(ch);
+            }
+        }
+
+        return sb.toString();
+    }
+
     private String mockAnswer(String question, String answerType) {
-        if ("BIN".equals(answerType)) {
+        if ("BIN".equalsIgnoreCase(answerType)) {
             return "TRUE";
+        }
+        if ("MC".equalsIgnoreCase(answerType)) {
+            return "A";
         }
         return "UNKNOWN";
     }

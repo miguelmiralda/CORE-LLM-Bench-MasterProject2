@@ -36,6 +36,12 @@ public class OwlSparqlGenerator implements CommandLineRunner {
     @Qualifier("processingConfiguration")
     private ProcessingConfiguration config;
 
+    @Autowired
+    private LlmEvaluationService llmEvaluationService;
+
+    @Autowired
+    private AccuracyReportService accuracyReportService;
+
     private SmallOntologiesProcessor processor;
 
     public static void main(String[] args) {
@@ -80,12 +86,7 @@ public class OwlSparqlGenerator implements CommandLineRunner {
         SparqlQueryGenerationService queryService = new SparqlQueryGenerationService();
         StreamingOutputService outputService = new StreamingOutputService(config.getOutputDirectory());
 
-        // Create main processor (using the same class name)
-      // Create main processor
-LlmEvaluationService llmEvaluationService = new LlmEvaluationService();
-AccuracyReportService accuracyReportService = new AccuracyReportService();
-
-processor = new SmallOntologiesProcessor(
+        processor = new SmallOntologiesProcessor(
         ontologyService,
         reasoningService,
         queryService,

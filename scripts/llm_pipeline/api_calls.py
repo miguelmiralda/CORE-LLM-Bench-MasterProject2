@@ -40,15 +40,28 @@ load_dotenv()
 
 # Enhanced model dictionary with latest models
 MODELS = {
-    "gpt-5-mini": "gpt-5-mini-2025-08-07",
-    "deepseek-chat": "deepseek-chat",
-    "llama-4-maverick": "meta-llama/llama-4-maverick",
+    "gpt-4-1-mini": {
+        "provider": "openai",
+        "model_id": "gpt-4.1-mini-2025-04-14"
+    },
+    "gpt-5-mini": {
+        "provider": "openai",
+        "model_id": "gpt-5-mini-2025-08-07"
+    },
+    "deepseek-chat": {
+        "provider": "deepseek",
+        "model_id": "deepseek-chat"
+    },
+    "llama-4-maverick": {
+        "provider": "openrouter",
+        "model_id": "meta-llama/llama-4-maverick"
+    }
 }
 
 # Model to client mapping for cleaner client selection
 MODEL_TO_CLIENT = {
     "gpt-5-mini": "openai",
-    "gpt-4o-mini": "openai",
+    "gpt-4-1-mini": "openai",
     "deepseek-chat": "deepseek",
     "llama-4-maverick": "openrouter",
 }
