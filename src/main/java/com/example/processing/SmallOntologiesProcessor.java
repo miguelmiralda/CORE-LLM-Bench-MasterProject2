@@ -2,6 +2,7 @@ package com.example.processing;
 
 import com.example.config.ProcessingConfiguration;
 import com.example.evaluation.AccuracyReportService;
+import com.example.evaluation.AccuracyReportService.Subset;
 import com.example.evaluation.LlmEvaluationService;
 import com.example.explanation.ComprehensiveExplanationService;
 import com.example.explanation.EnhancedExplanationTagger;
@@ -326,6 +327,17 @@ public class SmallOntologiesProcessor implements AutoCloseable {
         String ontologyName = extractOntologyName(ontology);
         Map<String, Map<String, Set<String>>> subjectPredicateObjects = groupInferencesForMCQueries(inferences);
 
+        // Build lookup sets for negative generation
+        Set<String> allEntailedTripleKeys = new HashSet<>(inferences.keySet());
+        List<String> allIndividuals = ontology.getIndividualsInSignature().stream()
+                .map(ind -> OntologyUtils.getShortForm(ind))
+                .collect(Collectors.toList());
+        List<String> allClasses = ontology.getClassesInSignature().stream()
+                .filter(c -> !c.isOWLThing() && !c.isOWLNothing())
+                .map(c -> OntologyUtils.getShortForm(c))
+                .collect(Collectors.toList());
+        Random rng = new Random(42);
+
         long binaryQueries = 0;
         long multiChoiceQueries = 0;
 
@@ -366,10 +378,10 @@ public class SmallOntologiesProcessor implements AutoCloseable {
                 String llmRelational = llmService.askLlm(verbRelational, "BIN");
                 String llmFormal = llmService.askLlm(verbFormal, "BIN");
 
-                accuracyReport.record("DIRECT", "TRUE", llmDirect, "BIN", verbalisationService.questionComplexity(verbDirect));
-                accuracyReport.record("CONTEXTUAL", "TRUE", llmContextual, "BIN", verbalisationService.questionComplexity(verbContextual));
-                accuracyReport.record("RELATIONAL", "TRUE", llmRelational, "BIN", verbalisationService.questionComplexity(verbRelational));
-                accuracyReport.record("FORMAL", "TRUE", llmFormal, "BIN", verbalisationService.questionComplexity(verbFormal));
+                accuracyReport.record("DIRECT", Subset.ENTAILED, "TRUE", llmDirect, "BIN", verbalisationService.questionComplexity(verbDirect));
+                accuracyReport.record("CONTEXTUAL", Subset.ENTAILED, "TRUE", llmContextual, "BIN", verbalisationService.questionComplexity(verbContextual));
+                accuracyReport.record("RELATIONAL", Subset.ENTAILED, "TRUE", llmRelational, "BIN", verbalisationService.questionComplexity(verbRelational));
+                accuracyReport.record("FORMAL", Subset.ENTAILED, "TRUE", llmFormal, "BIN", verbalisationService.questionComplexity(verbFormal));
 
                 outputService.writeComprehensiveQuery(
                         binaryTaskId, rootEntity, tboxSize, aboxSize, taskType, "BIN", binaryQuery,
@@ -377,6 +389,38 @@ public class SmallOntologiesProcessor implements AutoCloseable {
                         llmDirect, llmContextual, llmRelational, llmFormal,
                         predicate, "TRUE", null, tagStats[0], tagStats[1]);
                 binaryQueries++;
+
+                // ── Non-entailed (negative) BIN question ──────────────────────────
+                String negObject = pickNegativeObject(
+                        subject, predicate, object, allEntailedTripleKeys,
+                        allIndividuals, allClasses, rng);
+                if (negObject != null) {
+                    String negTaskId = URIUtils.generateTaskId(rootEntity, subject, predicate, "NEG");
+                    String negQuery = String.format("ASK WHERE { <%s> <%s> <%s> }",
+                            URIUtils.getFullURI(subject), URIUtils.getFullURI(predicate), URIUtils.getFullURI(negObject));
+
+                    String negVerbDirect = verbalisationService.verbaliseBinaryQuery(subject, predicate, negObject, TranslationStrategy.DIRECT, ontology, null);
+                    String negVerbContextual = verbalisationService.verbaliseBinaryQuery(subject, predicate, negObject, TranslationStrategy.CONTEXTUAL, ontology, null);
+                    String negVerbRelational = verbalisationService.verbaliseBinaryQuery(subject, predicate, negObject, TranslationStrategy.RELATIONAL, ontology, null);
+                    String negVerbFormal = verbalisationService.verbaliseBinaryQuery(subject, predicate, negObject, TranslationStrategy.FORMAL, ontology, null);
+
+                    String negLlmDirect = llmService.askLlm(negVerbDirect, "BIN");
+                    String negLlmContextual = llmService.askLlm(negVerbContextual, "BIN");
+                    String negLlmRelational = llmService.askLlm(negVerbRelational, "BIN");
+                    String negLlmFormal = llmService.askLlm(negVerbFormal, "BIN");
+
+                    accuracyReport.record("DIRECT", Subset.NON_ENTAILED, "FALSE", negLlmDirect, "BIN", verbalisationService.questionComplexity(negVerbDirect));
+                    accuracyReport.record("CONTEXTUAL", Subset.NON_ENTAILED, "FALSE", negLlmContextual, "BIN", verbalisationService.questionComplexity(negVerbContextual));
+                    accuracyReport.record("RELATIONAL", Subset.NON_ENTAILED, "FALSE", negLlmRelational, "BIN", verbalisationService.questionComplexity(negVerbRelational));
+                    accuracyReport.record("FORMAL", Subset.NON_ENTAILED, "FALSE", negLlmFormal, "BIN", verbalisationService.questionComplexity(negVerbFormal));
+
+                    outputService.writeComprehensiveQuery(
+                            negTaskId, rootEntity, tboxSize, aboxSize, taskType, "BIN", negQuery,
+                            negVerbDirect, negVerbContextual, negVerbRelational, negVerbFormal,
+                            negLlmDirect, negLlmContextual, negLlmRelational, negLlmFormal,
+                            predicate, "FALSE", null, tagStats[0], tagStats[1]);
+                    binaryQueries++;
+                }
 
                 if (shouldGenerateMultiChoiceQuery(subject, predicate, subjectPredicateObjects)) {
                     Set<String> allObjectsSet = subjectPredicateObjects.get(subject).get(predicate);
@@ -400,10 +444,10 @@ public class SmallOntologiesProcessor implements AutoCloseable {
 
                     String groundTruthMC = String.join("; ", allAnswers);
 
-                    accuracyReport.record("DIRECT", groundTruthMC, llmMCDirect, "MC", verbalisationService.questionComplexity(verbMCDirect));
-                    accuracyReport.record("CONTEXTUAL", groundTruthMC, llmMCContextual, "MC", verbalisationService.questionComplexity(verbMCContextual));
-                    accuracyReport.record("RELATIONAL", groundTruthMC, llmMCRelational, "MC", verbalisationService.questionComplexity(verbMCRelational));
-                    accuracyReport.record("FORMAL", groundTruthMC, llmMCFormal, "MC", verbalisationService.questionComplexity(verbMCFormal));
+                    accuracyReport.record("DIRECT", Subset.ENTAILED, groundTruthMC, llmMCDirect, "MC", verbalisationService.questionComplexity(verbMCDirect));
+                    accuracyReport.record("CONTEXTUAL", Subset.ENTAILED, groundTruthMC, llmMCContextual, "MC", verbalisationService.questionComplexity(verbMCContextual));
+                    accuracyReport.record("RELATIONAL", Subset.ENTAILED, groundTruthMC, llmMCRelational, "MC", verbalisationService.questionComplexity(verbMCRelational));
+                    accuracyReport.record("FORMAL", Subset.ENTAILED, groundTruthMC, llmMCFormal, "MC", verbalisationService.questionComplexity(verbMCFormal));
 
                     outputService.writeComprehensiveQuery(
                             multiTaskId, rootEntity, tboxSize, aboxSize, taskType, "MC", multiQuery,
@@ -468,6 +512,30 @@ public class SmallOntologiesProcessor implements AutoCloseable {
             int lastDot = fileName.lastIndexOf('.');
             return lastDot > 0 ? fileName.substring(0, lastDot) : fileName;
         }
+    }
+
+    /**
+     * Picks a wrong object for a non-entailed (negative) triple.
+     * Tries up to 10 random candidates from the same pool (classes for rdf:type, individuals for properties).
+     * Returns null if no valid negative can be found.
+     */
+    private String pickNegativeObject(String subject, String predicate, String trueObject,
+                                      Set<String> allEntailedTripleKeys,
+                                      List<String> allIndividuals, List<String> allClasses,
+                                      Random rng) {
+        List<String> pool = "rdf:type".equals(predicate) ? allClasses : allIndividuals;
+        if (pool.size() < 2) return null;
+
+        for (int attempt = 0; attempt < 10; attempt++) {
+            String candidate = pool.get(rng.nextInt(pool.size()));
+            if (candidate.equals(trueObject)) continue;
+            // Make sure this (subject, predicate, candidate) is NOT an entailed fact
+            String negKey = OntologyUtils.createTripleKey(subject, predicate, candidate);
+            if (!allEntailedTripleKeys.contains(negKey)) {
+                return candidate;
+            }
+        }
+        return null;
     }
 
     private Map<String, Map<String, Set<String>>> groupInferencesForMCQueries(
