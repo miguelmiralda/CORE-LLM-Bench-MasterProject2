@@ -132,7 +132,7 @@ public class AccuracyReportService {
                 double absRate = getAbstentionRate(strategyName) * 100.0;
                 double complex = getAvgComplexity(strategyName);
 
-                w.write(String.format("\"%s\",%d,%d,%d,%d,%.2f,%.2f,%.2f\n",
+                w.write(String.format("\"%s\",%d,%d,%d,%d,\"%.2f\",\"%.2f\",\"%.2f\"\n",
                         strategyName, total, correct, abstain, wrong,
                         acc, absRate, complex));
             }

@@ -356,10 +356,10 @@ public class SmallOntologiesProcessor implements AutoCloseable {
                 String binaryQuery = String.format("ASK WHERE { <%s> <%s> <%s> }",
                         URIUtils.getFullURI(subject), URIUtils.getFullURI(predicate), URIUtils.getFullURI(object));
 
-                String verbDirect = verbalisationService.verbaliseBinaryQuery(subject, predicate, object, TranslationStrategy.DIRECT);
-                String verbContextual = verbalisationService.verbaliseBinaryQuery(subject, predicate, object, TranslationStrategy.CONTEXTUAL);
-                String verbRelational = verbalisationService.verbaliseBinaryQuery(subject, predicate, object, TranslationStrategy.RELATIONAL);
-                String verbFormal = verbalisationService.verbaliseBinaryQuery(subject, predicate, object, TranslationStrategy.FORMAL);
+                String verbDirect = verbalisationService.verbaliseBinaryQuery(subject, predicate, object, TranslationStrategy.DIRECT, ontology, paths);
+                String verbContextual = verbalisationService.verbaliseBinaryQuery(subject, predicate, object, TranslationStrategy.CONTEXTUAL, ontology, paths);
+                String verbRelational = verbalisationService.verbaliseBinaryQuery(subject, predicate, object, TranslationStrategy.RELATIONAL, ontology, paths);
+                String verbFormal = verbalisationService.verbaliseBinaryQuery(subject, predicate, object, TranslationStrategy.FORMAL, ontology, paths);
 
                 String llmDirect = llmService.askLlm(verbDirect, "BIN");
                 String llmContextual = llmService.askLlm(verbContextual, "BIN");
@@ -388,10 +388,10 @@ public class SmallOntologiesProcessor implements AutoCloseable {
                     String multiQuery = String.format("SELECT ?x WHERE { <%s> <%s> ?x }",
                             URIUtils.getFullURI(subject), URIUtils.getFullURI(predicate));
 
-                    String verbMCDirect = verbalisationService.verbaliseMultiChoiceQuery(subject, predicate, TranslationStrategy.DIRECT);
-                    String verbMCContextual = verbalisationService.verbaliseMultiChoiceQuery(subject, predicate, TranslationStrategy.CONTEXTUAL);
-                    String verbMCRelational = verbalisationService.verbaliseMultiChoiceQuery(subject, predicate, TranslationStrategy.RELATIONAL);
-                    String verbMCFormal = verbalisationService.verbaliseMultiChoiceQuery(subject, predicate, TranslationStrategy.FORMAL);
+                    String verbMCDirect = verbalisationService.verbaliseMultiChoiceQuery(subject, predicate, TranslationStrategy.DIRECT, ontology, paths);
+                    String verbMCContextual = verbalisationService.verbaliseMultiChoiceQuery(subject, predicate, TranslationStrategy.CONTEXTUAL, ontology, paths);
+                    String verbMCRelational = verbalisationService.verbaliseMultiChoiceQuery(subject, predicate, TranslationStrategy.RELATIONAL, ontology, paths);
+                    String verbMCFormal = verbalisationService.verbaliseMultiChoiceQuery(subject, predicate, TranslationStrategy.FORMAL, ontology, paths);
 
                     String llmMCDirect = llmService.askLlm(verbMCDirect, "MC");
                     String llmMCContextual = llmService.askLlm(verbMCContextual, "MC");
