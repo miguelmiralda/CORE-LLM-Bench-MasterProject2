@@ -272,10 +272,7 @@ public class AccuracyReportService {
             Set<String> truthSet = splitAnswerSet(groundTruth);
             Set<String> llmSet   = splitAnswerSet(llmAnswer);
             if (truthSet.isEmpty()) return false;
-            for (String t : truthSet) {
-                if (llmSet.contains(t)) return true;
-            }
-            return false;
+            return llmSet.containsAll(truthSet);
         }
     }
 
