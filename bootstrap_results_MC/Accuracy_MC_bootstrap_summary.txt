@@ -1,0 +1,80 @@
+================================================================================
+BOOTSTRAP CONFIDENCE INTERVALS FOR ACCURACY METRICS
+================================================================================
+
+Analysis Date: 2026-06-07T18:53:20.526427
+Source File: output/Accuracy_Report_MC.csv
+Bootstrap Iterations: 10000
+Confidence Level: 95%
+
+================================================================================
+RESULTS
+================================================================================
+
+1. DIRECT
+   Correct: 0 / 45
+   Accuracy: 0.0%
+   95% CI: [0.0%, 0.0%]
+   CI Width: 0.0% (margin of error: ±0.0%)
+   Std Error: 0.00%
+   Bias: 0.0000%
+   ⚠️  Small sample size - high variability expected | Narrow CI - good precision
+
+2. CONTEXTUAL
+   Correct: 2 / 45
+   Accuracy: 4.44%
+   95% CI: [0.0%, 11.11%]
+   CI Width: 11.11% (margin of error: ±6.06%)
+   Std Error: 3.09%
+   Bias: 0.0300%
+   ⚠️  Small sample size - high variability expected | Moderate CI width - moderate uncertainty
+
+3. RELATIONAL
+   Correct: 0 / 45
+   Accuracy: 0.0%
+   95% CI: [0.0%, 0.0%]
+   CI Width: 0.0% (margin of error: ±0.0%)
+   Std Error: 0.00%
+   Bias: 0.0000%
+   ⚠️  Small sample size - high variability expected | Narrow CI - good precision
+
+4. FORMAL
+   Correct: 4 / 45
+   Accuracy: 8.89%
+   95% CI: [2.22%, 17.78%]
+   CI Width: 15.56% (margin of error: ±8.32%)
+   Std Error: 4.24%
+   Bias: -0.0000%
+   ⚠️  Small sample size - high variability expected | Moderate CI width - moderate uncertainty
+
+================================================================================
+INTERPRETATION GUIDE
+================================================================================
+
+
+1. POINT ESTIMATE: The observed accuracy from your data
+
+2. CONFIDENCE INTERVAL (CI): The range where the true accuracy likely falls
+   - 95% CI means if you repeated the experiment many times, ~95% of CIs 
+     would contain the true accuracy
+   - Narrow CI = more precise estimate (good)
+   - Wide CI = less precise estimate (less certain)
+
+3. STANDARD ERROR: Measures variability in your bootstrap samples
+   - Larger SE = higher uncertainty
+   - SE decreases with larger sample sizes (√n relationship)
+
+4. MARGIN OF ERROR: ±value around point estimate at 95% confidence
+   - Common interpretation: "Accuracy is X% ± Y%"
+
+5. BIAS: Difference between bootstrap mean and observed accuracy
+   - Usually small; large bias suggests estimation issues
+
+SAMPLE SIZE IMPLICATIONS:
+- n ≤ 50: Small samples, expect wide CIs, higher uncertainty
+- 50 < n ≤ 100: Moderate samples
+- n > 100: Large samples, narrower CIs, more stable estimates
+
+COMPARING STRATEGIES:
+- Non-overlapping CIs → statistically different at 95% confidence
+- Overlapping CIs → cannot conclude significant difference

@@ -1,0 +1,3667 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xml:base="https://kracr.iiitd.edu.in/OWL2Bench"
+         xmlns="https://kracr.iiitd.edu.in/OWL2Bench#">
+
+<owl:Ontology rdf:about="https://kracr.iiitd.edu.in/OWL2Bench">
+  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A Benchmark for OWL 2 Ontologies.</rdfs:comment>
+  <rdfs:label xml:lang="en">OWL2Bench</rdfs:label>
+  <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">OWL2Bench, ver 10 April, 2020</owl:versionInfo>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:about="#advises">
+  <owl:equivalentProperty rdf:resource="#isAdvisorOf"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isAdvisorOf"/>
+
+<owl:ObjectProperty rdf:about="#dislikes">
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+  <rdfs:domain rdf:resource="#Person"/>
+  <owl:propertyDisjointWith rdf:resource="#likes"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#likes">
+  <rdfs:domain rdf:resource="#Person"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#enrollFor">
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  <rdfs:domain rdf:resource="#Student"/>
+  <rdfs:range rdf:resource="#Program"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#enrollIn">
+  <rdfs:subPropertyOf rdf:resource="#isStudentOf"/>
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  <rdfs:domain rdf:resource="#Student"/>
+  <rdfs:range rdf:resource="#Department"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isStudentOf">
+  <rdfs:domain rdf:resource="#Student"/>
+  <rdfs:range rdf:resource="#Organization"/>
+  <owl:propertyChainAxiom>
+    <rdf:Description>
+      <rdf:first rdf:resource="#enrollIn"/>
+      <rdf:rest>
+        <rdf:Description>
+          <rdf:first rdf:resource="#isSubOrganizationOf"/>
+          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </rdf:Description>
+      </rdf:rest>
+    </rdf:Description>
+  </owl:propertyChainAxiom>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasAdvisor">
+  <owl:equivalentProperty rdf:resource="#isAdvisedBy"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isAdvisedBy">
+  <owl:inverseOf rdf:resource="#isAdvisorOf"/>
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+  <rdfs:domain rdf:resource="#Person"/>
+  <rdfs:range rdf:resource="#Person"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasAlumnus">
+  <owl:inverseOf rdf:resource="#hasDegreeFrom"/>
+  <rdfs:domain rdf:resource="#University"/>
+  <rdfs:range rdf:resource="#Person"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasDegreeFrom">
+  <rdfs:domain rdf:resource="#Person"/>
+  <rdfs:range rdf:resource="#University"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasAssistantProfessor">
+  <rdfs:subPropertyOf rdf:resource="#hasProfessor"/>
+  <owl:inverseOf rdf:resource="#isAssistantProfessorOf"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#AssistantProfessor"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasProfessor">
+  <rdfs:subPropertyOf rdf:resource="#hasFaculty"/>
+  <owl:inverseOf rdf:resource="#isProfessorOf"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#Professor"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isAssistantProfessorOf">
+  <rdfs:subPropertyOf rdf:resource="#isProfessorOf"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasAssociateProfessor">
+  <rdfs:subPropertyOf rdf:resource="#hasProfessor"/>
+  <owl:inverseOf rdf:resource="#isAssociateProfessorOf"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#AssociateProfessor"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isAssociateProfessorOf">
+  <rdfs:subPropertyOf rdf:resource="#isProfessorOf"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasAuthor">
+  <rdfs:domain rdf:resource="#Publication"/>
+  <rdfs:range rdf:resource="#Person"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasClericalStaff">
+  <rdfs:subPropertyOf rdf:resource="#hasSupportingStaff"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#ClericalStaff"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasSupportingStaff">
+  <rdfs:subPropertyOf rdf:resource="#hasEmployee"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#SupportingStaff"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasCollaborationWith">
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+  <rdfs:domain rdf:resource="#Person"/>
+  <rdfs:range rdf:resource="#Person"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasCollege">
+  <rdfs:subPropertyOf rdf:resource="#hasSubOrganization"/>
+  <owl:inverseOf rdf:resource="#isCollegeOf"/>
+  <rdfs:domain rdf:resource="#University"/>
+  <rdfs:range rdf:resource="#College"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasSubOrganization">
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+  <owl:inverseOf rdf:resource="#isSubOrganizationOf"/>
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+  <rdfs:domain rdf:resource="#Organization"/>
+  <rdfs:range rdf:resource="#Organization"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isCollegeOf">
+  <rdfs:subPropertyOf rdf:resource="#isSubOrganizationOf"/>
+  <rdfs:domain rdf:resource="#College"/>
+  <rdfs:range rdf:resource="#University"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasCollegeDiscipline">
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+  <rdfs:domain rdf:resource="#College"/>
+  <rdfs:range rdf:resource="#CollegeDiscipline"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasDean">
+  <owl:inverseOf rdf:resource="#isDeanOf"/>
+  <rdfs:domain rdf:resource="#Organization"/>
+  <rdfs:range rdf:resource="#Person"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isDeanOf">
+  <rdfs:domain rdf:resource="#Person"/>
+  <rdfs:range rdf:resource="#Organization"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasDepartment">
+  <rdfs:subPropertyOf rdf:resource="#hasSubOrganization"/>
+  <owl:inverseOf rdf:resource="#isDepartmentOf"/>
+  <rdfs:domain rdf:resource="#College"/>
+  <rdfs:range rdf:resource="#Department"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isDepartmentOf">
+  <rdfs:subPropertyOf rdf:resource="#isSubOrganizationOf"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#College"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasDoctoralDegreeFrom">
+  <rdfs:subPropertyOf rdf:resource="#hasDegreeFrom"/>
+  <rdfs:domain rdf:resource="#Person"/>
+  <rdfs:range rdf:resource="#University"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasEmployee">
+  <rdfs:subPropertyOf rdf:resource="#hasMember"/>
+  <owl:inverseOf rdf:resource="#worksFor"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasMember">
+  <owl:inverseOf rdf:resource="#isMemberOf"/>
+  <rdfs:domain rdf:resource="#Organization"/>
+  <rdfs:range rdf:resource="#Person"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#worksFor">
+  <rdfs:domain rdf:resource="#Employee"/>
+  <rdfs:range rdf:resource="#Organization"/>
+  <owl:propertyChainAxiom>
+    <rdf:Description>
+      <rdf:first rdf:resource="#worksFor"/>
+      <rdf:rest>
+        <rdf:Description>
+          <rdf:first rdf:resource="#isSubOrganizationOf"/>
+          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </rdf:Description>
+      </rdf:rest>
+    </rdf:Description>
+  </owl:propertyChainAxiom>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasFaculty">
+  <rdfs:subPropertyOf rdf:resource="#hasEmployee"/>
+  <owl:inverseOf rdf:resource="#isFacultyOf"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#Faculty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isFacultyOf">
+  <rdfs:subPropertyOf rdf:resource="#worksFor"/>
+  <rdfs:domain rdf:resource="#Faculty"/>
+  <rdfs:range rdf:resource="#Organization"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasFullProfessor">
+  <rdfs:subPropertyOf rdf:resource="#hasProfessor"/>
+  <owl:inverseOf rdf:resource="#isFullProfessorOf"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#FullProfessor"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isFullProfessorOf">
+  <rdfs:subPropertyOf rdf:resource="#isProfessorOf"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasHead">
+  <rdfs:subPropertyOf rdf:resource="#hasFullProfessor"/>
+  <owl:inverseOf rdf:resource="#isHeadOf"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isHeadOf">
+  <rdfs:subPropertyOf rdf:resource="#isFullProfessorOf"/>
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasLecturer">
+  <rdfs:subPropertyOf rdf:resource="#hasFaculty"/>
+  <owl:inverseOf rdf:resource="#isLecturerOf"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#Lecturer"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isLecturerOf">
+  <rdfs:subPropertyOf rdf:resource="#isFacultyOf"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasMajor">
+  <rdfs:domain rdf:resource="#Person"/>
+  <rdfs:range>
+    <owl:Class>
+      <owl:unionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Engineering"/>
+        <rdf:Description rdf:about="#FineArts"/>
+        <rdf:Description rdf:about="#HumanitiesAndSocialScience"/>
+        <rdf:Description rdf:about="#Management"/>
+        <rdf:Description rdf:about="#Science"/>
+      </owl:unionOf>
+    </owl:Class>
+  </rdfs:range>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasMasterDegreeFrom">
+  <rdfs:subPropertyOf rdf:resource="#hasDegreeFrom"/>
+  <rdfs:domain rdf:resource="#Person"/>
+  <rdfs:range rdf:resource="#University"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isMemberOf">
+  <rdfs:domain rdf:resource="#Person"/>
+  <rdfs:range rdf:resource="#Organization"/>
+  <owl:propertyChainAxiom>
+    <rdf:Description>
+      <rdf:first rdf:resource="#enrollIn"/>
+      <rdf:rest>
+        <rdf:Description>
+          <rdf:first rdf:resource="#isPartOf"/>
+          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </rdf:Description>
+      </rdf:rest>
+    </rdf:Description>
+  </owl:propertyChainAxiom>
+  <owl:propertyChainAxiom>
+    <rdf:Description>
+      <rdf:first rdf:resource="#worksFor"/>
+      <rdf:rest>
+        <rdf:Description>
+          <rdf:first rdf:resource="#isPartOf"/>
+          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </rdf:Description>
+      </rdf:rest>
+    </rdf:Description>
+  </owl:propertyChainAxiom>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasOtherStaff">
+  <rdfs:subPropertyOf rdf:resource="#hasSupportingStaff"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#OtherStaff"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasPGProgram">
+  <rdfs:subPropertyOf rdf:resource="#hasProgram"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#PGProgram"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasProgram">
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#Program"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasPart">
+  <owl:equivalentProperty rdf:resource="#hasSubOrganization"/>
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+  <owl:inverseOf rdf:resource="#isPartOf"/>
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+  <rdfs:domain rdf:resource="#Organization"/>
+  <rdfs:range rdf:resource="#Organization"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isPartOf">
+  <owl:equivalentProperty rdf:resource="#isSubOrganizationOf"/>
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+  <rdfs:domain rdf:resource="#Organization"/>
+  <rdfs:range rdf:resource="#Organization"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasPhDProgram">
+  <rdfs:subPropertyOf rdf:resource="#hasProgram"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#PhDProgram"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasPostDoc">
+  <rdfs:subPropertyOf rdf:resource="#hasFaculty"/>
+  <owl:inverseOf rdf:resource="#isPostDocOf"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#PostDoc"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isPostDocOf">
+  <rdfs:subPropertyOf rdf:resource="#isFacultyOf"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isProfessorOf">
+  <rdfs:subPropertyOf rdf:resource="#isFacultyOf"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasResearchAssistant">
+  <rdfs:subPropertyOf rdf:resource="#hasEmployee"/>
+  <owl:inverseOf rdf:resource="#isResearchAssistantOf"/>
+  <rdfs:domain rdf:resource="#ResearchGroup"/>
+  <rdfs:range rdf:resource="#ResearchAssistant"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isResearchAssistantOf">
+  <rdfs:subPropertyOf rdf:resource="#worksFor"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasResearchGroup">
+  <rdfs:subPropertyOf rdf:resource="#hasSubOrganization"/>
+  <owl:inverseOf rdf:resource="#isResearchGroupOf"/>
+  <rdfs:domain rdf:resource="#University"/>
+  <rdfs:range rdf:resource="#ResearchGroup"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isResearchGroupOf">
+  <rdfs:subPropertyOf rdf:resource="#isSubOrganizationOf"/>
+  <rdfs:domain rdf:resource="#ResearchGroup"/>
+  <rdfs:range rdf:resource="#University"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasResearchProject">
+  <rdfs:subPropertyOf rdf:resource="#hasWork"/>
+  <rdfs:domain rdf:resource="#ResearchGroup"/>
+  <rdfs:range rdf:resource="#ResearchProject"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasWork">
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+  <rdfs:range rdf:resource="#Work"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasSameHomeTownWith">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+  <rdfs:domain rdf:resource="#Person"/>
+  <rdfs:range rdf:resource="#Person"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasStudent">
+  <rdfs:subPropertyOf rdf:resource="#hasMember"/>
+  <owl:inverseOf rdf:resource="#isStudentOf"/>
+  <rdfs:domain rdf:resource="#Organization"/>
+  <rdfs:range rdf:resource="#Student"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isSubOrganizationOf">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+  <rdfs:domain rdf:resource="#Organization"/>
+  <rdfs:range rdf:resource="#Organization"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasSystemStaff">
+  <rdfs:subPropertyOf rdf:resource="#hasSupportingStaff"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#SystemStaff"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasUGProgram">
+  <rdfs:subPropertyOf rdf:resource="#hasProgram"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#UGProgram"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasUndergraduateDegreeFrom">
+  <rdfs:subPropertyOf rdf:resource="#hasDegreeFrom"/>
+  <rdfs:domain rdf:resource="#Person"/>
+  <rdfs:range rdf:resource="#University"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasVisitingProfessor">
+  <rdfs:subPropertyOf rdf:resource="#hasProfessor"/>
+  <owl:inverseOf rdf:resource="#isVisitingProfessorOf"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#VisitingProfessor"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isVisitingProfessorOf">
+  <rdfs:subPropertyOf rdf:resource="#isProfessorOf"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasWomenCollege">
+  <rdfs:subPropertyOf rdf:resource="#hasCollege"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isAffiliateOf"/>
+
+<owl:ObjectProperty rdf:about="#isAffiliatedOrganizationOf">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#IrreflexiveProperty"/>
+  <rdfs:domain rdf:resource="#Organization"/>
+  <rdfs:range rdf:resource="#Organization"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isClericalStaffOf">
+  <rdfs:subPropertyOf rdf:resource="#isSupportingStaffOf"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isSupportingStaffOf">
+  <rdfs:subPropertyOf rdf:resource="#worksFor"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isCrazyAbout">
+  <rdfs:subPropertyOf rdf:resource="#loves"/>
+  <rdfs:domain rdf:resource="#Person"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#loves">
+  <rdfs:subPropertyOf rdf:resource="#likes"/>
+  <rdfs:domain rdf:resource="#Person"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isOtherStaffOf">
+  <rdfs:subPropertyOf rdf:resource="#isSupportingStaffOf"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isSystemStaffOf">
+  <rdfs:subPropertyOf rdf:resource="#isSupportingStaffOf"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isTaughtBy">
+  <owl:inverseOf rdf:resource="#teachesCourse"/>
+  <rdfs:domain rdf:resource="#Course"/>
+  <rdfs:range rdf:resource="#Faculty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#teachesCourse">
+  <rdfs:subPropertyOf rdf:resource="#hasWork"/>
+  <rdfs:domain rdf:resource="#Faculty"/>
+  <rdfs:range rdf:resource="#Course"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isTeachingAssistantOf">
+  <rdfs:domain rdf:resource="#TeachingAssistant"/>
+  <rdfs:range rdf:resource="#Course"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#isWomenCollegeOf">
+  <rdfs:subPropertyOf rdf:resource="#isCollegeOf"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#knows">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ReflexiveProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#offerCourse">
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+  <rdfs:domain rdf:resource="#Department"/>
+  <rdfs:range rdf:resource="#Course"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#orgPublication">
+  <rdfs:domain rdf:resource="#Organization"/>
+  <rdfs:range rdf:resource="#Publication"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#publicationResearch">
+  <rdfs:domain rdf:resource="#Publication"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#takesCourse">
+  <rdfs:domain rdf:resource="#Student"/>
+  <rdfs:range rdf:resource="#Course"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#tenured">
+  <rdfs:domain rdf:resource="#Professor"/>
+</owl:ObjectProperty>
+
+<owl:DatatypeProperty rdf:about="#hasAge">
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  <rdfs:domain rdf:resource="#Person"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#hasCode">
+  <owl:equivalentProperty rdf:resource="#hasID"/>
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#hasID">
+  <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+  <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#hasEmailAddress">
+  <rdfs:domain rdf:resource="#Person"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#hasFirstName">
+  <rdfs:domain rdf:resource="#Person"/>
+  <owl:propertyDisjointWith rdf:resource="#hasLastName"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#hasLastName">
+  <rdfs:domain rdf:resource="#Person"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#hasName"/>
+
+<owl:DatatypeProperty rdf:about="#hasOfficeNumber"/>
+
+<owl:DatatypeProperty rdf:about="#hasPublicationDate">
+  <rdfs:domain rdf:resource="#Publication"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#hasResearchInterest">
+  <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#hasTelephone">
+  <rdfs:domain rdf:resource="#Person"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:about="#hasTitle">
+  <rdfs:domain rdf:resource="#Person"/>
+</owl:DatatypeProperty>
+
+<owl:Class rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+
+<owl:Class rdf:about="#Person">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:unionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Man"/>
+        <rdf:Description rdf:about="#Woman"/>
+      </owl:unionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:about="#Student">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Person"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#enrollIn"/>
+          <owl:someValuesFrom rdf:resource="#Department"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf rdf:resource="#Person"/>
+  <owl:hasKey>
+    <rdf:Description>
+      <rdf:first rdf:resource="#hasID"/>
+      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    </rdf:Description>
+  </owl:hasKey>
+</owl:Class>
+
+<owl:Class rdf:about="#Program"/>
+
+<owl:Class rdf:about="#Department">
+  <rdfs:subClassOf rdf:resource="#Organization"/>
+</owl:Class>
+
+<owl:Class rdf:about="#University">
+  <rdfs:subClassOf rdf:resource="#Organization"/>
+</owl:Class>
+
+<owl:Class rdf:about="#AssistantProfessor">
+  <rdfs:subClassOf rdf:resource="#Professor"/>
+</owl:Class>
+
+<owl:Class rdf:about="#AssociateProfessor">
+  <rdfs:subClassOf rdf:resource="#Professor"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Publication">
+  <owl:disjointUnionOf>
+    <rdf:Description>
+      <rdf:first rdf:resource="#Article"/>
+      <rdf:rest>
+        <rdf:Description>
+          <rdf:first rdf:resource="#Book"/>
+          <rdf:rest>
+            <rdf:Description>
+              <rdf:first rdf:resource="#Manual"/>
+              <rdf:rest>
+                <rdf:Description>
+                  <rdf:first rdf:resource="#Software"/>
+                  <rdf:rest>
+                    <rdf:Description>
+                      <rdf:first rdf:resource="#Specification"/>
+                      <rdf:rest>
+                        <rdf:Description>
+                          <rdf:first rdf:resource="#UnofficialPublication"/>
+                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                        </rdf:Description>
+                      </rdf:rest>
+                    </rdf:Description>
+                  </rdf:rest>
+                </rdf:Description>
+              </rdf:rest>
+            </rdf:Description>
+          </rdf:rest>
+        </rdf:Description>
+      </rdf:rest>
+    </rdf:Description>
+  </owl:disjointUnionOf>
+</owl:Class>
+
+<owl:Class rdf:about="#ClericalStaff">
+  <rdfs:subClassOf rdf:resource="#SupportingStaff"/>
+</owl:Class>
+
+<owl:Class rdf:about="#College">
+  <owl:equivalentClass rdf:resource="#School"/>
+  <rdfs:subClassOf rdf:resource="#Organization"/>
+</owl:Class>
+
+<owl:Class rdf:about="#CollegeDiscipline">
+  <owl:disjointUnionOf>
+    <rdf:Description>
+      <rdf:first rdf:resource="#Engineering"/>
+      <rdf:rest>
+        <rdf:Description>
+          <rdf:first rdf:resource="#FineArts"/>
+          <rdf:rest>
+            <rdf:Description>
+              <rdf:first rdf:resource="#HumanitiesAndSocialScience"/>
+              <rdf:rest>
+                <rdf:Description>
+                  <rdf:first rdf:resource="#Management"/>
+                  <rdf:rest>
+                    <rdf:Description>
+                      <rdf:first rdf:resource="#Science"/>
+                      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:Description>
+                  </rdf:rest>
+                </rdf:Description>
+              </rdf:rest>
+            </rdf:Description>
+          </rdf:rest>
+        </rdf:Description>
+      </rdf:rest>
+    </rdf:Description>
+  </owl:disjointUnionOf>
+</owl:Class>
+
+<owl:Class rdf:about="#Organization"/>
+
+<owl:Class rdf:about="#Faculty">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Employee"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#teachesCourse"/>
+          <owl:someValuesFrom rdf:resource="#Course"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf rdf:resource="#Employee"/>
+</owl:Class>
+
+<owl:Class rdf:about="#FullProfessor">
+  <rdfs:subClassOf rdf:resource="#Professor"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Lecturer">
+  <rdfs:subClassOf rdf:resource="#Faculty"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Engineering">
+  <rdfs:subClassOf rdf:resource="#CollegeDiscipline"/>
+  <owl:disjointUnionOf>
+    <rdf:Description>
+      <rdf:first rdf:resource="#AeronauticalEngineering"/>
+      <rdf:rest>
+        <rdf:Description>
+          <rdf:first rdf:resource="#BiomedicalEngineering"/>
+          <rdf:rest>
+            <rdf:Description>
+              <rdf:first rdf:resource="#ChemicalEngineering"/>
+              <rdf:rest>
+                <rdf:Description>
+                  <rdf:first rdf:resource="#CivilEngineering"/>
+                  <rdf:rest>
+                    <rdf:Description>
+                      <rdf:first rdf:resource="#ComputerEngineering"/>
+                      <rdf:rest>
+                        <rdf:Description>
+                          <rdf:first rdf:resource="#ElectricalEngineering"/>
+                          <rdf:rest>
+                            <rdf:Description>
+                              <rdf:first rdf:resource="#IndustryEngineering"/>
+                              <rdf:rest>
+                                <rdf:Description>
+                                  <rdf:first rdf:resource="#MaterialScienceEngineering"/>
+                                  <rdf:rest>
+                                    <rdf:Description>
+                                      <rdf:first rdf:resource="#MechanicalEngineering"/>
+                                      <rdf:rest>
+                                        <rdf:Description>
+                                          <rdf:first rdf:resource="#PetroleumlEngineering"/>
+                                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:Description>
+                                      </rdf:rest>
+                                    </rdf:Description>
+                                  </rdf:rest>
+                                </rdf:Description>
+                              </rdf:rest>
+                            </rdf:Description>
+                          </rdf:rest>
+                        </rdf:Description>
+                      </rdf:rest>
+                    </rdf:Description>
+                  </rdf:rest>
+                </rdf:Description>
+              </rdf:rest>
+            </rdf:Description>
+          </rdf:rest>
+        </rdf:Description>
+      </rdf:rest>
+    </rdf:Description>
+  </owl:disjointUnionOf>
+</owl:Class>
+
+<owl:Class rdf:about="#FineArts">
+  <rdfs:subClassOf rdf:resource="#CollegeDiscipline"/>
+  <owl:disjointUnionOf>
+    <rdf:Description>
+      <rdf:first rdf:resource="#Architecture"/>
+      <rdf:rest>
+        <rdf:Description>
+          <rdf:first rdf:resource="#AsianArts"/>
+          <rdf:rest>
+            <rdf:Description>
+              <rdf:first rdf:resource="#Drama"/>
+              <rdf:rest>
+                <rdf:Description>
+                  <rdf:first rdf:resource="#LatinArts"/>
+                  <rdf:rest>
+                    <rdf:Description>
+                      <rdf:first rdf:resource="#MediaArtsAndSciences"/>
+                      <rdf:rest>
+                        <rdf:Description>
+                          <rdf:first rdf:resource="#MedievalArts"/>
+                          <rdf:rest>
+                            <rdf:Description>
+                              <rdf:first rdf:resource="#ModernArts"/>
+                              <rdf:rest>
+                                <rdf:Description>
+                                  <rdf:first rdf:resource="#MusicsClass"/>
+                                  <rdf:rest>
+                                    <rdf:Description>
+                                      <rdf:first rdf:resource="#PerformingArts"/>
+                                      <rdf:rest>
+                                        <rdf:Description>
+                                          <rdf:first rdf:resource="#TheatreAndDance"/>
+                                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:Description>
+                                      </rdf:rest>
+                                    </rdf:Description>
+                                  </rdf:rest>
+                                </rdf:Description>
+                              </rdf:rest>
+                            </rdf:Description>
+                          </rdf:rest>
+                        </rdf:Description>
+                      </rdf:rest>
+                    </rdf:Description>
+                  </rdf:rest>
+                </rdf:Description>
+              </rdf:rest>
+            </rdf:Description>
+          </rdf:rest>
+        </rdf:Description>
+      </rdf:rest>
+    </rdf:Description>
+  </owl:disjointUnionOf>
+</owl:Class>
+
+<owl:Class rdf:about="#HumanitiesAndSocialScience">
+  <rdfs:subClassOf rdf:resource="#CollegeDiscipline"/>
+  <owl:disjointUnionOf>
+    <rdf:Description>
+      <rdf:first rdf:resource="#Anthropology"/>
+      <rdf:rest>
+        <rdf:Description>
+          <rdf:first rdf:resource="#Economics"/>
+          <rdf:rest>
+            <rdf:Description>
+              <rdf:first rdf:resource="#English"/>
+              <rdf:rest>
+                <rdf:Description>
+                  <rdf:first rdf:resource="#History"/>
+                  <rdf:rest>
+                    <rdf:Description>
+                      <rdf:first rdf:resource="#Humanities"/>
+                      <rdf:rest>
+                        <rdf:Description>
+                          <rdf:first rdf:resource="#Linguistics"/>
+                          <rdf:rest>
+                            <rdf:Description>
+                              <rdf:first rdf:resource="#ModernLanguages"/>
+                              <rdf:rest>
+                                <rdf:Description>
+                                  <rdf:first rdf:resource="#Philosophy"/>
+                                  <rdf:rest>
+                                    <rdf:Description>
+                                      <rdf:first rdf:resource="#Psychology"/>
+                                      <rdf:rest>
+                                        <rdf:Description>
+                                          <rdf:first rdf:resource="#Religions"/>
+                                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:Description>
+                                      </rdf:rest>
+                                    </rdf:Description>
+                                  </rdf:rest>
+                                </rdf:Description>
+                              </rdf:rest>
+                            </rdf:Description>
+                          </rdf:rest>
+                        </rdf:Description>
+                      </rdf:rest>
+                    </rdf:Description>
+                  </rdf:rest>
+                </rdf:Description>
+              </rdf:rest>
+            </rdf:Description>
+          </rdf:rest>
+        </rdf:Description>
+      </rdf:rest>
+    </rdf:Description>
+  </owl:disjointUnionOf>
+</owl:Class>
+
+<owl:Class rdf:about="#Management">
+  <rdfs:subClassOf rdf:resource="#CollegeDiscipline"/>
+  <owl:disjointUnionOf>
+    <rdf:Description>
+      <rdf:first rdf:resource="#DesignManagement"/>
+      <rdf:rest>
+        <rdf:Description>
+          <rdf:first rdf:resource="#FinancialAndAccountingManagement"/>
+          <rdf:rest>
+            <rdf:Description>
+              <rdf:first rdf:resource="#HumanResourceManagement"/>
+              <rdf:rest>
+                <rdf:Description>
+                  <rdf:first rdf:resource="#MarketingManagement"/>
+                  <rdf:rest>
+                    <rdf:Description>
+                      <rdf:first rdf:resource="#OperationsManagement"/>
+                      <rdf:rest>
+                        <rdf:Description>
+                          <rdf:first rdf:resource="#ProjectManagement"/>
+                          <rdf:rest>
+                            <rdf:Description>
+                              <rdf:first rdf:resource="#PublicRelationsManagement"/>
+                              <rdf:rest>
+                                <rdf:Description>
+                                  <rdf:first rdf:resource="#RiskManagement"/>
+                                  <rdf:rest>
+                                    <rdf:Description>
+                                      <rdf:first rdf:resource="#SalesManagement"/>
+                                      <rdf:rest>
+                                        <rdf:Description>
+                                          <rdf:first rdf:resource="#SupplyChainManagement"/>
+                                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:Description>
+                                      </rdf:rest>
+                                    </rdf:Description>
+                                  </rdf:rest>
+                                </rdf:Description>
+                              </rdf:rest>
+                            </rdf:Description>
+                          </rdf:rest>
+                        </rdf:Description>
+                      </rdf:rest>
+                    </rdf:Description>
+                  </rdf:rest>
+                </rdf:Description>
+              </rdf:rest>
+            </rdf:Description>
+          </rdf:rest>
+        </rdf:Description>
+      </rdf:rest>
+    </rdf:Description>
+  </owl:disjointUnionOf>
+</owl:Class>
+
+<owl:Class rdf:about="#Science">
+  <rdfs:subClassOf rdf:resource="#CollegeDiscipline"/>
+  <owl:disjointUnionOf>
+    <rdf:Description>
+      <rdf:first rdf:resource="#Astronomy"/>
+      <rdf:rest>
+        <rdf:Description>
+          <rdf:first rdf:resource="#Biology"/>
+          <rdf:rest>
+            <rdf:Description>
+              <rdf:first rdf:resource="#Chemistry"/>
+              <rdf:rest>
+                <rdf:Description>
+                  <rdf:first rdf:resource="#ComputerScience"/>
+                  <rdf:rest>
+                    <rdf:Description>
+                      <rdf:first rdf:resource="#Geosciences"/>
+                      <rdf:rest>
+                        <rdf:Description>
+                          <rdf:first rdf:resource="#MarineScience"/>
+                          <rdf:rest>
+                            <rdf:Description>
+                              <rdf:first rdf:resource="#MaterialsScience"/>
+                              <rdf:rest>
+                                <rdf:Description>
+                                  <rdf:first rdf:resource="#Mathematics"/>
+                                  <rdf:rest>
+                                    <rdf:Description>
+                                      <rdf:first rdf:resource="#Physics"/>
+                                      <rdf:rest>
+                                        <rdf:Description>
+                                          <rdf:first rdf:resource="#Statistics"/>
+                                          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:Description>
+                                      </rdf:rest>
+                                    </rdf:Description>
+                                  </rdf:rest>
+                                </rdf:Description>
+                              </rdf:rest>
+                            </rdf:Description>
+                          </rdf:rest>
+                        </rdf:Description>
+                      </rdf:rest>
+                    </rdf:Description>
+                  </rdf:rest>
+                </rdf:Description>
+              </rdf:rest>
+            </rdf:Description>
+          </rdf:rest>
+        </rdf:Description>
+      </rdf:rest>
+    </rdf:Description>
+  </owl:disjointUnionOf>
+</owl:Class>
+
+<owl:Class rdf:about="#OtherStaff">
+  <rdfs:subClassOf rdf:resource="#SupportingStaff"/>
+</owl:Class>
+
+<owl:Class rdf:about="#PGProgram">
+  <rdfs:subClassOf rdf:resource="#Program"/>
+</owl:Class>
+
+<owl:Class rdf:about="#PhDProgram">
+  <rdfs:subClassOf rdf:resource="#Program"/>
+</owl:Class>
+
+<owl:Class rdf:about="#PostDoc">
+  <rdfs:subClassOf rdf:resource="#Faculty"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Professor">
+  <rdfs:subClassOf rdf:resource="#Faculty"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ResearchGroup">
+  <rdfs:subClassOf rdf:resource="#Organization"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ResearchAssistant">
+  <rdfs:subClassOf rdf:resource="#Employee"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ResearchProject">
+  <rdfs:subClassOf rdf:resource="#Work"/>
+</owl:Class>
+
+<owl:Class rdf:about="#SupportingStaff">
+  <rdfs:subClassOf rdf:resource="#Employee"/>
+</owl:Class>
+
+<owl:Class rdf:about="#SystemStaff">
+  <rdfs:subClassOf rdf:resource="#SupportingStaff"/>
+</owl:Class>
+
+<owl:Class rdf:about="#UGProgram">
+  <rdfs:subClassOf rdf:resource="#Program"/>
+</owl:Class>
+
+<owl:Class rdf:about="#VisitingProfessor">
+  <rdfs:subClassOf rdf:resource="#Professor"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Work"/>
+
+<owl:Class rdf:about="#Course">
+  <owl:equivalentClass rdf:resource="#TeachingCourse"/>
+  <owl:disjointUnionOf>
+    <rdf:Description>
+      <rdf:first rdf:resource="#ElectiveCourse"/>
+      <rdf:rest>
+        <rdf:Description>
+          <rdf:first rdf:resource="#UGCourse"/>
+          <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </rdf:Description>
+      </rdf:rest>
+    </rdf:Description>
+  </owl:disjointUnionOf>
+</owl:Class>
+
+<owl:Class rdf:about="#TeachingAssistant">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Student"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#isTeachingAssistantOf"/>
+          <owl:someValuesFrom rdf:resource="#Course"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf rdf:resource="#Student"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Employee">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Person"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#worksFor"/>
+          <owl:someValuesFrom rdf:resource="#Organization"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf rdf:resource="#Person"/>
+</owl:Class>
+
+<owl:Class rdf:about="#AeronauticalEngineering">
+  <rdfs:subClassOf rdf:resource="#Engineering"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Anthropology">
+  <rdfs:subClassOf rdf:resource="#HumanitiesAndSocialScience"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Architecture">
+  <rdfs:subClassOf rdf:resource="#FineArts"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Article">
+  <rdfs:subClassOf rdf:resource="#Publication"/>
+  <owl:disjointUnionOf>
+    <rdf:Description>
+      <rdf:first rdf:resource="#ConferencePaper"/>
+      <rdf:rest>
+        <rdf:Description>
+          <rdf:first rdf:resource="#JournalArticle"/>
+          <rdf:rest>
+            <rdf:Description>
+              <rdf:first rdf:resource="#TechnicalReport"/>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+          </rdf:rest>
+        </rdf:Description>
+      </rdf:rest>
+    </rdf:Description>
+  </owl:disjointUnionOf>
+</owl:Class>
+
+<owl:Class rdf:about="#ConferencePaper">
+  <rdfs:subClassOf rdf:resource="#Article"/>
+</owl:Class>
+
+<owl:Class rdf:about="#JournalArticle">
+  <rdfs:subClassOf rdf:resource="#Article"/>
+</owl:Class>
+
+<owl:Class rdf:about="#TechnicalReport">
+  <rdfs:subClassOf rdf:resource="#Article"/>
+</owl:Class>
+
+<owl:Class rdf:about="#AsianArts">
+  <rdfs:subClassOf rdf:resource="#FineArts"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Astronomy">
+  <rdfs:subClassOf rdf:resource="#Science"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Badminton">
+  <rdfs:subClassOf rdf:resource="#Sports"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Sports">
+  <rdfs:subClassOf rdf:resource="#Interest"/>
+</owl:Class>
+
+<owl:Class rdf:about="#BasketBall">
+  <rdfs:subClassOf rdf:resource="#Sports"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Biology">
+  <rdfs:subClassOf rdf:resource="#Science"/>
+</owl:Class>
+
+<owl:Class rdf:about="#BiomedicalEngineering">
+  <rdfs:subClassOf rdf:resource="#Engineering"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Book">
+  <rdfs:subClassOf rdf:resource="#Publication"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Chair">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#isHeadOf"/>
+      <owl:someValuesFrom rdf:resource="#Department"/>
+    </owl:Restriction>
+  </owl:equivalentClass>
+  <rdfs:subClassOf rdf:resource="#FullProfessor"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ChemicalEngineering">
+  <rdfs:subClassOf rdf:resource="#Engineering"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Chemistry">
+  <rdfs:subClassOf rdf:resource="#Science"/>
+</owl:Class>
+
+<owl:Class rdf:about="#CivilEngineering">
+  <rdfs:subClassOf rdf:resource="#Engineering"/>
+</owl:Class>
+
+<owl:Class rdf:about="#CoEdCollege">
+  <rdfs:subClassOf rdf:resource="#College"/>
+</owl:Class>
+
+<owl:Class rdf:about="#School">
+  <rdfs:subClassOf rdf:resource="#Organization"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ComputerEngineering">
+  <rdfs:subClassOf rdf:resource="#Engineering"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ComputerScience">
+  <rdfs:subClassOf rdf:resource="#Science"/>
+</owl:Class>
+
+<owl:Class rdf:about="#TeachingCourse">
+  <rdfs:subClassOf rdf:resource="#Work"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ElectiveCourse">
+  <rdfs:subClassOf rdf:resource="#Course"/>
+  <owl:disjointWith rdf:resource="#UGCourse"/>
+</owl:Class>
+
+<owl:Class rdf:about="#UGCourse">
+  <rdfs:subClassOf rdf:resource="#Course"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Cricket">
+  <rdfs:subClassOf rdf:resource="#Sports"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Dean">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#isHeadOf"/>
+      <owl:someValuesFrom rdf:resource="#College"/>
+    </owl:Restriction>
+  </owl:equivalentClass>
+  <rdfs:subClassOf rdf:resource="#FullProfessor"/>
+</owl:Class>
+
+<owl:Class rdf:about="#DesignManagement">
+  <rdfs:subClassOf rdf:resource="#Management"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Director">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#isHeadOf"/>
+      <owl:someValuesFrom rdf:resource="#Program"/>
+    </owl:Restriction>
+  </owl:equivalentClass>
+  <rdfs:subClassOf rdf:resource="#FullProfessor"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Drama">
+  <rdfs:subClassOf rdf:resource="#FineArts"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Economics">
+  <rdfs:subClassOf rdf:resource="#HumanitiesAndSocialScience"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ElectricalEngineering">
+  <rdfs:subClassOf rdf:resource="#Engineering"/>
+</owl:Class>
+
+<owl:Class rdf:about="#IndustryEngineering">
+  <rdfs:subClassOf rdf:resource="#Engineering"/>
+</owl:Class>
+
+<owl:Class rdf:about="#MaterialScienceEngineering">
+  <rdfs:subClassOf rdf:resource="#Engineering"/>
+</owl:Class>
+
+<owl:Class rdf:about="#MechanicalEngineering">
+  <rdfs:subClassOf rdf:resource="#Engineering"/>
+</owl:Class>
+
+<owl:Class rdf:about="#PetroleumlEngineering">
+  <rdfs:subClassOf rdf:resource="#Engineering"/>
+</owl:Class>
+
+<owl:Class rdf:about="#English">
+  <rdfs:subClassOf rdf:resource="#HumanitiesAndSocialScience"/>
+</owl:Class>
+
+<owl:Class rdf:about="#FinancialAndAccountingManagement">
+  <rdfs:subClassOf rdf:resource="#Management"/>
+</owl:Class>
+
+<owl:Class rdf:about="#LatinArts">
+  <rdfs:subClassOf rdf:resource="#FineArts"/>
+</owl:Class>
+
+<owl:Class rdf:about="#MediaArtsAndSciences">
+  <rdfs:subClassOf rdf:resource="#FineArts"/>
+</owl:Class>
+
+<owl:Class rdf:about="#MedievalArts">
+  <rdfs:subClassOf rdf:resource="#FineArts"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ModernArts">
+  <rdfs:subClassOf rdf:resource="#FineArts"/>
+</owl:Class>
+
+<owl:Class rdf:about="#MusicsClass">
+  <rdfs:subClassOf rdf:resource="#FineArts"/>
+</owl:Class>
+
+<owl:Class rdf:about="#PerformingArts">
+  <rdfs:subClassOf rdf:resource="#FineArts"/>
+</owl:Class>
+
+<owl:Class rdf:about="#TheatreAndDance">
+  <rdfs:subClassOf rdf:resource="#FineArts"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Football">
+  <rdfs:subClassOf rdf:resource="#Sports"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Game">
+  <rdfs:subClassOf rdf:resource="#Interest"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Interest"/>
+
+<owl:Class rdf:about="#Geosciences">
+  <rdfs:subClassOf rdf:resource="#Science"/>
+</owl:Class>
+
+<owl:Class rdf:about="#History">
+  <rdfs:subClassOf rdf:resource="#HumanitiesAndSocialScience"/>
+</owl:Class>
+
+<owl:Class rdf:about="#HumanResourceManagement">
+  <rdfs:subClassOf rdf:resource="#Management"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Humanities">
+  <rdfs:subClassOf rdf:resource="#HumanitiesAndSocialScience"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Linguistics">
+  <rdfs:subClassOf rdf:resource="#HumanitiesAndSocialScience"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ModernLanguages">
+  <rdfs:subClassOf rdf:resource="#HumanitiesAndSocialScience"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Philosophy">
+  <rdfs:subClassOf rdf:resource="#HumanitiesAndSocialScience"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Psychology">
+  <rdfs:subClassOf rdf:resource="#HumanitiesAndSocialScience"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Religions">
+  <rdfs:subClassOf rdf:resource="#HumanitiesAndSocialScience"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Institute">
+  <rdfs:subClassOf rdf:resource="#Organization"/>
+</owl:Class>
+
+<owl:Class rdf:about="#LeisureStudent">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Student"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#takesCourse"/>
+          <owl:onClass rdf:resource="#Course"/>
+          <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf rdf:resource="#Student"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Man">
+  <rdfs:subClassOf rdf:resource="#Person"/>
+  <owl:disjointWith rdf:resource="#Woman"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Woman">
+  <rdfs:subClassOf rdf:resource="#Person"/>
+</owl:Class>
+
+<owl:Class rdf:about="#MarketingManagement">
+  <rdfs:subClassOf rdf:resource="#Management"/>
+</owl:Class>
+
+<owl:Class rdf:about="#OperationsManagement">
+  <rdfs:subClassOf rdf:resource="#Management"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ProjectManagement">
+  <rdfs:subClassOf rdf:resource="#Management"/>
+</owl:Class>
+
+<owl:Class rdf:about="#PublicRelationsManagement">
+  <rdfs:subClassOf rdf:resource="#Management"/>
+</owl:Class>
+
+<owl:Class rdf:about="#RiskManagement">
+  <rdfs:subClassOf rdf:resource="#Management"/>
+</owl:Class>
+
+<owl:Class rdf:about="#SalesManagement">
+  <rdfs:subClassOf rdf:resource="#Management"/>
+</owl:Class>
+
+<owl:Class rdf:about="#SupplyChainManagement">
+  <rdfs:subClassOf rdf:resource="#Management"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Manual">
+  <rdfs:subClassOf rdf:resource="#Publication"/>
+</owl:Class>
+
+<owl:Class rdf:about="#MarineScience">
+  <rdfs:subClassOf rdf:resource="#Science"/>
+</owl:Class>
+
+<owl:Class rdf:about="#MaterialsScience">
+  <rdfs:subClassOf rdf:resource="#Science"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Mathematics">
+  <rdfs:subClassOf rdf:resource="#Science"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Movie">
+  <rdfs:subClassOf rdf:resource="#Interest"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Music">
+  <rdfs:subClassOf rdf:resource="#Interest"/>
+</owl:Class>
+
+<owl:Class rdf:about="#NonScience">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:complementOf rdf:resource="#Science"/>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf rdf:resource="#CollegeDiscipline"/>
+</owl:Class>
+
+<owl:Class rdf:about="#PGStudent">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Student"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#enrollFor"/>
+          <owl:onClass rdf:resource="#PGProgram"/>
+          <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf rdf:resource="#Student"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Painting">
+  <rdfs:subClassOf rdf:resource="#Interest"/>
+</owl:Class>
+
+<owl:Class rdf:about="#PeopleWithHobby">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Person"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#likes"/>
+          <owl:someValuesFrom rdf:resource="#Interest"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf rdf:resource="#Person"/>
+</owl:Class>
+
+<owl:Class rdf:about="#PeopleWithManyHobbies">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Person"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#likes"/>
+          <owl:onClass rdf:resource="#Interest"/>
+          <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">3</owl:minQualifiedCardinality>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf rdf:resource="#Person"/>
+</owl:Class>
+
+<owl:Class rdf:about="#PhDStudent">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Student"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#enrollFor"/>
+          <owl:onClass rdf:resource="#PhDProgram"/>
+          <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf rdf:resource="#Student"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Physics">
+  <rdfs:subClassOf rdf:resource="#Science"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Software">
+  <rdfs:subClassOf rdf:resource="#Publication"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Specification">
+  <rdfs:subClassOf rdf:resource="#Publication"/>
+</owl:Class>
+
+<owl:Class rdf:about="#UnofficialPublication">
+  <rdfs:subClassOf rdf:resource="#Publication"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Reading">
+  <rdfs:subClassOf rdf:resource="#Interest"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Statistics">
+  <rdfs:subClassOf rdf:resource="#Science"/>
+</owl:Class>
+
+<owl:Class rdf:about="#SelfAwarePerson">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Person"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#knows"/>
+          <owl:hasSelf rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</owl:hasSelf>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:about="#Soccer">
+  <rdfs:subClassOf rdf:resource="#Sports"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Swimming">
+  <rdfs:subClassOf rdf:resource="#Sports"/>
+</owl:Class>
+
+<owl:Class rdf:about="#T20CricketFan">
+  <rdfs:subClassOf rdf:resource="#Person"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Tennis">
+  <rdfs:subClassOf rdf:resource="#Sports"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Travelling">
+  <rdfs:subClassOf rdf:resource="#Interest"/>
+</owl:Class>
+
+<owl:Class rdf:about="#UGStudent">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#Student"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#enrollFor"/>
+          <owl:onClass rdf:resource="#UGProgram"/>
+          <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf rdf:resource="#Student"/>
+</owl:Class>
+
+<owl:Class rdf:about="#WomenCollege">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="#College"/>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#hasStudent"/>
+          <owl:allValuesFrom rdf:resource="#Woman"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
+  <rdfs:subClassOf rdf:resource="#College"/>
+</owl:Class>
+
+<owl:NamedIndividual rdf:about="#University_0">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_5"/>
+  <hasDepartment rdf:resource="#Department_6"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_1">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_5"/>
+  <hasDepartment rdf:resource="#Department_3"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_2">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_0"/>
+  <hasDepartment rdf:resource="#Department_5"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_3">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_5"/>
+  <hasDepartment rdf:resource="#Department_4"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_4">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_1"/>
+  <hasDepartment rdf:resource="#Department_0"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_5">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_1"/>
+  <hasDepartment rdf:resource="#Department_9"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_6">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_7"/>
+  <hasDepartment rdf:resource="#Department_5"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_7">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_5"/>
+  <hasDepartment rdf:resource="#Department_4"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_8">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_5"/>
+  <hasDepartment rdf:resource="#Department_6"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_9">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_1"/>
+  <hasDepartment rdf:resource="#Department_6"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_10">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_8"/>
+  <hasDepartment rdf:resource="#Department_6"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_11">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_1"/>
+  <hasDepartment rdf:resource="#Department_3"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_12">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_7"/>
+  <hasDepartment rdf:resource="#Department_3"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_13">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_7"/>
+  <hasDepartment rdf:resource="#Department_1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_14">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_9"/>
+  <hasDepartment rdf:resource="#Department_5"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_15">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_9"/>
+  <hasDepartment rdf:resource="#Department_7"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_16">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_2"/>
+  <hasDepartment rdf:resource="#Department_4"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_17">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_5"/>
+  <hasDepartment rdf:resource="#Department_8"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_18">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_7"/>
+  <hasDepartment rdf:resource="#Department_2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#University_19">
+  <rdf:type rdf:resource="#University"/>
+  <hasDepartment rdf:resource="#Department_6"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Department_0">
+  <rdf:type rdf:resource="#Department"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Department_1">
+  <rdf:type rdf:resource="#Department"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Department_2">
+  <rdf:type rdf:resource="#Department"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Department_3">
+  <rdf:type rdf:resource="#Department"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Department_4">
+  <rdf:type rdf:resource="#Department"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Department_5">
+  <rdf:type rdf:resource="#Department"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Department_6">
+  <rdf:type rdf:resource="#Department"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Department_7">
+  <rdf:type rdf:resource="#Department"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Department_8">
+  <rdf:type rdf:resource="#Department"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Department_9">
+  <rdf:type rdf:resource="#Department"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_0">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_1">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_2">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_3">
+  <rdf:type rdf:resource="#Student"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_4">
+  <rdf:type rdf:resource="#Student"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_5">
+  <rdf:type rdf:resource="#Student"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_6">
+  <rdf:type rdf:resource="#Man"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_7">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_8">
+  <rdf:type rdf:resource="#Student"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_9">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_10">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_11">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_12">
+  <rdf:type rdf:resource="#Man"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_13">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_7"/>
+  <teachesCourse rdf:resource="#Course_15"/>
+  <takesCourse rdf:resource="#UGCourse_4"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_14">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_15">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_16">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_17">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_18">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_19">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_0"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_2"/>
+  <takesCourse rdf:resource="#ElectiveCourse_8"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_20">
+  <rdf:type rdf:resource="#Man"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_21">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_22">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_3"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_17"/>
+  <takesCourse rdf:resource="#ElectiveCourse_9"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_23">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_7"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_15"/>
+  <takesCourse rdf:resource="#Course_4"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_24">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_25">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_26">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_12"/>
+  <teachesCourse rdf:resource="#UGCourse_5"/>
+  <takesCourse rdf:resource="#ElectiveCourse_16"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_27">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_6"/>
+  <teachesCourse rdf:resource="#UGCourse_6"/>
+  <takesCourse rdf:resource="#ElectiveCourse_12"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_28">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_29">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_30">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_31">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_32">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_33">
+  <rdf:type rdf:resource="#Woman"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_18"/>
+  <teachesCourse rdf:resource="#UGCourse_5"/>
+  <takesCourse rdf:resource="#ElectiveCourse_8"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_34">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_14"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_16"/>
+  <takesCourse rdf:resource="#Course_7"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_35">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_36">
+  <rdf:type rdf:resource="#Student"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_37">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_38">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_4"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_17"/>
+  <takesCourse rdf:resource="#UGCourse_4"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_39">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_40">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_41">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_42">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_43">
+  <rdf:type rdf:resource="#Student"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_44">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_45">
+  <rdf:type rdf:resource="#Student"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_46">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_47">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_8"/>
+  <teachesCourse rdf:resource="#UGCourse_5"/>
+  <takesCourse rdf:resource="#UGCourse_1"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_5"/>
+  <takesCourse rdf:resource="#UGCourse_2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_48">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_49">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_0">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_1">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_2">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_3">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_4">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_5">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_6">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_2"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_9"/>
+  <takesCourse rdf:resource="#UGCourse_14"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_7">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_8">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_9">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_17"/>
+  <teachesCourse rdf:resource="#UGCourse_8"/>
+  <takesCourse rdf:resource="#UGCourse_8"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_10">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_18"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_16"/>
+  <takesCourse rdf:resource="#Course_0"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_11">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_12">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_13">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_6"/>
+  <teachesCourse rdf:resource="#Course_11"/>
+  <takesCourse rdf:resource="#Course_19"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_14">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_15">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_16">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_19"/>
+  <teachesCourse rdf:resource="#Course_11"/>
+  <takesCourse rdf:resource="#Course_13"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_17">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_18">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_0"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_16"/>
+  <takesCourse rdf:resource="#Course_4"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_19">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_20">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_21">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_22">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_23">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_24">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_25">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_26">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_27">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_28">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_29">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_30">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_31">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_32">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_33">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_19"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_15"/>
+  <takesCourse rdf:resource="#ElectiveCourse_1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_34">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_15"/>
+  <teachesCourse rdf:resource="#Course_18"/>
+  <takesCourse rdf:resource="#Course_9"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_35">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_36">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_37">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_38">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_16"/>
+  <teachesCourse rdf:resource="#Course_19"/>
+  <takesCourse rdf:resource="#Course_9"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_39">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_40">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_16"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_1"/>
+  <takesCourse rdf:resource="#Course_18"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_41">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_42">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_5"/>
+  <teachesCourse rdf:resource="#UGCourse_6"/>
+  <takesCourse rdf:resource="#Course_4"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_43">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_44">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_6"/>
+  <teachesCourse rdf:resource="#UGCourse_2"/>
+  <takesCourse rdf:resource="#UGCourse_5"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_45">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_46">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_15"/>
+  <teachesCourse rdf:resource="#UGCourse_13"/>
+  <takesCourse rdf:resource="#UGCourse_11"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_47">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_48">
+  <rdf:type rdf:resource="#Person"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_49">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_15"/>
+  <teachesCourse rdf:resource="#UGCourse_1"/>
+  <takesCourse rdf:resource="#ElectiveCourse_17"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_0">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_1">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_2">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_3">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_4">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_5">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_6">
+  <rdf:type rdf:resource="#Student"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_7">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_17"/>
+  <teachesCourse rdf:resource="#Course_11"/>
+  <takesCourse rdf:resource="#Course_0"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_8">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_9">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_9"/>
+  <teachesCourse rdf:resource="#UGCourse_11"/>
+  <takesCourse rdf:resource="#UGCourse_5"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_10">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_11">
+  <rdf:type rdf:resource="#Woman"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_13"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_3"/>
+  <takesCourse rdf:resource="#ElectiveCourse_2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_12">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_5"/>
+  <teachesCourse rdf:resource="#UGCourse_3"/>
+  <takesCourse rdf:resource="#UGCourse_7"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_13">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_14">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_15">
+  <rdf:type rdf:resource="#Student"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_16">
+  <rdf:type rdf:resource="#Man"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_17">
+  <rdf:type rdf:resource="#Man"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_20">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_21">
+  <rdf:type rdf:resource="#Man"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_22">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_24">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_25">
+  <rdf:type rdf:resource="#Woman"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_10"/>
+  <teachesCourse rdf:resource="#Course_19"/>
+  <takesCourse rdf:resource="#ElectiveCourse_17"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_26">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_5"/>
+  <teachesCourse rdf:resource="#UGCourse_3"/>
+  <takesCourse rdf:resource="#Course_9"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_27">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_30">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_31">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_32">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_33">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_34">
+  <rdf:type rdf:resource="#Student"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_35">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_36">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_37">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_38">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_39">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_41">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_19"/>
+  <teachesCourse rdf:resource="#Course_15"/>
+  <takesCourse rdf:resource="#ElectiveCourse_9"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_42">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_44">
+  <rdf:type rdf:resource="#Student"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_45">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_46">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_47">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_48">
+  <rdf:type rdf:resource="#Man"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_49">
+  <rdf:type rdf:resource="#Man"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_0">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_1">
+  <rdf:type rdf:resource="#Man"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_4">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_6">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_7">
+  <rdf:type rdf:resource="#Man"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_8">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_7"/>
+  <teachesCourse rdf:resource="#UGCourse_5"/>
+  <takesCourse rdf:resource="#UGCourse_6"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_9">
+  <rdf:type rdf:resource="#Man"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_10">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_12">
+  <rdf:type rdf:resource="#Woman"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_18"/>
+  <teachesCourse rdf:resource="#Course_18"/>
+  <takesCourse rdf:resource="#Course_12"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_13">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_14">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_15">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_18">
+  <rdf:type rdf:resource="#Student"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_19">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_20">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_21">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_24">
+  <rdf:type rdf:resource="#Student"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_28">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_13"/>
+  <teachesCourse rdf:resource="#UGCourse_14"/>
+  <takesCourse rdf:resource="#Course_15"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_29">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_12"/>
+  <teachesCourse rdf:resource="#UGCourse_1"/>
+  <takesCourse rdf:resource="#Course_15"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_31">
+  <rdf:type rdf:resource="#Man"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_33">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_34">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_35">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_36">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_38">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_41">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_46">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_14"/>
+  <teachesCourse rdf:resource="#UGCourse_2"/>
+  <takesCourse rdf:resource="#Course_4"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_48">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_8"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_0"/>
+  <takesCourse rdf:resource="#Course_18"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_49">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_0">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_7"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_12"/>
+  <takesCourse rdf:resource="#UGCourse_7"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_3">
+  <rdf:type rdf:resource="#Employee"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_5">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_6">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_10">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_12">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_13">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_17">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_18">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_12"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_0"/>
+  <takesCourse rdf:resource="#Course_15"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_21">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_23">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_25">
+  <rdf:type rdf:resource="#Student"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_26">
+  <rdf:type rdf:resource="#Woman"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_27">
+  <rdf:type rdf:resource="#Man"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_28">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_10"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_12"/>
+  <takesCourse rdf:resource="#Course_18"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_29">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_30">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_19"/>
+  <teachesCourse rdf:resource="#Course_19"/>
+  <takesCourse rdf:resource="#ElectiveCourse_1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_31">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_8"/>
+  <teachesCourse rdf:resource="#UGCourse_1"/>
+  <takesCourse rdf:resource="#ElectiveCourse_8"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_32">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_10"/>
+  <teachesCourse rdf:resource="#Course_9"/>
+  <takesCourse rdf:resource="#Course_9"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_39">
+  <rdf:type rdf:resource="#Man"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_41">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_3"/>
+  <teachesCourse rdf:resource="#Course_11"/>
+  <takesCourse rdf:resource="#ElectiveCourse_17"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_42">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_19"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_8"/>
+  <takesCourse rdf:resource="#ElectiveCourse_2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_45">
+  <rdf:type rdf:resource="#Man"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_47">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_49">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_0">
+  <rdf:type rdf:resource="#Woman"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_10"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_16"/>
+  <takesCourse rdf:resource="#UGCourse_5"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_1">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_15"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_2"/>
+  <takesCourse rdf:resource="#UGCourse_1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_2">
+  <rdf:type rdf:resource="#Woman"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_1"/>
+  <teachesCourse rdf:resource="#UGCourse_13"/>
+  <takesCourse rdf:resource="#ElectiveCourse_2"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_18"/>
+  <teachesCourse rdf:resource="#Course_0"/>
+  <takesCourse rdf:resource="#Course_9"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_3">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_13"/>
+  <teachesCourse rdf:resource="#UGCourse_4"/>
+  <takesCourse rdf:resource="#UGCourse_6"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_4">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_6"/>
+  <teachesCourse rdf:resource="#UGCourse_11"/>
+  <takesCourse rdf:resource="#UGCourse_11"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_5">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_0"/>
+  <teachesCourse rdf:resource="#Course_7"/>
+  <takesCourse rdf:resource="#UGCourse_5"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_7">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_12"/>
+  <teachesCourse rdf:resource="#UGCourse_4"/>
+  <takesCourse rdf:resource="#ElectiveCourse_2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_8">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_15"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_19"/>
+  <takesCourse rdf:resource="#ElectiveCourse_16"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_10">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_10"/>
+  <teachesCourse rdf:resource="#UGCourse_1"/>
+  <takesCourse rdf:resource="#UGCourse_11"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_14">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_2"/>
+  <teachesCourse rdf:resource="#UGCourse_6"/>
+  <takesCourse rdf:resource="#ElectiveCourse_2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_15">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_19"/>
+  <teachesCourse rdf:resource="#UGCourse_13"/>
+  <takesCourse rdf:resource="#UGCourse_1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_16">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_7"/>
+  <teachesCourse rdf:resource="#UGCourse_5"/>
+  <takesCourse rdf:resource="#UGCourse_11"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_17">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_13"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_19"/>
+  <takesCourse rdf:resource="#Course_10"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_1"/>
+  <teachesCourse rdf:resource="#Course_11"/>
+  <takesCourse rdf:resource="#UGCourse_6"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_20">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_18"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_19"/>
+  <takesCourse rdf:resource="#ElectiveCourse_0"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_8"/>
+  <teachesCourse rdf:resource="#UGCourse_8"/>
+  <takesCourse rdf:resource="#ElectiveCourse_15"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_21">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_19"/>
+  <teachesCourse rdf:resource="#UGCourse_13"/>
+  <takesCourse rdf:resource="#UGCourse_6"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_23">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_1"/>
+  <teachesCourse rdf:resource="#Course_10"/>
+  <takesCourse rdf:resource="#ElectiveCourse_8"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_24">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_3"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_3"/>
+  <takesCourse rdf:resource="#UGCourse_5"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_25">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_12"/>
+  <teachesCourse rdf:resource="#UGCourse_11"/>
+  <takesCourse rdf:resource="#ElectiveCourse_3"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_27">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_9"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_16"/>
+  <takesCourse rdf:resource="#ElectiveCourse_17"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_30">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_18"/>
+  <teachesCourse rdf:resource="#Course_7"/>
+  <takesCourse rdf:resource="#Course_7"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_32">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_11"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_16"/>
+  <takesCourse rdf:resource="#ElectiveCourse_2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_35">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_14"/>
+  <teachesCourse rdf:resource="#UGCourse_13"/>
+  <takesCourse rdf:resource="#ElectiveCourse_3"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_36">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_4"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_17"/>
+  <takesCourse rdf:resource="#ElectiveCourse_16"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_37">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_3"/>
+  <teachesCourse rdf:resource="#UGCourse_6"/>
+  <takesCourse rdf:resource="#UGCourse_11"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_39">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_16"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_19"/>
+  <takesCourse rdf:resource="#ElectiveCourse_17"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_6"/>
+  <teachesCourse rdf:resource="#UGCourse_2"/>
+  <takesCourse rdf:resource="#UGCourse_10"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_40">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_14"/>
+  <teachesCourse rdf:resource="#Course_18"/>
+  <takesCourse rdf:resource="#ElectiveCourse_0"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_43">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_12"/>
+  <teachesCourse rdf:resource="#Course_18"/>
+  <takesCourse rdf:resource="#ElectiveCourse_8"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_44">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_19"/>
+  <teachesCourse rdf:resource="#Course_18"/>
+  <takesCourse rdf:resource="#UGCourse_4"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_45">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_9"/>
+  <teachesCourse rdf:resource="#Course_12"/>
+  <takesCourse rdf:resource="#ElectiveCourse_17"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ElectiveCourse_0">
+  <rdf:type rdf:resource="#ElectiveCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UGCourse_1">
+  <rdf:type rdf:resource="#UGCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ElectiveCourse_2">
+  <rdf:type rdf:resource="#ElectiveCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ElectiveCourse_3">
+  <rdf:type rdf:resource="#ElectiveCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UGCourse_4">
+  <rdf:type rdf:resource="#UGCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UGCourse_5">
+  <rdf:type rdf:resource="#UGCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UGCourse_6">
+  <rdf:type rdf:resource="#UGCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Course_7">
+  <rdf:type rdf:resource="#Course"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ElectiveCourse_8">
+  <rdf:type rdf:resource="#ElectiveCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ElectiveCourse_9">
+  <rdf:type rdf:resource="#ElectiveCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Course_10">
+  <rdf:type rdf:resource="#Course"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UGCourse_11">
+  <rdf:type rdf:resource="#UGCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Course_12">
+  <rdf:type rdf:resource="#Course"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UGCourse_13">
+  <rdf:type rdf:resource="#UGCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UGCourse_14">
+  <rdf:type rdf:resource="#UGCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Course_15">
+  <rdf:type rdf:resource="#Course"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ElectiveCourse_16">
+  <rdf:type rdf:resource="#ElectiveCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ElectiveCourse_17">
+  <rdf:type rdf:resource="#ElectiveCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Course_18">
+  <rdf:type rdf:resource="#Course"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ElectiveCourse_19">
+  <rdf:type rdf:resource="#ElectiveCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_1">
+  <rdf:type rdf:resource="#Woman"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_14"/>
+  <teachesCourse rdf:resource="#UGCourse_10"/>
+  <takesCourse rdf:resource="#UGCourse_7"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_3">
+  <rdf:type rdf:resource="#Woman"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_11"/>
+  <teachesCourse rdf:resource="#UGCourse_10"/>
+  <takesCourse rdf:resource="#UGCourse_5"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_4">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_8"/>
+  <teachesCourse rdf:resource="#UGCourse_3"/>
+  <takesCourse rdf:resource="#Course_0"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_5">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_16"/>
+  <teachesCourse rdf:resource="#Course_4"/>
+  <takesCourse rdf:resource="#UGCourse_3"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_6">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_19"/>
+  <teachesCourse rdf:resource="#Course_14"/>
+  <takesCourse rdf:resource="#Course_14"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_11">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_1"/>
+  <teachesCourse rdf:resource="#Course_13"/>
+  <takesCourse rdf:resource="#UGCourse_2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_14">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_6"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_17"/>
+  <takesCourse rdf:resource="#UGCourse_3"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_15">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_11"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_17"/>
+  <takesCourse rdf:resource="#UGCourse_3"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_19">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_4"/>
+  <teachesCourse rdf:resource="#Course_14"/>
+  <takesCourse rdf:resource="#UGCourse_6"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_21">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_18"/>
+  <teachesCourse rdf:resource="#UGCourse_8"/>
+  <takesCourse rdf:resource="#UGCourse_6"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_22">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_12"/>
+  <teachesCourse rdf:resource="#Course_0"/>
+  <takesCourse rdf:resource="#ElectiveCourse_12"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_24">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_5"/>
+  <teachesCourse rdf:resource="#UGCourse_7"/>
+  <takesCourse rdf:resource="#UGCourse_8"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_29">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_4"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_17"/>
+  <takesCourse rdf:resource="#ElectiveCourse_17"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_31">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_14"/>
+  <teachesCourse rdf:resource="#UGCourse_3"/>
+  <takesCourse rdf:resource="#UGCourse_2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_35">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_10"/>
+  <teachesCourse rdf:resource="#UGCourse_6"/>
+  <takesCourse rdf:resource="#Course_9"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_36">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_1"/>
+  <teachesCourse rdf:resource="#UGCourse_3"/>
+  <takesCourse rdf:resource="#ElectiveCourse_1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_37">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_12"/>
+  <teachesCourse rdf:resource="#UGCourse_5"/>
+  <takesCourse rdf:resource="#Course_0"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_43">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_13"/>
+  <teachesCourse rdf:resource="#Course_14"/>
+  <takesCourse rdf:resource="#UGCourse_8"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_45">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_12"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_12"/>
+  <takesCourse rdf:resource="#Course_4"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_48">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_1"/>
+  <teachesCourse rdf:resource="#Course_9"/>
+  <takesCourse rdf:resource="#ElectiveCourse_12"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_49">
+  <rdf:type rdf:resource="#Woman"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_18"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_1"/>
+  <takesCourse rdf:resource="#ElectiveCourse_17"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_50">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_19"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_15"/>
+  <takesCourse rdf:resource="#UGCourse_8"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_51">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_2"/>
+  <teachesCourse rdf:resource="#Course_18"/>
+  <takesCourse rdf:resource="#Course_14"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_52">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_17"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_1"/>
+  <takesCourse rdf:resource="#UGCourse_3"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_53">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_7"/>
+  <teachesCourse rdf:resource="#UGCourse_5"/>
+  <takesCourse rdf:resource="#Course_18"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_54">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_10"/>
+  <teachesCourse rdf:resource="#UGCourse_5"/>
+  <takesCourse rdf:resource="#Course_9"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_55">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_11"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_15"/>
+  <takesCourse rdf:resource="#Course_11"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_56">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_8"/>
+  <teachesCourse rdf:resource="#Course_13"/>
+  <takesCourse rdf:resource="#Course_14"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_57">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_5"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_1"/>
+  <takesCourse rdf:resource="#Course_13"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_58">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_13"/>
+  <teachesCourse rdf:resource="#Course_19"/>
+  <takesCourse rdf:resource="#Course_14"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_59">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_9"/>
+  <teachesCourse rdf:resource="#Course_9"/>
+  <takesCourse rdf:resource="#UGCourse_10"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_60">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_11"/>
+  <teachesCourse rdf:resource="#Course_13"/>
+  <takesCourse rdf:resource="#ElectiveCourse_15"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_61">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_17"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_12"/>
+  <takesCourse rdf:resource="#UGCourse_2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_62">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_10"/>
+  <teachesCourse rdf:resource="#Course_11"/>
+  <takesCourse rdf:resource="#Course_14"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_63">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_5"/>
+  <teachesCourse rdf:resource="#UGCourse_6"/>
+  <takesCourse rdf:resource="#UGCourse_5"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_64">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_3"/>
+  <teachesCourse rdf:resource="#UGCourse_7"/>
+  <takesCourse rdf:resource="#UGCourse_6"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_65">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_18"/>
+  <teachesCourse rdf:resource="#Course_11"/>
+  <takesCourse rdf:resource="#UGCourse_8"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_66">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_17"/>
+  <teachesCourse rdf:resource="#Course_9"/>
+  <takesCourse rdf:resource="#UGCourse_2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_67">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_1"/>
+  <teachesCourse rdf:resource="#UGCourse_10"/>
+  <takesCourse rdf:resource="#UGCourse_2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_68">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_7"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_16"/>
+  <takesCourse rdf:resource="#UGCourse_2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_69">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_12"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_16"/>
+  <takesCourse rdf:resource="#ElectiveCourse_1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_70">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_8"/>
+  <teachesCourse rdf:resource="#Course_18"/>
+  <takesCourse rdf:resource="#UGCourse_7"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_71">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_16"/>
+  <teachesCourse rdf:resource="#Course_11"/>
+  <takesCourse rdf:resource="#ElectiveCourse_16"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_72">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_9"/>
+  <teachesCourse rdf:resource="#Course_19"/>
+  <takesCourse rdf:resource="#UGCourse_3"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_73">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_8"/>
+  <teachesCourse rdf:resource="#Course_4"/>
+  <takesCourse rdf:resource="#UGCourse_5"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_74">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_15"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_15"/>
+  <takesCourse rdf:resource="#UGCourse_6"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_75">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_16"/>
+  <teachesCourse rdf:resource="#Course_4"/>
+  <takesCourse rdf:resource="#ElectiveCourse_17"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_76">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_19"/>
+  <teachesCourse rdf:resource="#Course_11"/>
+  <takesCourse rdf:resource="#UGCourse_7"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_77">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_10"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_1"/>
+  <takesCourse rdf:resource="#Course_14"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_78">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_5"/>
+  <teachesCourse rdf:resource="#Course_14"/>
+  <takesCourse rdf:resource="#ElectiveCourse_1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_79">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_13"/>
+  <teachesCourse rdf:resource="#Course_4"/>
+  <takesCourse rdf:resource="#ElectiveCourse_16"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_80">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_7"/>
+  <teachesCourse rdf:resource="#UGCourse_5"/>
+  <takesCourse rdf:resource="#Course_4"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_81">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_10"/>
+  <teachesCourse rdf:resource="#Course_11"/>
+  <takesCourse rdf:resource="#UGCourse_5"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_82">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_16"/>
+  <teachesCourse rdf:resource="#Course_14"/>
+  <takesCourse rdf:resource="#ElectiveCourse_17"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_83">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_6"/>
+  <teachesCourse rdf:resource="#UGCourse_7"/>
+  <takesCourse rdf:resource="#Course_14"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_84">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_17"/>
+  <teachesCourse rdf:resource="#Course_18"/>
+  <takesCourse rdf:resource="#UGCourse_3"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_85">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_11"/>
+  <teachesCourse rdf:resource="#UGCourse_10"/>
+  <takesCourse rdf:resource="#Course_19"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_86">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_16"/>
+  <teachesCourse rdf:resource="#UGCourse_3"/>
+  <takesCourse rdf:resource="#UGCourse_2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Person_87">
+  <rdf:type rdf:resource="#Person"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_6"/>
+  <teachesCourse rdf:resource="#Course_0"/>
+  <takesCourse rdf:resource="#UGCourse_10"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_88">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_2"/>
+  <teachesCourse rdf:resource="#UGCourse_5"/>
+  <takesCourse rdf:resource="#Course_4"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Employee_89">
+  <rdf:type rdf:resource="#Employee"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_12"/>
+  <teachesCourse rdf:resource="#UGCourse_2"/>
+  <takesCourse rdf:resource="#Course_0"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_90">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_19"/>
+  <teachesCourse rdf:resource="#Course_14"/>
+  <takesCourse rdf:resource="#UGCourse_5"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Man_91">
+  <rdf:type rdf:resource="#Man"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_7"/>
+  <teachesCourse rdf:resource="#Course_9"/>
+  <takesCourse rdf:resource="#Course_11"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithManyHobbies_92">
+  <rdf:type rdf:resource="#PeopleWithManyHobbies"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_13"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_12"/>
+  <takesCourse rdf:resource="#ElectiveCourse_17"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#PeopleWithHobby_93">
+  <rdf:type rdf:resource="#PeopleWithHobby"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_10"/>
+  <teachesCourse rdf:resource="#Course_11"/>
+  <takesCourse rdf:resource="#UGCourse_8"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_94">
+  <rdf:type rdf:resource="#Woman"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_10"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_16"/>
+  <takesCourse rdf:resource="#Course_18"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Student_95">
+  <rdf:type rdf:resource="#Student"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_8"/>
+  <teachesCourse rdf:resource="#Course_4"/>
+  <takesCourse rdf:resource="#ElectiveCourse_17"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_96">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_6"/>
+  <teachesCourse rdf:resource="#ElectiveCourse_15"/>
+  <takesCourse rdf:resource="#Course_14"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#T20CricketFan_97">
+  <rdf:type rdf:resource="#T20CricketFan"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_14"/>
+  <teachesCourse rdf:resource="#UGCourse_10"/>
+  <takesCourse rdf:resource="#Course_14"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_98">
+  <rdf:type rdf:resource="#Woman"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_3"/>
+  <teachesCourse rdf:resource="#UGCourse_8"/>
+  <takesCourse rdf:resource="#Course_18"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Woman_99">
+  <rdf:type rdf:resource="#Woman"/>
+  <hasDoctoralDegreeFrom rdf:resource="#University_7"/>
+  <teachesCourse rdf:resource="#Course_4"/>
+  <takesCourse rdf:resource="#Course_18"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Course_0">
+  <rdf:type rdf:resource="#Course"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ElectiveCourse_1">
+  <rdf:type rdf:resource="#ElectiveCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UGCourse_2">
+  <rdf:type rdf:resource="#UGCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UGCourse_3">
+  <rdf:type rdf:resource="#UGCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Course_4">
+  <rdf:type rdf:resource="#Course"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UGCourse_7">
+  <rdf:type rdf:resource="#UGCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UGCourse_8">
+  <rdf:type rdf:resource="#UGCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Course_9">
+  <rdf:type rdf:resource="#Course"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#UGCourse_10">
+  <rdf:type rdf:resource="#UGCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Course_11">
+  <rdf:type rdf:resource="#Course"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ElectiveCourse_12">
+  <rdf:type rdf:resource="#ElectiveCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Course_13">
+  <rdf:type rdf:resource="#Course"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Course_14">
+  <rdf:type rdf:resource="#Course"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ElectiveCourse_15">
+  <rdf:type rdf:resource="#ElectiveCourse"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Course_19">
+  <rdf:type rdf:resource="#Course"/>
+</owl:NamedIndividual>
+
+<owl:AllDisjointClasses>
+  <owl:members rdf:parseType="Collection">
+    <rdf:Description rdf:about="#PGProgram"/>
+    <rdf:Description rdf:about="#PhDProgram"/>
+    <rdf:Description rdf:about="#UGProgram"/>
+  </owl:members>
+</owl:AllDisjointClasses>
+
+<owl:AllDisjointClasses>
+  <owl:members rdf:parseType="Collection">
+    <rdf:Description rdf:about="#Game"/>
+    <rdf:Description rdf:about="#Movie"/>
+    <rdf:Description rdf:about="#Music"/>
+    <rdf:Description rdf:about="#Painting"/>
+    <rdf:Description rdf:about="#Sports"/>
+  </owl:members>
+</owl:AllDisjointClasses>
+
+<owl:AllDisjointClasses>
+  <owl:members rdf:parseType="Collection">
+    <rdf:Description rdf:about="#Engineering"/>
+    <rdf:Description rdf:about="#FineArts"/>
+    <rdf:Description rdf:about="#HumanitiesAndSocialScience"/>
+    <rdf:Description rdf:about="#Management"/>
+    <rdf:Description rdf:about="#Science"/>
+  </owl:members>
+</owl:AllDisjointClasses>
+
+<owl:AllDisjointClasses>
+  <owl:members rdf:parseType="Collection">
+    <rdf:Description rdf:about="#DesignManagement"/>
+    <rdf:Description rdf:about="#FinancialAndAccountingManagement"/>
+    <rdf:Description rdf:about="#HumanResourceManagement"/>
+    <rdf:Description rdf:about="#MarketingManagement"/>
+    <rdf:Description rdf:about="#OperationsManagement"/>
+    <rdf:Description rdf:about="#ProjectManagement"/>
+    <rdf:Description rdf:about="#PublicRelationsManagement"/>
+    <rdf:Description rdf:about="#RiskManagement"/>
+    <rdf:Description rdf:about="#SalesManagement"/>
+    <rdf:Description rdf:about="#SupplyChainManagement"/>
+  </owl:members>
+</owl:AllDisjointClasses>
+
+<owl:AllDisjointClasses>
+  <owl:members rdf:parseType="Collection">
+    <rdf:Description rdf:about="#Badminton"/>
+    <rdf:Description rdf:about="#BasketBall"/>
+    <rdf:Description rdf:about="#Cricket"/>
+    <rdf:Description rdf:about="#Football"/>
+    <rdf:Description rdf:about="#Swimming"/>
+  </owl:members>
+</owl:AllDisjointClasses>
+
+<owl:AllDisjointClasses>
+  <owl:members rdf:parseType="Collection">
+    <rdf:Description rdf:about="#Badminton"/>
+    <rdf:Description rdf:about="#BasketBall"/>
+    <rdf:Description rdf:about="#Cricket"/>
+    <rdf:Description rdf:about="#Football"/>
+    <rdf:Description rdf:about="#Soccer"/>
+    <rdf:Description rdf:about="#Swimming"/>
+    <rdf:Description rdf:about="#Tennis"/>
+  </owl:members>
+</owl:AllDisjointClasses>
+
+<owl:AllDisjointClasses>
+  <owl:members rdf:parseType="Collection">
+    <rdf:Description rdf:about="#Astronomy"/>
+    <rdf:Description rdf:about="#Biology"/>
+    <rdf:Description rdf:about="#Chemistry"/>
+    <rdf:Description rdf:about="#ComputerScience"/>
+    <rdf:Description rdf:about="#Geosciences"/>
+    <rdf:Description rdf:about="#MarineScience"/>
+    <rdf:Description rdf:about="#MaterialsScience"/>
+    <rdf:Description rdf:about="#Mathematics"/>
+    <rdf:Description rdf:about="#Physics"/>
+    <rdf:Description rdf:about="#Statistics"/>
+  </owl:members>
+</owl:AllDisjointClasses>
+
+<owl:AllDisjointClasses>
+  <owl:members rdf:parseType="Collection">
+    <rdf:Description rdf:about="#Anthropology"/>
+    <rdf:Description rdf:about="#Economics"/>
+    <rdf:Description rdf:about="#English"/>
+    <rdf:Description rdf:about="#History"/>
+    <rdf:Description rdf:about="#Humanities"/>
+    <rdf:Description rdf:about="#Linguistics"/>
+    <rdf:Description rdf:about="#ModernLanguages"/>
+    <rdf:Description rdf:about="#Philosophy"/>
+    <rdf:Description rdf:about="#Psychology"/>
+    <rdf:Description rdf:about="#Religions"/>
+  </owl:members>
+</owl:AllDisjointClasses>
+
+<owl:AllDisjointClasses>
+  <owl:members rdf:parseType="Collection">
+    <rdf:Description rdf:about="#AeronauticalEngineering"/>
+    <rdf:Description rdf:about="#BiomedicalEngineering"/>
+    <rdf:Description rdf:about="#ChemicalEngineering"/>
+    <rdf:Description rdf:about="#CivilEngineering"/>
+    <rdf:Description rdf:about="#ComputerEngineering"/>
+    <rdf:Description rdf:about="#ElectricalEngineering"/>
+    <rdf:Description rdf:about="#IndustryEngineering"/>
+    <rdf:Description rdf:about="#MaterialScienceEngineering"/>
+    <rdf:Description rdf:about="#MechanicalEngineering"/>
+    <rdf:Description rdf:about="#PetroleumlEngineering"/>
+  </owl:members>
+</owl:AllDisjointClasses>
+
+
+</rdf:RDF>

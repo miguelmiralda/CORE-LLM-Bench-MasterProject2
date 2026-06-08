@@ -1,5 +1,5 @@
 "Translation Strategy","Total Questions","Correct","Abstentions (UNKNOWN)","Wrong","Accuracy (%)","Abstention Rate (%)","Avg Question Complexity (words)"
 "DIRECT",45,0,0,45,"0,00","0,00","8,89"
-"CONTEXTUAL",45,2,0,43,"4,44","0,00","26,29"
-"RELATIONAL",45,0,2,43,"0,00","4,44","10,89"
-"FORMAL",45,4,0,41,"8,89","0,00","25,40"
+"CONTEXTUAL",45,2,4,39,"4,88","8,89","26,29"
+"RELATIONAL",45,0,4,41,"0,00","8,89","10,89"
+"FORMAL",45,5,0,40,"11,11","0,00","25,51"

@@ -1,0 +1,152 @@
+================================================================================
+BOOTSTRAP CONFIDENCE INTERVALS FOR ACCURACY METRICS
+================================================================================
+
+Analysis Date: 2026-06-07T18:55:31.689678
+Source File: output/Accuracy_Report.csv
+Bootstrap Iterations: 10000
+Confidence Level: 95%
+
+================================================================================
+RESULTS
+================================================================================
+
+1. Entailed - DIRECT
+   Correct: 19 / 65
+   Accuracy: 29.23%
+   95% CI: [18.46%, 40.0%]
+   CI Width: 21.54% (margin of error: ±11.17%)
+   Std Error: 5.70%
+   Bias: 0.0800%
+   ✓ Moderate sample size | Wide CI - low precision, high uncertainty
+
+2. Entailed - CONTEXTUAL
+   Correct: 43 / 65
+   Accuracy: 66.15%
+   95% CI: [53.85%, 76.92%]
+   CI Width: 23.08% (margin of error: ±11.62%)
+   Std Error: 5.93%
+   Bias: 0.1200%
+   ✓ Moderate sample size | Wide CI - low precision, high uncertainty
+
+3. Entailed - RELATIONAL
+   Correct: 19 / 65
+   Accuracy: 29.23%
+   95% CI: [18.46%, 40.0%]
+   CI Width: 21.54% (margin of error: ±11.17%)
+   Std Error: 5.70%
+   Bias: 0.0800%
+   ✓ Moderate sample size | Wide CI - low precision, high uncertainty
+
+4. Entailed - FORMAL
+   Correct: 61 / 65
+   Accuracy: 93.85%
+   95% CI: [87.69%, 98.46%]
+   CI Width: 10.77% (margin of error: ±5.87%)
+   Std Error: 3.00%
+   Bias: 0.0600%
+   ✓ Moderate sample size | Moderate CI width - moderate uncertainty
+
+5. Non-entailed - DIRECT
+   Correct: 60 / 64
+   Accuracy: 93.75%
+   95% CI: [87.5%, 98.44%]
+   CI Width: 10.94% (margin of error: ±5.9%)
+   Std Error: 3.01%
+   Bias: 0.0600%
+   ✓ Moderate sample size | Moderate CI width - moderate uncertainty
+
+6. Non-entailed - CONTEXTUAL
+   Correct: 58 / 64
+   Accuracy: 90.62%
+   95% CI: [82.81%, 96.88%]
+   CI Width: 14.06% (margin of error: ±7.12%)
+   Std Error: 3.63%
+   Bias: 0.0700%
+   ✓ Moderate sample size | Moderate CI width - moderate uncertainty
+
+7. Non-entailed - RELATIONAL
+   Correct: 57 / 64
+   Accuracy: 89.06%
+   95% CI: [81.25%, 95.31%]
+   CI Width: 14.06% (margin of error: ±7.68%)
+   Std Error: 3.92%
+   Bias: 0.0500%
+   ✓ Moderate sample size | Moderate CI width - moderate uncertainty
+
+8. Non-entailed - FORMAL
+   Correct: 59 / 64
+   Accuracy: 92.19%
+   95% CI: [85.94%, 98.44%]
+   CI Width: 12.5% (margin of error: ±6.55%)
+   Std Error: 3.34%
+   Bias: 0.0700%
+   ✓ Moderate sample size | Moderate CI width - moderate uncertainty
+
+9. Combined - DIRECT
+   Correct: 79 / 129
+   Accuracy: 61.24%
+   95% CI: [52.71%, 69.77%]
+   CI Width: 17.05% (margin of error: ±8.48%)
+   Std Error: 4.33%
+   Bias: 0.0100%
+   ✓✓ Large sample size - results more stable | Moderate CI width - moderate uncertainty
+
+10. Combined - CONTEXTUAL
+   Correct: 101 / 129
+   Accuracy: 78.29%
+   95% CI: [71.32%, 85.27%]
+   CI Width: 13.95% (margin of error: ±7.19%)
+   Std Error: 3.67%
+   Bias: 0.0500%
+   ✓✓ Large sample size - results more stable | Moderate CI width - moderate uncertainty
+
+11. Combined - RELATIONAL
+   Correct: 76 / 129
+   Accuracy: 58.91%
+   95% CI: [50.39%, 67.44%]
+   CI Width: 17.05% (margin of error: ±8.52%)
+   Std Error: 4.35%
+   Bias: 0.0200%
+   ✓✓ Large sample size - results more stable | Moderate CI width - moderate uncertainty
+
+12. Combined - FORMAL
+   Correct: 120 / 129
+   Accuracy: 93.02%
+   95% CI: [88.37%, 96.9%]
+   CI Width: 8.53% (margin of error: ±4.42%)
+   Std Error: 2.26%
+   Bias: 0.0100%
+   ✓✓ Large sample size - results more stable | Narrow CI - good precision
+
+================================================================================
+INTERPRETATION GUIDE
+================================================================================
+
+
+1. POINT ESTIMATE: The observed accuracy from your data
+
+2. CONFIDENCE INTERVAL (CI): The range where the true accuracy likely falls
+   - 95% CI means if you repeated the experiment many times, ~95% of CIs 
+     would contain the true accuracy
+   - Narrow CI = more precise estimate (good)
+   - Wide CI = less precise estimate (less certain)
+
+3. STANDARD ERROR: Measures variability in your bootstrap samples
+   - Larger SE = higher uncertainty
+   - SE decreases with larger sample sizes (√n relationship)
+
+4. MARGIN OF ERROR: ±value around point estimate at 95% confidence
+   - Common interpretation: "Accuracy is X% ± Y%"
+
+5. BIAS: Difference between bootstrap mean and observed accuracy
+   - Usually small; large bias suggests estimation issues
+
+SAMPLE SIZE IMPLICATIONS:
+- n ≤ 50: Small samples, expect wide CIs, higher uncertainty
+- 50 < n ≤ 100: Moderate samples
+- n > 100: Large samples, narrower CIs, more stable estimates
+
+COMPARING STRATEGIES:
+- Non-overlapping CIs → statistically different at 95% confidence
+- Overlapping CIs → cannot conclude significant difference

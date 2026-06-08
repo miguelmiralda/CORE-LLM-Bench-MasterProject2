@@ -1,0 +1,146 @@
+====================================================================================================
+BOOTSTRAP ANALYSIS - STRATEGY COMPARISON REPORT
+====================================================================================================
+
+SUMMARY TABLE:
+----------------------------------------------------------------------------------------------------
+                 Strategy  Sample Size  Accuracy (%)  CI Lower (%)  CI Upper (%)  CI Width  Margin of Error (±%)  Std Error
+        Entailed - DIRECT           65         29.23         18.46         40.00     21.54                 11.17       5.70
+    Entailed - CONTEXTUAL           65         66.15         53.85         76.92     23.08                 11.62       5.93
+    Entailed - RELATIONAL           65         29.23         18.46         40.00     21.54                 11.17       5.70
+        Entailed - FORMAL           65         93.85         87.69         98.46     10.77                  5.87       3.00
+    Non-entailed - DIRECT           64         93.75         87.50         98.44     10.94                  5.90       3.01
+Non-entailed - CONTEXTUAL           64         90.62         82.81         96.88     14.06                  7.12       3.63
+Non-entailed - RELATIONAL           64         89.06         81.25         95.31     14.06                  7.68       3.92
+    Non-entailed - FORMAL           64         92.19         85.94         98.44     12.50                  6.55       3.34
+        Combined - DIRECT          129         61.24         52.71         69.77     17.05                  8.48       4.33
+    Combined - CONTEXTUAL          129         78.29         71.32         85.27     13.95                  7.19       3.67
+    Combined - RELATIONAL          129         58.91         50.39         67.44     17.05                  8.52       4.35
+        Combined - FORMAL          129         93.02         88.37         96.90      8.53                  4.42       2.26
+
+====================================================================================================
+BEST PERFORMERS (ranked by accuracy and CI width)
+====================================================================================================
+
+1. Entailed - FORMAL
+   Accuracy: 93.85% [±5.87%]
+   CI Range: [87.69%, 98.46%]
+   Status: High accuracy, narrow CI
+   Rank Score: 92.77
+
+2. Non-entailed - DIRECT
+   Accuracy: 93.75% [±5.90%]
+   CI Range: [87.50%, 98.44%]
+   Status: High accuracy, narrow CI
+   Rank Score: 92.66
+
+3. Combined - FORMAL
+   Accuracy: 93.02% [±4.42%]
+   CI Range: [88.37%, 96.90%]
+   Status: High accuracy, narrow CI
+   Rank Score: 92.17
+
+4. Non-entailed - FORMAL
+   Accuracy: 92.19% [±6.55%]
+   CI Range: [85.94%, 98.44%]
+   Status: High accuracy, narrow CI
+   Rank Score: 90.94
+
+5. Non-entailed - CONTEXTUAL
+   Accuracy: 90.62% [±7.12%]
+   CI Range: [82.81%, 96.88%]
+   Status: High accuracy, narrow CI
+   Rank Score: 89.21
+
+6. Non-entailed - RELATIONAL
+   Accuracy: 89.06% [±7.68%]
+   CI Range: [81.25%, 95.31%]
+   Status: High accuracy, narrow CI
+   Rank Score: 87.65
+
+7. Combined - CONTEXTUAL
+   Accuracy: 78.29% [±7.19%]
+   CI Range: [71.32%, 85.27%]
+   Status: High accuracy, narrow CI
+   Rank Score: 76.90
+
+8. Entailed - CONTEXTUAL
+   Accuracy: 66.15% [±11.62%]
+   CI Range: [53.85%, 76.92%]
+   Status: High accuracy, wide CI
+   Rank Score: 63.84
+
+9. Combined - DIRECT
+   Accuracy: 61.24% [±8.48%]
+   CI Range: [52.71%, 69.77%]
+   Status: High accuracy, wide CI
+   Rank Score: 59.54
+
+10. Combined - RELATIONAL
+   Accuracy: 58.91% [±8.52%]
+   CI Range: [50.39%, 67.44%]
+   Status: High accuracy, wide CI
+   Rank Score: 57.20
+
+11. Entailed - DIRECT
+   Accuracy: 29.23% [±11.17%]
+   CI Range: [18.46%, 40.00%]
+   Status: High accuracy, wide CI
+   Rank Score: 27.08
+
+12. Entailed - RELATIONAL
+   Accuracy: 29.23% [±11.17%]
+   CI Range: [18.46%, 40.00%]
+   Status: High accuracy, wide CI
+   Rank Score: 27.08
+
+====================================================================================================
+RECOMMENDATIONS
+====================================================================================================
+
+1. TOP STRATEGY: Entailed - FORMAL
+   - Accuracy: 93.85%
+   - Margin of Error: ±5.87%
+
+2. STRATEGIES NEEDING MORE DATA (wide confidence intervals):
+   - Entailed - DIRECT: CI width = 21.54%
+   - Entailed - CONTEXTUAL: CI width = 23.08%
+   - Entailed - RELATIONAL: CI width = 21.54%
+   → Consider running more experiments to narrow these intervals
+
+3. SAMPLE SIZE RECOMMENDATIONS:
+   Current sample sizes and their precision:
+   - 65 samples → ±11.17% margin of error
+   - 65 samples → ±11.62% margin of error
+   - 65 samples → ±11.17% margin of error
+   - 65 samples → ±5.87% margin of error
+   - 64 samples → ±5.90% margin of error
+   - 64 samples → ±7.12% margin of error
+   - 64 samples → ±7.68% margin of error
+   - 64 samples → ±6.55% margin of error
+   - 129 samples → ±8.48% margin of error
+   - 129 samples → ±7.19% margin of error
+   - 129 samples → ±8.52% margin of error
+   - 129 samples → ±4.42% margin of error
+
+   To achieve ±5% margin of error: need ~400 samples per strategy
+   To achieve ±3% margin of error: need ~1000 samples per strategy
+
+====================================================================================================
+INTERPRETATION NOTES
+====================================================================================================
+
+
+- A 95% Confidence Interval means: if you repeated the experiment 100 times,
+  approximately 95 of those intervals would contain the true accuracy.
+
+- Non-overlapping CIs indicate statistically significant differences at 95% confidence.
+
+- Overlapping CIs do NOT mean results are the same - they mean you need more data
+  to determine if there's truly a difference.
+
+- Margin of Error (±X%) is the half-width of the CI. For example:
+  "90% accuracy with ±5% margin of error" means [85%, 95%] CI.
+
+- The relationship between sample size and margin of error is: ME ≈ 1.96 * sqrt(p(1-p)/n)
+  where p is the proportion (accuracy) and n is sample size.

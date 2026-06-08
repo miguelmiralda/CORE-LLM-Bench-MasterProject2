@@ -1,0 +1,63 @@
+{
+  "metadata": {
+    "source_file": "output/Accuracy_Report_MC.csv",
+    "analysis_date": "2026-06-07T18:53:20.526427",
+    "n_bootstrap_iterations": 10000,
+    "ci_level": 0.95,
+    "ci_percentage": "95%"
+  },
+  "analyses": [
+    {
+      "identifier": "DIRECT",
+      "correct": 0,
+      "total": 45,
+      "point_estimate_percent": 0.0,
+      "ci_lower_percent": 0.0,
+      "ci_upper_percent": 0.0,
+      "ci_width": 0.0,
+      "standard_error": 0.0,
+      "bias": 0.0,
+      "margin_of_error": 0.0,
+      "interpretation": "\u26a0\ufe0f  Small sample size - high variability expected | Narrow CI - good precision"
+    },
+    {
+      "identifier": "CONTEXTUAL",
+      "correct": 2,
+      "total": 45,
+      "point_estimate_percent": 4.44,
+      "ci_lower_percent": 0.0,
+      "ci_upper_percent": 11.11,
+      "ci_width": 11.11,
+      "standard_error": 3.09,
+      "bias": 0.03,
+      "margin_of_error": 6.06,
+      "interpretation": "\u26a0\ufe0f  Small sample size - high variability expected | Moderate CI width - moderate uncertainty"
+    },
+    {
+      "identifier": "RELATIONAL",
+      "correct": 0,
+      "total": 45,
+      "point_estimate_percent": 0.0,
+      "ci_lower_percent": 0.0,
+      "ci_upper_percent": 0.0,
+      "ci_width": 0.0,
+      "standard_error": 0.0,
+      "bias": 0.0,
+      "margin_of_error": 0.0,
+      "interpretation": "\u26a0\ufe0f  Small sample size - high variability expected | Narrow CI - good precision"
+    },
+    {
+      "identifier": "FORMAL",
+      "correct": 4,
+      "total": 45,
+      "point_estimate_percent": 8.89,
+      "ci_lower_percent": 2.22,
+      "ci_upper_percent": 17.78,
+      "ci_width": 15.56,
+      "standard_error": 4.24,
+      "bias": -0.0,
+      "margin_of_error": 8.32,
+      "interpretation": "\u26a0\ufe0f  Small sample size - high variability expected | Moderate CI width - moderate uncertainty"
+    }
+  ]
+}

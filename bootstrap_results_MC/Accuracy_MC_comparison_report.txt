@@ -1,0 +1,110 @@
+====================================================================================================
+BOOTSTRAP ANALYSIS - STRATEGY COMPARISON REPORT
+====================================================================================================
+
+SUMMARY TABLE:
+----------------------------------------------------------------------------------------------------
+  Strategy  Sample Size  Accuracy (%)  CI Lower (%)  CI Upper (%)  CI Width  Margin of Error (±%)  Std Error
+    DIRECT           45          0.00          0.00          0.00      0.00                  0.00       0.00
+CONTEXTUAL           45          4.44          0.00         11.11     11.11                  6.06       3.09
+RELATIONAL           45          0.00          0.00          0.00      0.00                  0.00       0.00
+    FORMAL           45          8.89          2.22         17.78     15.56                  8.32       4.24
+
+====================================================================================================
+BEST PERFORMERS (ranked by accuracy and CI width)
+====================================================================================================
+
+1. FORMAL
+   Accuracy: 8.89% [±8.32%]
+   CI Range: [2.22%, 17.78%]
+   Status: High accuracy, wide CI
+   Rank Score: 7.33
+
+2. CONTEXTUAL
+   Accuracy: 4.44% [±6.06%]
+   CI Range: [0.00%, 11.11%]
+   Status: High accuracy, narrow CI
+   Rank Score: 3.33
+
+3. DIRECT
+   Accuracy: 0.00% [±0.00%]
+   CI Range: [0.00%, 0.00%]
+   Status: High accuracy, narrow CI
+   Rank Score: 0.00
+
+4. RELATIONAL
+   Accuracy: 0.00% [±0.00%]
+   CI Range: [0.00%, 0.00%]
+   Status: High accuracy, narrow CI
+   Rank Score: 0.00
+
+====================================================================================================
+PAIRWISE STATISTICAL COMPARISONS
+====================================================================================================
+
+DIRECT vs CONTEXTUAL
+  CIs Overlap: True
+  Significant Difference: False
+  Conclusion: No significant difference detected (CIs overlap)
+
+DIRECT vs RELATIONAL
+  CIs Overlap: True
+  Significant Difference: False
+  Conclusion: No significant difference detected (CIs overlap)
+
+DIRECT vs FORMAL
+  CIs Overlap: False
+  Significant Difference: True
+  Conclusion: FORMAL is significantly better
+
+CONTEXTUAL vs RELATIONAL
+  CIs Overlap: True
+  Significant Difference: False
+  Conclusion: No significant difference detected (CIs overlap)
+
+CONTEXTUAL vs FORMAL
+  CIs Overlap: True
+  Significant Difference: False
+  Conclusion: No significant difference detected (CIs overlap)
+
+RELATIONAL vs FORMAL
+  CIs Overlap: False
+  Significant Difference: True
+  Conclusion: FORMAL is significantly better
+
+====================================================================================================
+RECOMMENDATIONS
+====================================================================================================
+
+1. TOP STRATEGY: FORMAL
+   - Accuracy: 8.89%
+   - Margin of Error: ±8.32%
+
+3. SAMPLE SIZE RECOMMENDATIONS:
+   Current sample sizes and their precision:
+   - 45 samples → ±0.00% margin of error
+   - 45 samples → ±6.06% margin of error
+   - 45 samples → ±0.00% margin of error
+   - 45 samples → ±8.32% margin of error
+
+   To achieve ±5% margin of error: need ~400 samples per strategy
+   To achieve ±3% margin of error: need ~1000 samples per strategy
+
+====================================================================================================
+INTERPRETATION NOTES
+====================================================================================================
+
+
+- A 95% Confidence Interval means: if you repeated the experiment 100 times,
+  approximately 95 of those intervals would contain the true accuracy.
+
+- Non-overlapping CIs indicate statistically significant differences at 95% confidence.
+
+- Overlapping CIs do NOT mean results are the same - they mean you need more data
+  to determine if there's truly a difference.
+
+- Margin of Error (±X%) is the half-width of the CI. For example:
+  "90% accuracy with ±5% margin of error" means [85%, 95%] CI.
+
+- The relationship between sample size and margin of error is: ME ≈ 1.96 * sqrt(p(1-p)/n)
+  where p is the proportion (accuracy) and n is sample size.
