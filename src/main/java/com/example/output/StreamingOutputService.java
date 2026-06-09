@@ -52,7 +52,9 @@ public class StreamingOutputService implements OutputService {
             // Add header only for new file
             queryWriter.write("\"Task ID\",\"Root Entity\",\"Size of ontology TBox\",\"Size of ontology ABox\"," +
                     "\"Task Type\",\"Answer Type\",\"SPARQL Query\",\"Predicate\",\"Answer\"," +
-                    "\"Min Tag Length\",\"Max Tag Length\"\n");
+                    "\"Min Tag Length\",\"Max Tag Length \"," +
+                    "\"C1 AxiomTypes\",\"C7 ModalDepth\",\"C8 SignatureDifference\",\"C9 AxiomTypeDiff\"," +
+                    "\"Justification Complexity Score\"\n");
         }
 
         // FIXED: Append mode for JSON
@@ -93,7 +95,7 @@ public class StreamingOutputService implements OutputService {
     public void writeQueryWithTags(String taskId, String query, String taskType, String answer, String explanation, String tags) {
         // Legacy method - redirect to comprehensive format with default tag lengths
         try {
-            writeComprehensiveQuery(taskId, "Thing", 100, 50, taskType, "BIN", query, "predicate", answer, null, 1, 1);
+            writeComprehensiveQuery(taskId, "Thing", 100, 50, taskType, "BIN", query, "predicate", answer, null, 1, 1, -1, -1, -1, -1, -1);
         } catch (Exception e) {
             LOGGER.error("Error in legacy writeQueryWithTags: {}", e.getMessage());
         }
@@ -130,10 +132,24 @@ public class StreamingOutputService implements OutputService {
     }
 
     @Override
-    public void writeComprehensiveQuery(String taskId, String rootEntity, int tboxSize, int aboxSize,
-                                        String taskType, String answerType, String sparqlQuery,
-                                        String predicate, String answer, List<String> allAnswers,
-                                        int minTagLength, int maxTagLength) {  // Updated parameters
+    public void writeComprehensiveQuery(
+        String taskId,
+        String rootEntity,
+        int tboxSize,
+        int aboxSize,
+        String taskType,
+        String answerType,
+        String sparqlQuery,
+        String predicate,
+        String answer,
+        List allAnswers,
+        int minTagLength,
+        int maxTagLength,
+        int c1AxiomTypes,
+        int c7ModalDepth,
+        int c8SignatureDifference,
+        int c9AxiomTypeDiff,
+        int justificationComplexityScore) {  // Updated parameters
         try {
             long currentCount = queryCounter.incrementAndGet();
 
@@ -144,7 +160,7 @@ public class StreamingOutputService implements OutputService {
             }
 
             // Updated format string - removed avg explanation count, changed to integers for tag lengths
-            String csvLine = String.format("\"%s\",\"%s\",%d,%d,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%d,%d\n",
+            String csvLine = String.format("\"%s\",\"%s\",%d,%d,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%d,%d,%d,%d,%d,%d,%d\n",
                     escapeCSV(taskId),
                     escapeCSV(rootEntity),
                     tboxSize,
@@ -155,7 +171,12 @@ public class StreamingOutputService implements OutputService {
                     escapeCSV(predicate),
                     escapeCSV(finalAnswer),
                     minTagLength,
-                    maxTagLength);
+                    maxTagLength,
+                    c1AxiomTypes,
+                    c7ModalDepth,
+                    c8SignatureDifference,
+                    c9AxiomTypeDiff,
+                    justificationComplexityScore);
 
             synchronized (queryWriter) {
                 queryWriter.write(csvLine);

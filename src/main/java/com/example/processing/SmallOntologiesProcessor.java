@@ -22,6 +22,9 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
+import com.example.difficulty.JustificationComplexity;
+import com.example.difficulty.JustificationComplexityStats;
+
 /**
  * IMPROVED: Sequential processor for handling multiple small ontologies
  * Processes one ontology at a time to prevent memory issues
@@ -397,6 +400,30 @@ public class SmallOntologiesProcessor implements AutoCloseable {
                 // Calculate tag statistics instead of explanation statistics
                 int[] tagStats = calculateTagStats(paths);
 
+                OWLAxiom queryAxiom = createQueryAxiomFromTriple(
+                    subject,
+                    predicate,
+                    object,
+                    ontology
+                );
+
+                JustificationComplexityStats complexityStats =
+                    JustificationComplexity.calculateMaxStatsFromExplanationPaths(
+                            paths,
+                            queryAxiom
+                    );
+
+                LOGGER.debug(
+                    "Justification complexity for {}: C1={}, C7={}, C8={}, C9={}, score={}, paths={}",
+                    tripleKey,
+                    complexityStats.c1AxiomTypesMax(),
+                    complexityStats.c7ModalDepthMax(),
+                    complexityStats.c8SignatureDifferenceMax(),
+                    complexityStats.c9AxiomTypeDiffMax(),
+                    complexityStats.finalScoreMax(),
+                    complexityStats.explanationPathCount()
+                );                
+
                 // 2. Write binary query (BIN) - ASK query
                 String binaryTaskId = URIUtils.generateTaskId(rootEntity, subject, predicate, "BIN");
                 GlobalQueryTracker.addTaskId(tripleKey, binaryTaskId);
@@ -407,7 +434,12 @@ public class SmallOntologiesProcessor implements AutoCloseable {
                 outputService.writeComprehensiveQuery(
                         binaryTaskId, rootEntity, tboxSize, aboxSize, taskType, "BIN",
                         binaryQuery, predicate,
-                        "TRUE", null, tagStats[0], tagStats[1]  // Updated to use tag stats
+                        "TRUE", null, tagStats[0], tagStats[1],// Updated to use tag stats
+                        complexityStats.c1AxiomTypesMax(),
+                        complexityStats.c7ModalDepthMax(),
+                        complexityStats.c8SignatureDifferenceMax(),
+                        complexityStats.c9AxiomTypeDiffMax(),
+                        complexityStats.finalScoreMax() 
                 );
                 binaryQueries++;
 
@@ -429,7 +461,12 @@ public class SmallOntologiesProcessor implements AutoCloseable {
                             multiTaskId, rootEntity, tboxSize, aboxSize, taskType, "MC",
                             multiQuery, predicate,
                             object, allAnswers,
-                            tagStats[0], tagStats[1]  // Updated to use tag stats
+                            tagStats[0], tagStats[1],  // Updated to use tag stats
+                            complexityStats.c1AxiomTypesMax(),
+                            complexityStats.c7ModalDepthMax(),
+                            complexityStats.c8SignatureDifferenceMax(),
+                            complexityStats.c9AxiomTypeDiffMax(),
+                            complexityStats.finalScoreMax()
                     );
                     multiChoiceQueries++;
                 }
@@ -535,7 +572,63 @@ public class SmallOntologiesProcessor implements AutoCloseable {
 
         return grouped;
     }
+    /**
+     * Builds the OWL axiom eta represented by the current query/triple.
+     *
+     * For Membership queries:
+     *   subject rdf:type object
+     *
+     * becomes:
+     *   ClassAssertion(object subject)
+     *
+     * For Property Assertion queries:
+     *   subject predicate object
+     *
+     * becomes:
+     *   ObjectPropertyAssertion(predicate subject object)
+     */
+    private OWLAxiom createQueryAxiomFromTriple(
+            String subject,
+            String predicate,
+            String object,
+            OWLOntology ontology
+    ) {
+        OWLDataFactory dataFactory =
+                ontology.getOWLOntologyManager().getOWLDataFactory();
 
+        OWLNamedIndividual subjectIndividual =
+                dataFactory.getOWLNamedIndividual(
+                        IRI.create(URIUtils.getFullURI(subject))
+                );
+
+        if ("rdf:type".equals(predicate)) {
+            OWLClass targetClass =
+                    dataFactory.getOWLClass(
+                            IRI.create(URIUtils.getFullURI(object))
+                    );
+
+            return dataFactory.getOWLClassAssertionAxiom(
+                    targetClass,
+                    subjectIndividual
+            );
+        }
+
+        OWLObjectProperty property =
+                dataFactory.getOWLObjectProperty(
+                        IRI.create(URIUtils.getFullURI(predicate))
+                );
+
+        OWLNamedIndividual objectIndividual =
+                dataFactory.getOWLNamedIndividual(
+                        IRI.create(URIUtils.getFullURI(object))
+                );
+
+        return dataFactory.getOWLObjectPropertyAssertionAxiom(
+                property,
+                subjectIndividual,
+                objectIndividual
+        );
+    }
     /**
      * Calculate tag length statistics from explanation paths
      */

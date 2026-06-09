@@ -338,4 +338,108 @@ public class JustificationComplexity {
 
         return 1;
     }
+
+     /**
+     * Calculates the separate Horridge-style components for one justification J
+     * and one query axiom eta.
+     *
+     * J   = explanation axioms
+     * eta = query axiom / entailment axiom
+     */
+    public static JustificationComplexityComponents calculateComponents(
+            Collection<OWLAxiom> justificationAxioms,
+            OWLAxiom queryAxiom
+    ) {
+        if (queryAxiom == null) {
+            throw new IllegalArgumentException("queryAxiom cannot be null.");
+        }
+
+        Collection<OWLAxiom> J =
+                justificationAxioms == null ? Collections.emptyList() : justificationAxioms;
+
+        int c1 = calculateC1AxiomTypes(J, queryAxiom);
+        int c7 = calculateC7ModalDepth(J);
+        int c8 = calculateC8SignatureDifference(J, queryAxiom);
+        int c9 = calculateC9AxiomTypeDiff(J, queryAxiom);
+
+        int finalScore =
+                (c1 * WEIGHT_C1_AXIOM_TYPES)
+                        + (c7 * WEIGHT_C7_MODAL_DEPTH)
+                        + (c8 * WEIGHT_C8_SIGNATURE_DIFFERENCE)
+                        + (c9 * WEIGHT_C9_AXIOM_TYPE_DIFF);
+
+        return new JustificationComplexityComponents(
+                c1,
+                c7,
+                c8,
+                c9,
+                finalScore
+        );
+    }
+
+    /**
+     * Calculates C1/C7/C8/C9 over all explanation paths for the current triple.
+     *
+     * This is the version we want for the first integration:
+     *
+     * BIN:
+     *   use paths for that triple.
+     *
+     * MC:
+     *   use the same current behavior as tag length,
+     *   meaning paths for the current triple.
+     *
+     * For multiple paths, this returns the MAX component values.
+     */
+    public static JustificationComplexityStats calculateMaxStatsFromExplanationPaths(
+            Collection<ExplanationPath> explanationPaths,
+            OWLAxiom queryAxiom
+    ) {
+        if (queryAxiom == null) {
+            return JustificationComplexityStats.empty();
+        }
+
+        if (explanationPaths == null || explanationPaths.isEmpty()) {
+            return JustificationComplexityStats.empty();
+        }
+
+        int c1Max = Integer.MIN_VALUE;
+        int c7Max = Integer.MIN_VALUE;
+        int c8Max = Integer.MIN_VALUE;
+        int c9Max = Integer.MIN_VALUE;
+        int scoreMax = Integer.MIN_VALUE;
+        int count = 0;
+
+        for (ExplanationPath path : explanationPaths) {
+            if (path == null) {
+                continue;
+            }
+
+            List<OWLAxiom> justificationAxioms = extractAxioms(path);
+
+            JustificationComplexityComponents components =
+                    calculateComponents(justificationAxioms, queryAxiom);
+
+            c1Max = Math.max(c1Max, components.c1AxiomTypes());
+            c7Max = Math.max(c7Max, components.c7ModalDepth());
+            c8Max = Math.max(c8Max, components.c8SignatureDifference());
+            c9Max = Math.max(c9Max, components.c9AxiomTypeDiff());
+            scoreMax = Math.max(scoreMax, components.finalScore());
+
+            count++;
+        }
+
+        if (count == 0) {
+            return JustificationComplexityStats.empty();
+        }
+
+        return new JustificationComplexityStats(
+                c1Max,
+                c7Max,
+                c8Max,
+                c9Max,
+                scoreMax,
+                count
+        );
+    }   
 }

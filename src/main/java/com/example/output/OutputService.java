@@ -12,7 +12,9 @@ public interface OutputService {
     void writeComprehensiveQuery(String taskId, String rootEntity, int tboxSize, int aboxSize,
                                  String taskType, String answerType, String sparqlQuery,
                                  String predicate, String answer, List<String> allAnswers,
-                                 int minTagLength, int maxTagLength);
+                                 int minTagLength, int maxTagLength, int c1AxiomTypes,
+                                 int c7ModalDepth, int c8SignatureDifference,
+                                 int c9AxiomTypeDiff, int justificationComplexityScore);
 
     void writeExplanationWithTags(String key, String explanation, String tags);
 
