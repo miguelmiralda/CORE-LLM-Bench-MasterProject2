@@ -28,19 +28,19 @@ def stratified_sample(input_file, output_file, test_size=0.95, random_state=42):
     # Bin variables
     bin_edges = np.histogram_bin_edges(df["Size of ontology ABox"], bins="auto")
     df["Bin_Size of ontology ABox"] = pd.cut(
-        df["Size of ontology ABox"], bins=bin_edges, labels=False, include_lowest=True
+    df["Size of ontology ABox"], bins=bin_edges, labels=False, include_lowest=True
     )
 
-    bin_edges = np.histogram_bin_edges(df["Max Tag Length"], bins="auto")
-    df["Bin_Max Tag Length"] = pd.cut(
-        df["Max Tag Length"], bins=bin_edges, labels=False, include_lowest=True
+    bin_edges = np.histogram_bin_edges(df["Min Tag Length"], bins="auto")
+    df["Bin_Min Tag Length"] = pd.cut(
+    df["Min Tag Length"], bins=bin_edges, labels=False, include_lowest=True
     )
 
     # Combine bins into a single stratification key
     df["strata"] = (
-        df["Bin_Size of ontology ABox"].astype(str)
-        + "_"
-        + df["Bin_Max Tag Length"].astype(str)
+    df["Bin_Size of ontology ABox"].astype(str)
+    + "_"
+    + df["Bin_Min Tag Length"].astype(str)
     )
 
     # Group by Task ID temp
@@ -97,7 +97,7 @@ def stratified_sample(input_file, output_file, test_size=0.95, random_state=42):
     columns_to_drop = [
         "Task ID temp",
         "Bin_Size of ontology ABox",
-        "Bin_Max Tag Length",
+        "Bin_Min Tag Length",
         "strata",
         "split",
     ]
