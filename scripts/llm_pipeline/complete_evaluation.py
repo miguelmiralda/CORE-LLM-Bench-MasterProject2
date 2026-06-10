@@ -808,8 +808,8 @@ class CompleteEvaluator:
 
             test_case = LLMTestCase(
                 input=sparql_query,
-                actual_output=row[final_answer_col],
-                expected_output=row.get("Answer", ""),
+                actual_output=str(row[final_answer_col]),
+                expected_output=str(row.get("Answer", "")),
                 context=context_parts,
             )
 

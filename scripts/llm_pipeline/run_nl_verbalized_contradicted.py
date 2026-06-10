@@ -1,6 +1,6 @@
 """
-SPARQL + TTL execution: Tests LLM ability to understand formal SPARQL queries with TTL ontology context
-Enhanced version with improved memory management for heavy ontologies and thousands of questions
+Natural Language + Verbalized Ontologies for contradicted questions.
+This runner allows binary questions to be answered with TRUE, FALSE, or UNKNOWN.
 """
 
 import pandas as pd
@@ -14,8 +14,8 @@ from pathlib import Path
 from datetime import datetime
 from api_calls import (
     run_llm_reasoning,
-    calculate_model_performance_summary,
     log_models_metadata,
+    calculate_model_performance_summary,
     check_api_clients,
     openai_client,
     deepseek_client,
@@ -32,7 +32,7 @@ print(f"Working directory set to: {os.getcwd()}")
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Run SPARQL + TTL reasoning experiment."
+        description="Run NL + verbalized ontology reasoning experiment with UNKNOWN answers enabled."
     )
     parser.add_argument(
         "--questions-csv",
@@ -41,16 +41,21 @@ def parse_args():
         help="Path to the questions CSV file.",
     )
     parser.add_argument(
-        "--ttl-ontology-dir",
+        "--verbalized-ontology-dir",
         type=str,
         required=True,
-        help="Path to the directory containing TTL ontology files.",
+        help="Path to the directory containing verbalized ontology JSON files.",
     )
     parser.add_argument(
         "--output-directory",
         type=str,
         required=True,
         help="Path to the output directory.",
+    )
+    parser.add_argument(
+        "--abstracted",
+        action="store_true",
+        help="If set, append 'abs_' to the final CSV filename.",
     )
     parser.add_argument(
         "--models",
@@ -65,19 +70,19 @@ def parse_args():
     parser.add_argument(
         "--question-column",
         type=str,
-        default="SPARQL Query",
-        help="Column name containing the SPARQL query.",
+        default="Question",
+        help="Column name containing the natural language question.",
     )
     parser.add_argument(
         "--max-workers",
         type=int,
-        default=4,
+        default=8,
         help="Maximum number of workers.",
     )
     parser.add_argument(
         "--batch-size",
         type=int,
-        default=15,
+        default=25,
         help="Batch size for processing.",
     )
     parser.add_argument(
@@ -145,11 +150,12 @@ def build_config(args):
     models_config = parse_models(args.models)
 
     return {
-        "experiment_type": "sparql_ttl",
-        "description": "SPARQL queries with TTL ontology context - Memory Optimized",
+        "experiment_type": "nl_verbalized_contradicted",
+        "description": "Natural language contradicted questions with verbalized JSON ontology context - UNKNOWN answers enabled",
         "questions_csv": args.questions_csv,
-        "ttl_ontology_dir": args.ttl_ontology_dir,
-        "context_mode": "ttl",
+        "verbalized_ontology_dir": args.verbalized_ontology_dir,
+        "abstracted": args.abstracted,
+        "context_mode": "json",
         "question_column": args.question_column,
         "models_used": models_config,
         "max_workers": args.max_workers,
@@ -163,7 +169,7 @@ def build_config(args):
 
 def print_experiment_header(config, output_dir):
     print("\n" + "=" * 80)
-    print("🚀 SPARQL + TTL EXPERIMENT (MEMORY OPTIMIZED)")
+    print("🚀 NATURAL LANGUAGE + VERBALIZED CONTRADICTED EXPERIMENT")
     print("=" * 80)
     print(f"📋 Experiment: {config['description']}")
     print(f"🤖 Models: {', '.join(config['models_used'].keys())}")
@@ -187,73 +193,84 @@ def validate_setup(config):
         print(f"❌ Error: Questions CSV not found at {config['questions_csv']}")
         return None
 
-    ttl_dir = Path(config["ttl_ontology_dir"])
-    if not ttl_dir.exists():
-        print(f"❌ Error: TTL directory does not exist: {ttl_dir}")
+    verbalized_dir = Path(config["verbalized_ontology_dir"])
+    if not verbalized_dir.exists():
+        print(
+            f"❌ Error: Verbalized ontology directory does not exist: {verbalized_dir}"
+        )
         return None
 
-    available_ttl_files = {p.stem for p in ttl_dir.glob("*.ttl")}
+    available_json_files = {p.stem for p in verbalized_dir.glob("*.json")}
     original_count = len(df)
-    df = df[df["Root Entity"].isin(available_ttl_files)].copy()
+    df = df[df["Root Entity"].isin(available_json_files)].copy()
 
-    print(f"🔍 Found {len(available_ttl_files)} TTL files")
+    print(f"🔍 Found {len(available_json_files)} JSON ontology files")
     print(f"📢 Filtered dataset to {len(df)} questions (from {original_count})")
 
     if df.empty:
         print(
-            "❌ Error: No questions remain after filtering. Check TTL file names and 'Root Entity' column."
+            "❌ Error: No questions remain after filtering. Check JSON file names and 'Root Entity' column."
         )
         return None
 
     total_size = 0
     large_ontologies = 0
-    for ttl_file in ttl_dir.glob("*.ttl"):
-        size = ttl_file.stat().st_size
+    for json_file in verbalized_dir.glob("*.json"):
+        size = json_file.stat().st_size
         total_size += size
-        if size > 500000:
+        if size > 100000:
             large_ontologies += 1
 
     print("📊 Ontology Analysis:")
-    print(f"   Total TTL data: {total_size / 1024 / 1024:.1f} MB")
-    print(f"   Large ontologies (>500KB): {large_ontologies}")
-    print(f"   Average size: {total_size / len(available_ttl_files) / 1024:.1f} KB")
+    print(f"   Total ontology data: {total_size / 1024 / 1024:.1f} MB")
+    print(f"   Large ontologies (>100KB): {large_ontologies}")
+    print(f"   Average size: {total_size / len(available_json_files) / 1024:.1f} KB")
 
-    if total_size > 1000 * 1024 * 1024:
+    if total_size > 500 * 1024 * 1024:
         print(
-            "⚠️ Warning: Very large ontology dataset detected. Consider reducing batch size further."
+            "⚠️ Warning: Large ontology dataset detected. Consider reducing batch size."
         )
 
     return df
 
 
-def analyze_sparql_patterns(df):
+def analyze_nl_patterns(df):
     patterns = {
-        "ask_queries": 0,
-        "select_queries": 0,
-        "simple_queries": 0,
-        "complex_queries": 0,
-        "type_queries": 0,
-        "property_queries": 0,
+        "binary_questions": 0,
+        "multi_choice_questions": 0,
+        "membership_questions": 0,
+        "property_questions": 0,
+        "complex_questions": 0,
+        "short_questions": 0,
+        "medium_questions": 0,
+        "long_questions": 0,
     }
 
     for _, row in df.iterrows():
-        query = str(row.get("SPARQL Query", "")).upper()
+        question = str(row.get("Question", "")).lower()
+        answer_type = str(row.get("Answer Type", "")).lower()
+        task_type = str(row.get("Task Type", "")).lower()
 
-        if "ASK" in query:
-            patterns["ask_queries"] += 1
-        elif "SELECT" in query:
-            patterns["select_queries"] += 1
+        if answer_type == "bin":
+            patterns["binary_questions"] += 1
+        elif answer_type == "mc":
+            patterns["multi_choice_questions"] += 1
 
-        if "RDF:TYPE" in query or " A " in f" {query} ":
-            patterns["type_queries"] += 1
+        if "membership" in task_type:
+            patterns["membership_questions"] += 1
+        elif "property" in task_type:
+            patterns["property_questions"] += 1
+
+        word_count = len(question.split())
+        if word_count <= 5:
+            patterns["short_questions"] += 1
+        elif word_count <= 10:
+            patterns["medium_questions"] += 1
         else:
-            patterns["property_queries"] += 1
+            patterns["long_questions"] += 1
 
-        triple_count = query.count(".") + query.count(";")
-        if triple_count <= 1:
-            patterns["simple_queries"] += 1
-        else:
-            patterns["complex_queries"] += 1
+        if " and " in question or " or " in question or "?" in question[:-1]:
+            patterns["complex_questions"] += 1
 
     return patterns
 
@@ -261,7 +278,7 @@ def analyze_sparql_patterns(df):
 def estimate_experiment_time(
     df, models_config, max_workers, checkpoint_frequency, batch_size
 ):
-    estimated_time_per_question = 3.5
+    estimated_time_per_question = 3.0
     total_calls = len(df) * len(models_config)
     estimated_total_time = (total_calls * estimated_time_per_question) / max_workers
 
@@ -309,10 +326,10 @@ def check_for_previous_run(output_dir):
 
 
 def print_completion_summary(
-    results_df, actual_time, estimated_time, sparql_patterns, models_config
+    results_df, actual_time, estimated_time, nl_patterns, models_config
 ):
     print("\n" + "=" * 80)
-    print("🎉 SPARQL EXPERIMENT COMPLETED!")
+    print("🎉 NATURAL LANGUAGE CONTRADICTED EXPERIMENT COMPLETED!")
     print("=" * 80)
 
     print("⏱️ Time Analysis:")
@@ -365,17 +382,18 @@ def save_final_results(
     logs,
     detailed_metrics,
     experiment_time,
-    sparql_patterns,
+    nl_patterns,
     config,
     output_dir,
     models_config,
 ):
     print(f"\n💾 Saving final results...")
 
-    results_file = output_dir / "sparql_ttl_results_FINAL.csv"
-    logs_file = output_dir / "sparql_ttl_logs_FINAL.csv"
-    metrics_file = output_dir / "sparql_ttl_metrics_FINAL.json"
-    config_file = output_dir / "experiment_summary.json"
+    suffix = "abs" if config.get("abstracted", False) else ""
+    results_file = output_dir / f"{suffix}_nl_verbalized_contradicted_results_FINAL.csv"
+    logs_file = output_dir / f"{suffix}_nl_verbalized_contradicted_logs_FINAL.csv"
+    metrics_file = output_dir / f"{suffix}_nl_verbalized_contradicted_metrics_FINAL.json"
+    config_file = output_dir / f"{suffix}_nl_verbalized_contradicted_experiment_summary.json"
 
     results_df.to_csv(results_file, index=False)
 
@@ -398,14 +416,13 @@ def save_final_results(
         }
         essential_metrics.append(essential_metric)
 
-    with open(metrics_file, "w", encoding="utf-8") as f:
+    with open(metrics_file, "w") as f:
         json.dump(essential_metrics, f, indent=2, default=str)
 
     performance_summary = calculate_model_performance_summary(results_df, models_config)
-
     experiment_summary = {
         "config": config,
-        "sparql_patterns": sparql_patterns,
+        "nl_patterns": nl_patterns,
         "experiment_time_seconds": experiment_time,
         "experiment_time_minutes": experiment_time / 60,
         "total_questions_processed": len(results_df),
@@ -429,7 +446,7 @@ def save_final_results(
         },
     }
 
-    with open(config_file, "w", encoding="utf-8") as f:
+    with open(config_file, "w") as f:
         json.dump(experiment_summary, f, indent=2, default=str)
 
     print(f"✅ Results saved to: {output_dir}")
@@ -494,9 +511,9 @@ def main():
         df_sample = df.copy()
         print(f"🏭 PRODUCTION MODE: Processing all {len(df_sample)} questions")
 
-    sparql_patterns = analyze_sparql_patterns(df_sample)
-    print(f"\n📊 SPARQL Query Analysis:")
-    for pattern, count in sparql_patterns.items():
+    nl_patterns = analyze_nl_patterns(df_sample)
+    print(f"\n📊 Natural Language Question Analysis:")
+    for pattern, count in nl_patterns.items():
         percentage = (count / len(df_sample)) * 100
         print(f"   {pattern.replace('_', ' ').title()}: {count} ({percentage:.1f}%)")
 
@@ -525,13 +542,13 @@ def main():
         print("\n❌ Experiment cancelled by user")
         return
 
-    print(f"\n🧠 Starting SPARQL reasoning experiment...")
+    print(f"\n🧠 Starting Natural Language contradicted reasoning experiment...")
     start_time = time.time()
 
     try:
         results_df, logs, detailed_metrics, _ = run_llm_reasoning(
             df_sample,
-            ontology_base_path=config["ttl_ontology_dir"],
+            ontology_base_path=config["verbalized_ontology_dir"],
             models=models_config,
             context_mode=config["context_mode"],
             max_workers=config["max_workers"],
@@ -539,17 +556,13 @@ def main():
             batch_size=config["batch_size"],
             output_dir=output_dir,
             silent_mode=config["silent_mode"],
-            allow_unknown_answers=df_sample["Answer"].astype(str).str.upper().eq("UNKNOWN").any(),
+            allow_unknown_answers=True,
         )
 
         experiment_time = time.time() - start_time
 
         print_completion_summary(
-            results_df,
-            experiment_time,
-            estimated_time,
-            sparql_patterns,
-            models_config,
+            results_df, experiment_time, estimated_time, nl_patterns, models_config
         )
 
         save_final_results(
@@ -557,7 +570,7 @@ def main():
             logs,
             detailed_metrics,
             experiment_time,
-            sparql_patterns,
+            nl_patterns,
             config,
             output_dir,
             models_config,

@@ -589,7 +589,7 @@ openrouter_client = (
 )
 
 
-def extract_final_answer(response_content, question_type):
+def extract_final_answer(response_content, question_type, allow_unknown_answers=False):
     """Extract just the final answer"""
     if not response_content or "[ERROR]" in response_content:
         return "ERROR"
@@ -605,6 +605,8 @@ def extract_final_answer(response_content, question_type):
 
     # Clean up URIs for MC questions
     if question_type == "MC" or question_type.lower() == "multi choice":
+        if allow_unknown_answers and "unknown" in answer.lower():
+            return "UNKNOWN"
         answer = re.sub(r"<[^#]*#([^>]+)>", r"\1", answer)
         answer = re.sub(r"[^#]*#([^,\s]+)", r"\1", answer)
         answer = re.sub(r"ns1:([^,\s]+)", r"\1", answer)
@@ -612,9 +614,12 @@ def extract_final_answer(response_content, question_type):
         answer = re.sub(r"rdfs:([^,\s]+)", r"\1", answer)
         answer = re.sub(r"owl:([^,\s]+)", r"\1", answer)
     elif question_type == "BIN" or question_type.lower() == "binary":
-        if "true" in answer.lower():
+        answer_lower = answer.lower()
+        if allow_unknown_answers and "unknown" in answer_lower:
+            return "UNKNOWN"
+        if "true" in answer_lower:
             return "TRUE"
-        elif "false" in answer.lower():
+        elif "false" in answer_lower:
             return "FALSE"
 
     return answer.strip()
@@ -754,6 +759,7 @@ def create_enhanced_metrics_entry(
     model_params,
     ontology_context="",
     error=None,
+    allow_unknown_answers=False,
 ):
     response_time = round(end_time - start_time, 3)
     answer_type = row.get("Answer Type", "BIN")
@@ -786,7 +792,7 @@ def create_enhanced_metrics_entry(
 
     if response and not error and content:
         # Extract our new metrics
-        final_answer = extract_final_answer(content, answer_type)
+        final_answer = extract_final_answer(content, answer_type, allow_unknown_answers)
         confidence_score = extract_confidence_score(content)
         reasoning_steps = extract_reasoning_steps(content)
 
@@ -854,24 +860,38 @@ def load_ontology_context(ontology_base_path, ontology_name, context_mode):
         return f"[ERROR: Failed to load ontology {ontology_name}: {str(e)}]"
 
 
-def create_context_specific_prompt(query, ontology_context, context_mode, answer_type):
+def create_context_specific_prompt(
+    query, ontology_context, context_mode, answer_type, allow_unknown_answers=False
+):
     """Enhanced prompting for confidence and reasoning steps with memory optimization"""
 
     if answer_type == "BIN" or answer_type.lower() == "binary":
+        answer_options = "TRUE, FALSE, or UNKNOWN" if allow_unknown_answers else "TRUE or FALSE"
+        answer_section = (
+            "ANSWER section: ONLY write TRUE, FALSE, or UNKNOWN. Use UNKNOWN when the question cannot be answered as true or false because the statement is contradicted by the ontology/context, violates ontology constraints, or there is not enough consistent information to infer either truth value.\n"
+            if allow_unknown_answers
+            else "ANSWER section: ONLY write TRUE or FALSE.\n"
+        )
         format_instruction = (
-            "ANSWER: [TRUE or FALSE]\n"
+            f"ANSWER: [{answer_options}]\n"
             "CONFIDENCE: [score ranging from 0.0 to 1.0 indicating how certain you are]\n"
             "REASONING_STEPS: [distinct number of reasoning steps you used to get to the answer, indicating complexity of reasoning needed]\n\n"
-            "ANSWER section: ONLY write TRUE or FALSE.\n"
+            f"{answer_section}"
             "CONFIDENCE section: 1.0 = completely certain, 0.0 = pure guess.\n"
             "REASONING_STEPS section: 1 = trivial/direct lookup, 10+ = complex multi-step reasoning.\n"
         )
     elif answer_type == "MC" or answer_type.lower() == "multi choice":
+        answer_options = "UNKNOWN or LOCAL NAMES only, comma-separated" if allow_unknown_answers else "Use LOCAL NAMES only, comma-separated"
+        answer_section = (
+            "ANSWER section: ONLY write UNKNOWN when the question cannot be answered because the requested inference is contradicted by the ontology/context; otherwise use LOCAL NAMES only (e.g., 'Person', 'U0C4', 'caroline_lavinia_tubb_1840'), giving all possible answers.\n"
+            if allow_unknown_answers
+            else "ANSWER section: Use LOCAL NAMES only (e.g., 'Person', 'U0C4', 'caroline_lavinia_tubb_1840'), give all the possible answers.\n"
+        )
         format_instruction = (
-            "ANSWER: [Use LOCAL NAMES only, comma-separated]\n"
+            f"ANSWER: [{answer_options}]\n"
             "CONFIDENCE: [score ranging from 0.0 to 1.0 indicating how certain you are]\n"
             "REASONING_STEPS: [distinct number of reasoning steps you used to get to the answer, indicating complexity of reasoning needed]\n\n"
-            "ANSWER section: Use LOCAL NAMES only (e.g., 'Person', 'U0C4', 'caroline_lavinia_tubb_1840'), give all the possible answers.\n"
+            f"{answer_section}"
             "CONFIDENCE section: 1.0 = completely certain, 0.0 = pure guess.\n"
             "REASONING_STEPS section: 1 = trivial/direct lookup, 10+ = complex multi-step reasoning.\n"
         )
@@ -939,6 +959,7 @@ def process_single_model_request(args):
         ontology_base_path,
         context_mode,
         model_params,
+        allow_unknown_answers,
     ) = args
 
     query = row.get(question_column, "")
@@ -964,6 +985,7 @@ def process_single_model_request(args):
             model_params,
             ontology_context,
             error=e,
+            allow_unknown_answers=allow_unknown_answers,
         )
 
     TIMEOUTS = {
@@ -981,7 +1003,11 @@ def process_single_model_request(args):
             ontology_base_path, ontology_name, context_mode
         )
         full_prompt = create_context_specific_prompt(
-            query, ontology_context, context_mode, answer_type
+            query,
+            ontology_context,
+            context_mode,
+            answer_type,
+            allow_unknown_answers=allow_unknown_answers,
         )
 
         client = get_client_for_provider(provider)
@@ -1014,6 +1040,7 @@ def process_single_model_request(args):
             0,
             model_params,
             ontology_context,
+            allow_unknown_answers=allow_unknown_answers,
         )
 
     except Exception as e:
@@ -1035,6 +1062,7 @@ def process_single_model_request(args):
             model_params,
             ontology_context,
             error=e,
+            allow_unknown_answers=allow_unknown_answers,
         )
 
 
@@ -1340,6 +1368,7 @@ def run_llm_reasoning(
     save_detailed_metrics=True,
     output_dir=None,
     silent_mode=False,
+    allow_unknown_answers=False,
 ):
     """Optimized for heavy ontologies and thousands of questions"""
     global completed_tasks, total_tasks, display_results, questions_completed
@@ -1405,6 +1434,7 @@ def run_llm_reasoning(
                     ontology_base_path,
                     context_mode,
                     model_params,
+                    allow_unknown_answers,
                 )
                 batch_tasks.append(task_args)
 
